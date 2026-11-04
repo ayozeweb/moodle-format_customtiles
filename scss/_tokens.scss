@@ -1,0 +1,30 @@
+// Design tokens shared by every skin. Colour tokens (--ct-bg, --ct-primary...) are injected
+// per course by format_customtiles\local\skin::css_variables(), so only shape, spacing and
+// typography tokens live here. They inherit from Boost variables when they exist.
+.ct-root {
+  --ct-font: var(--bs-body-font-family, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif);
+  --ct-font-heading: var(--ct-font);
+  --ct-fs-base: 1rem;
+  --ct-scale: 1.25;
+  --ct-lh: 1.55;
+  --ct-radius-s: .5rem;
+  --ct-radius: 1rem;
+  --ct-radius-l: 1.5rem;
+  --ct-shadow-1: 0 1px 2px rgb(15 23 42 / 8%), 0 1px 3px rgb(15 23 42 / 6%);
+  --ct-shadow-2: 0 4px 12px rgb(15 23 42 / 10%), 0 2px 4px rgb(15 23 42 / 6%);
+  --ct-space-1: .25rem;
+  --ct-space-2: .5rem;
+  --ct-space-3: 1rem;
+  --ct-space-4: 1.5rem;
+  --ct-space-5: 2.5rem;
+  --ct-touch: 2.75rem; // 44px minimum touch target.
+  --ct-focus: 3px solid var(--ct-primary);
+  --ct-ease: cubic-bezier(.2, .7, .2, 1);
+  --ct-dur: .2s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ct-root {
+    --ct-dur: 0s;
+  }
+}

@@ -1,0 +1,25 @@
+.ct-root {
+  font-family: var(--ct-font);
+  font-size: max(1rem, var(--ct-fs-base));
+  line-height: var(--ct-lh);
+  color: var(--ct-text);
+  container-type: inline-size;
+  container-name: ct;
+
+  :where(a, button, [tabindex]):focus-visible {
+    outline: var(--ct-focus);
+    outline-offset: 2px;
+    border-radius: var(--ct-radius-s);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ct-root *,
+  .ct-root *::before,
+  .ct-root *::after {
+    animation-duration: .001ms;
+    animation-iteration-count: 1;
+    transition-duration: .001ms;
+    scroll-behavior: auto;
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "name": "moodle-format_customtiles",
+  "private": true,
+  "license": "GPL-3.0-or-later",
+  "scripts": {
+    "build:css": "sass --no-source-map --style=expanded scss/styles.scss styles.css"
+  },
+  "devDependencies": {
+    "sass": "^1.80.0"
+  }
+}
