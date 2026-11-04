@@ -1,7 +1,7 @@
 # STATUS
 
 ## Hito actual
-**Hito 1 – Base y sistema visual** (cerrado) → siguiente: Hito 2 (Hero + Tiles + progreso).
+Hitos 1 y 2 cerrados → siguiente: Hito 3 (Itinerario, Tarjetas, Carrusel + selector por curso/móvil).
 
 ## Hecho
 - Plugin `format_customtiles` 0.1.0 ALPHA (Moodle 5.3, `requires 2026100200`), instala sin errores.
@@ -9,7 +9,12 @@
 - Tokens de diseño `--ct-*` (SCSS → `styles.css`), skins «Claro» y «Oscuro» definidos en PHP (`local/skin.php`), generador de paleta accesible (`local/palette.php`, `local/color.php`).
 - Cadenas en/es, Privacy (null provider), README bilingüe, GitHub Actions con moodle-plugin-ci, PHPUnit (skins, contraste AA, opciones).
 
+- **Hito 2**: hero (portada, título, resumen, píldoras, anillo de progreso, botón «Continuar»), rejilla Tiles (2 columnas a 360 px, container queries), estados con icono+texto (bloqueada con motivo, oculta, pendiente, en curso, completada, nueva), progreso por sección y global con caché MUC (`progress`, clave usuario_curso, invalidada por eventos de finalización y por `cacherev`). Sección enfocada = página de sección del core con transición `@view-transition`. Verificado sin scroll horizontal a 360/1280 px y en modo edición.
+
 ## Decisiones
+- **«Continuar»**: la última actividad visitada se guarda como preferencia de usuario (hook `before_http_headers`), con Privacy API `user_preference_provider`; si está completada salta a la siguiente pendiente. Sin tabla propia.
+- **Contenedores de consulta** (`container-type`) solo en `.ct-herowrap` y `.ct-main`, no en `.ct-root`, para no crear bloque contenedor de elementos `position: fixed` del modo edición.
+- Título del hero duplica el H1 del tema (requisito del brief); queda como `h2`.
 - **Skins en PHP, no solo en CSS**: así hay una única fuente de verdad, se pueden comprobar los contrastes automáticamente y los skins creados por el admin (hito 4) se inyectan igual como variables CSS en línea sobre `.ct-root`.
 - **Sección enfocada = `section.php` del core** (`get_course_display()` devuelve MULTIPAGE): respeta edición reactiva, índice del curso y navegación lineal de 5.3 sin duplicarlos.
 - **CSS compilado versionado**: los plugins de Moodle sirven `styles.css` plano; el SCSS vive en `scss/` y se compila con `./build-css.sh`.

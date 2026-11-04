@@ -1,0 +1,186 @@
+// Course hero: cover, title, summary, pills, progress ring and continue button.
+.ct-herowrap {
+  container: ct-hero / inline-size;
+}
+
+.ct-hero {
+  display: grid;
+  margin-block: var(--ct-space-3) var(--ct-space-4);
+  background: var(--ct-surface);
+  border-radius: var(--ct-radius-l);
+  box-shadow: var(--ct-shadow-2);
+  overflow: hidden;
+}
+
+.ct-hero__media {
+  aspect-ratio: 16 / 7;
+  background:
+    radial-gradient(120% 140% at 100% 0%, color-mix(in srgb, var(--ct-accent) 55%, transparent), transparent 60%),
+    linear-gradient(135deg, var(--ct-primary), color-mix(in srgb, var(--ct-primary) 45%, var(--ct-accent)));
+
+  img {
+    display: block;
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: cover;
+  }
+}
+
+.ct-hero__body {
+  display: grid;
+  gap: var(--ct-space-3);
+  padding: var(--ct-space-3) var(--ct-space-3) var(--ct-space-4);
+  align-content: start;
+}
+
+.ct-hero__title {
+  margin: 0;
+  font-family: var(--ct-font-heading);
+  font-size: clamp(1.375rem, 4.5cqi + .5rem, 2rem);
+  line-height: 1.2;
+  color: var(--ct-text);
+  text-wrap: balance;
+}
+
+.ct-hero__summary {
+  margin: 0;
+  color: var(--ct-muted);
+  max-inline-size: 60ch;
+}
+
+.ct-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--ct-space-3);
+}
+
+.ct-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--ct-space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ct-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  padding: .25rem .75rem;
+  border-radius: 999px;
+  background: var(--ct-surface2);
+  color: var(--ct-text);
+  font-size: .875rem;
+  line-height: 1.5;
+}
+
+// Progress ring.
+.ct-ring {
+  position: relative;
+  flex: none;
+  inline-size: 4.5rem;
+  block-size: 4.5rem;
+
+  svg {
+    display: block;
+    inline-size: 100%;
+    block-size: 100%;
+    transform: rotate(-90deg);
+  }
+
+  circle {
+    fill: none;
+    stroke-width: 3.6;
+  }
+}
+
+.ct-ring__track {
+  stroke: var(--ct-surface2);
+}
+
+.ct-ring__value {
+  stroke: var(--ct-primary);
+  stroke-linecap: round;
+  transition: stroke-dashoffset calc(var(--ct-dur) * 4) var(--ct-ease);
+}
+
+.ct-ring__text {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--ct-text);
+}
+
+// Buttons.
+.ct-btn {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  column-gap: var(--ct-space-3);
+  align-items: center;
+  min-block-size: var(--ct-touch);
+  padding: .625rem 1rem;
+  border-radius: var(--ct-radius);
+  text-decoration: none;
+  font-weight: 600;
+  line-height: 1.3;
+  transition: transform var(--ct-dur) var(--ct-ease), box-shadow var(--ct-dur) var(--ct-ease);
+}
+
+.ct-btn--primary {
+  flex: 1 1 14rem;
+  background: var(--ct-primary);
+  color: var(--ct-onprimary);
+  box-shadow: var(--ct-shadow-1);
+  max-inline-size: 28rem;
+
+  &:hover,
+  &:focus-visible {
+    color: var(--ct-onprimary);
+    text-decoration: none;
+    box-shadow: var(--ct-shadow-2);
+    transform: translateY(-1px);
+  }
+
+  &:focus-visible {
+    outline: 3px solid var(--ct-text);
+    outline-offset: 3px;
+  }
+}
+
+.ct-btn__sub {
+  grid-column: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 400;
+  font-size: .875rem;
+  opacity: .95;
+}
+
+.ct-btn__icon {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+}
+
+@container ct-hero (min-width: 48rem) {
+  .ct-hero {
+    grid-template-columns: minmax(0, 1fr) minmax(16rem, 38%);
+  }
+
+  .ct-hero__media {
+    order: 2;
+    aspect-ratio: auto;
+    min-block-size: 14rem;
+  }
+
+  .ct-hero__body {
+    padding: var(--ct-space-4);
+    align-content: center;
+  }
+}

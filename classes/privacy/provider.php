@@ -24,22 +24,47 @@
 
 namespace format_customtiles\privacy;
 
-use core_privacy\local\metadata\null_provider;
+use core_privacy\local\metadata\collection;
+use core_privacy\local\request\writer;
 
 /**
- * The plugin stores no personal data (yet): null provider.
+ * The only personal data is a user preference: the last activity opened in each course.
  *
  * @package    format_customtiles
  * @copyright  2026 Ayoze
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class provider implements null_provider {
+class provider implements
+    \core_privacy\local\metadata\provider,
+    \core_privacy\local\request\user_preference_provider {
     /**
-     * Language string explaining why no data is stored.
+     * Describe the stored data.
      *
-     * @return string
+     * @param collection $collection
+     * @return collection
      */
-    public static function get_reason(): string {
-        return 'privacy:metadata';
+    public static function get_metadata(collection $collection): collection {
+        $collection->add_user_preference('format_customtiles_last_', 'privacy:metadata:preference:last');
+        return $collection;
+    }
+
+    /**
+     * Export the user preferences.
+     *
+     * @param int $userid
+     */
+    public static function export_user_preferences(int $userid) {
+        $prefs = get_user_preferences(null, null, $userid);
+        foreach ($prefs as $name => $value) {
+            if (strpos($name, 'format_customtiles_last_') !== 0) {
+                continue;
+            }
+            writer::export_user_preference(
+                'format_customtiles',
+                $name,
+                $value,
+                get_string('privacy:metadata:preference:last', 'format_customtiles')
+            );
+        }
     }
 }

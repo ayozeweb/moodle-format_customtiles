@@ -17,7 +17,8 @@
 {{!
     @template format_customtiles/local/content
 
-    Course page: skin wrapper around the core course content.
+    Course page: skin wrapper, hero and the selected layout. In edit mode (or inside a
+    section) the core content is rendered so the reactive editor keeps working.
 
     Example context (json):
     {
@@ -25,9 +26,50 @@
         "tokens": "--ct-primary:#1d4ed8",
         "layout": "tiles",
         "isindex": true,
-        "coursename": "Example course"
+        "showtiles": true,
+        "hastiles": true,
+        "hero": {
+            "title": "Example course",
+            "summary": "A short description.",
+            "hasprogress": true,
+            "percent": 40,
+            "ringoffset": 60,
+            "progresslabel": "2 of 5 completed",
+            "haspills": true,
+            "pills": [{"icon": "fa-layer-group", "text": "6 sections"}],
+            "continue": {"url": "#", "name": "Activity"},
+            "continuelabel": "Continue where you left off"
+        },
+        "tiles": [
+            {
+                "id": 1, "num": 1, "name": "Section", "url": "#", "state": "inprogress",
+                "statelabel": "In progress", "stateicon": "fa-circle-half-stroke",
+                "summary": "Summary", "activitieslabel": "3 activities", "hasprogress": true,
+                "percent": 33, "progresslabel": "1 of 3 completed"
+            }
+        ]
     }
 }}
 <div class="ct-root" data-ct-skin="{{skin}}" data-ct-layout="{{layout}}" style="{{tokens}}">
-    {{> core_courseformat/local/content }}
+    {{#isindex}}
+        {{#hero}}
+            {{> format_customtiles/local/hero }}
+        {{/hero}}
+    {{/isindex}}
+    {{#showtiles}}
+        <div class="ct-main" id="ct-main">
+            <h2 class="accesshide">{{{title}}}</h2>
+            {{#hastiles}}
+                {{> format_customtiles/local/layout_tiles }}
+            {{/hastiles}}
+        </div>
+        {{#js}}
+            require(['core_courseformat/local/content'], function(component) {
+                component.init('#page', {}, null, null);
+            });
+        {{/js}}
+    {{/showtiles}}
+    {{^showtiles}}
+        {{> core_courseformat/local/content }}
+    {{/showtiles}}
 </div>

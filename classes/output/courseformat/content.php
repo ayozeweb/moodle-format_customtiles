@@ -25,6 +25,7 @@
 namespace format_customtiles\output\courseformat;
 
 use core_courseformat\output\local\content as content_base;
+use format_customtiles\local\course_data;
 use format_customtiles\local\layouts;
 use format_customtiles\local\skin;
 use renderer_base;
@@ -68,6 +69,115 @@ class content extends content_base {
         $data->tokens = skin::css_variables($skinid, $options['basecolor'] ?? '');
         $data->isindex = empty($data->hasnavigation);
         $data->coursename = format_string($course->fullname, true, ['context' => \context_course::instance($course->id)]);
+
+        if ($data->isindex) {
+            $editing = $this->format->show_editor();
+            $model = new course_data($this->format);
+            $data->hero = $this->export_hero($model, $course, !$editing);
+            $data->showtiles = !$editing;
+            if ($data->showtiles) {
+                $data->tiles = $model->get_sections();
+                $data->hastiles = !empty($data->tiles);
+            }
+        }
         return $data;
+    }
+
+    /**
+     * Data for the hero header.
+     *
+     * @param course_data $model
+     * @param \stdClass $course
+     * @param bool $withcontinue include the continue button
+     * @return \stdClass
+     */
+    protected function export_hero(course_data $model, \stdClass $course, bool $withcontinue): \stdClass {
+        $context = \context_course::instance($course->id);
+        $hero = new \stdClass();
+        $hero->title = format_string($course->fullname, true, ['context' => $context]);
+        $summary = '';
+        if (trim((string)$course->summary) !== '') {
+            $text = file_rewrite_pluginfile_urls($course->summary, 'pluginfile.php', $context->id, 'course', 'summary', null);
+            $text = format_text($text, $course->summaryformat, ['context' => $context]);
+            $plain = html_entity_decode(strip_tags($text), ENT_QUOTES, 'UTF-8');
+            $summary = shorten_text(trim(preg_replace('/\s+/u', ' ', $plain)), 220, true);
+        }
+        $hero->summary = $summary;
+        $hero->image = $this->get_cover_url($course);
+        $hero->hasimage = !empty($hero->image);
+
+        $figures = $model->get_context_figures();
+        $pills = [];
+        if ($figures['sections']) {
+            $pills[] = [
+                'icon' => 'fa-layer-group',
+                'text' => get_string('nmodules', 'format_customtiles', $figures['sections']),
+            ];
+        }
+        if ($figures['activities']) {
+            $pills[] = [
+                'icon' => 'fa-list-check',
+                'text' => get_string('nactivities', 'format_customtiles', $figures['activities']),
+            ];
+        }
+        if (!empty($course->startdate)) {
+            $pills[] = ['icon' => 'fa-calendar', 'text' => get_string(
+                'startsonx',
+                'format_customtiles',
+                userdate($course->startdate, get_string('strftimedatefullshort', 'langconfig'))
+            )];
+        }
+        if (!empty($course->enddate)) {
+            $pills[] = ['icon' => 'fa-flag-checkered', 'text' => get_string(
+                'endsonx',
+                'format_customtiles',
+                userdate($course->enddate, get_string('strftimedatefullshort', 'langconfig'))
+            )];
+        }
+        $hero->pills = $pills;
+        $hero->haspills = !empty($pills);
+
+        $overall = $model->get_overall();
+        if ($overall) {
+            $hero->hasprogress = true;
+            $hero->percent = $overall['percent'];
+            $hero->done = $overall['done'];
+            $hero->total = $overall['total'];
+            $hero->progresslabel = get_string(
+                'sectionprogress',
+                'format_customtiles',
+                ['done' => $overall['done'], 'total' => $overall['total']]
+            );
+            $hero->ringoffset = round(100 - $overall['percent'], 1);
+        }
+        if ($withcontinue && ($target = $model->get_continue())) {
+            $hero->continue = (object)$target;
+            $hero->continuelabel = $target['iscomplete']
+                ? get_string('reviewcourse', 'format_customtiles')
+                : ($target['isfirst'] ? get_string('startcourse', 'format_customtiles')
+                    : get_string('continue', 'format_customtiles'));
+        }
+        return $hero;
+    }
+
+    /**
+     * URL of the course cover image (first course overview file).
+     *
+     * @param \stdClass $course
+     * @return string empty when there is none
+     */
+    protected function get_cover_url(\stdClass $course): string {
+        global $CFG;
+        $files = (new \core_course_list_element($course))->get_course_overviewfiles();
+        foreach ($files as $file) {
+            if ($file->is_valid_image()) {
+                return \moodle_url::make_file_url(
+                    "$CFG->wwwroot/pluginfile.php",
+                    '/' . $file->get_contextid() . '/' . $file->get_component() . '/' .
+                    $file->get_filearea() . $file->get_filepath() . $file->get_filename()
+                )->out(false);
+            }
+        }
+        return '';
     }
 }

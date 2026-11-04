@@ -1,3 +1,7 @@
 // format_customtiles: tokens -> base -> components -> layouts.
 @use "tokens";
 @use "base";
+@use "components/hero";
+@use "components/progress";
+@use "components/state";
+@use "layouts/tiles";

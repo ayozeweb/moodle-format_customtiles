@@ -1,0 +1,74 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template format_customtiles/local/hero
+
+    Course hero: cover image, title, summary, context pills, overall progress and the continue button.
+
+    Example context (json):
+    {
+        "title": "Example course",
+        "summary": "A short description.",
+        "hasimage": true,
+        "image": "https://example.com/cover.jpg",
+        "hasprogress": true,
+        "percent": 40,
+        "ringoffset": 60,
+        "progresslabel": "2 of 5 completed",
+        "haspills": true,
+        "pills": [{"icon": "fa-layer-group", "text": "6 sections"}],
+        "continue": {"url": "#", "name": "Activity"},
+        "continuelabel": "Continue where you left off"
+    }
+}}
+<div class="ct-herowrap">
+<header class="ct-hero{{#hasimage}} ct-hero--image{{/hasimage}}" aria-label="{{#str}} coursecontext, format_customtiles {{/str}}">
+    <div class="ct-hero__media" aria-hidden="true">
+        {{#hasimage}}<img src="{{image}}" alt="" width="1200" height="675" decoding="async" fetchpriority="high">{{/hasimage}}
+    </div>
+    <div class="ct-hero__body">
+        <h2 class="ct-hero__title">{{{title}}}</h2>
+        {{#summary}}<p class="ct-hero__summary">{{summary}}</p>{{/summary}}
+        {{#haspills}}
+            <ul class="ct-pills">
+                {{#pills}}
+                    <li class="ct-pill"><i class="fa-solid {{icon}}" aria-hidden="true"></i> {{text}}</li>
+                {{/pills}}
+            </ul>
+        {{/haspills}}
+        <div class="ct-hero__actions">
+            {{#hasprogress}}
+                <div class="ct-ring" role="img" aria-label="{{#str}} overallprogress, format_customtiles {{/str}}: {{percent}}%. {{progresslabel}}">
+                    <svg viewBox="0 0 36 36" aria-hidden="true" focusable="false">
+                        <circle class="ct-ring__track" cx="18" cy="18" r="15.9155"></circle>
+                        <circle class="ct-ring__value" cx="18" cy="18" r="15.9155" pathLength="100"
+                                stroke-dasharray="100" stroke-dashoffset="{{ringoffset}}"></circle>
+                    </svg>
+                    <span class="ct-ring__text" aria-hidden="true">{{percent}}%</span>
+                </div>
+            {{/hasprogress}}
+            {{#continue}}
+                <a class="ct-btn ct-btn--primary" href="{{url}}">
+                    <span class="ct-btn__label">{{continuelabel}}</span>
+                    <span class="ct-btn__sub">{{{name}}}</span>
+                    <i class="fa-solid fa-arrow-right ct-btn__icon" aria-hidden="true"></i>
+                </a>
+            {{/continue}}
+        </div>
+    </div>
+</header>
+</div>

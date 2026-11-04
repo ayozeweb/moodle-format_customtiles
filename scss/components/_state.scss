@@ -1,0 +1,26 @@
+// Section state: icon + text + colour (colour is never the only cue).
+.ct-state {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  margin: 0;
+  font-size: .875rem;
+  font-weight: 600;
+  color: var(--ct-muted);
+
+  &--inprogress {
+    color: var(--ct-info);
+  }
+
+  &--completed {
+    color: var(--ct-success);
+  }
+
+  &--new {
+    color: var(--ct-warning);
+  }
+
+  &--locked {
+    color: var(--ct-muted);
+  }
+}

@@ -60,11 +60,4 @@ final class format_customtiles_test extends \advanced_testcase {
         $course = $this->getDataGenerator()->create_course(['format' => 'customtiles']);
         $this->assertSame(COURSE_DISPLAY_MULTIPAGE, course_get_format($course)->get_course_display());
     }
-
-    /**
-     * Privacy provider is a null provider.
-     */
-    public function test_privacy(): void {
-        $this->assertSame('privacy:metadata', \format_customtiles\privacy\provider::get_reason());
-    }
 }

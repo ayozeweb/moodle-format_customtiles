@@ -3,8 +3,6 @@
   font-size: max(1rem, var(--ct-fs-base));
   line-height: var(--ct-lh);
   color: var(--ct-text);
-  container-type: inline-size;
-  container-name: ct;
 
   :where(a, button, [tabindex]):focus-visible {
     outline: var(--ct-focus);

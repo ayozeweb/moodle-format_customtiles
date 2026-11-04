@@ -1,0 +1,17 @@
+// Linear progress bar (value in --ct-pct).
+.ct-progress {
+  block-size: .5rem;
+  border-radius: 999px;
+  background: var(--ct-surface2);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--ct-border) 40%, transparent);
+  overflow: hidden;
+}
+
+.ct-progress__bar {
+  display: block;
+  inline-size: var(--ct-pct, 0%);
+  block-size: 100%;
+  border-radius: inherit;
+  background: var(--ct-primary);
+  transition: inline-size calc(var(--ct-dur) * 3) var(--ct-ease);
+}
