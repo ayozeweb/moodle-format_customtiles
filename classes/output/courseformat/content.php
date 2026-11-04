@@ -78,9 +78,35 @@ class content extends content_base {
             if ($data->showtiles) {
                 $data->tiles = $model->get_sections();
                 $data->hastiles = !empty($data->tiles);
+                $data->tilecount = count($data->tiles);
+                $this->export_variants($data, $options);
             }
         }
         return $data;
+    }
+
+    /**
+     * Layout variants to render: the main layout and, when different, the mobile one.
+     *
+     * @param \stdClass $data
+     * @param array $options course format options
+     */
+    protected function export_variants(\stdClass $data, array $options): void {
+        $mobile = $options['layoutmobile'] ?? '';
+        $ids = [['id' => $data->layout, 'class' => '']];
+        if ($mobile !== '' && layouts::exists($mobile) && $mobile !== $data->layout) {
+            $ids = [
+                ['id' => $data->layout, 'class' => 'ct-variant--desktop'],
+                ['id' => $mobile, 'class' => 'ct-variant--mobile'],
+            ];
+        }
+        $data->variants = [];
+        $data->hascarousel = false;
+        foreach ($ids as $item) {
+            $variant = ['cssclass' => $item['class'], 'is' . $item['id'] => true];
+            $data->hascarousel = $data->hascarousel || $item['id'] === 'carousel';
+            $data->variants[] = $variant;
+        }
     }
 
     /**

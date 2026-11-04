@@ -27,37 +27,18 @@
                 "statelabel": "In progress", "stateicon": "fa-circle-half-stroke",
                 "summary": "Summary", "activitieslabel": "3 activities", "hasprogress": true,
                 "percent": 33, "progresslabel": "1 of 3 completed"
-            },
-            {
-                "id": 2, "num": 2, "name": "Locked section", "locked": true, "state": "locked",
-                "statelabel": "Locked", "stateicon": "fa-lock", "reason": "Available from 1 Jan",
-                "activitieslabel": "2 activities"
             }
         ]
     }
 }}
 <ul class="ct-tiles" data-for="ct_tiles">
     {{#tiles}}
-        <li class="ct-tile ct-tile--{{state}}{{#iscurrent}} ct-tile--current{{/iscurrent}}" data-section-id="{{id}}">
+        <li class="ct-tile ct-item ct-tile--{{state}}{{#iscurrent}} ct-tile--current{{/iscurrent}}" data-section-id="{{id}}">
             <div class="ct-tile__cover" aria-hidden="true">
                 <span class="ct-tile__num">{{num}}</span>
             </div>
             <div class="ct-tile__body">
-                <h3 class="ct-tile__title">
-                    {{#locked}}<span class="ct-tile__name">{{{name}}}</span>{{/locked}}
-                    {{^locked}}<a class="ct-tile__link" href="{{url}}">{{{name}}}</a>{{/locked}}
-                </h3>
-                {{#summary}}<p class="ct-tile__summary">{{summary}}</p>{{/summary}}
-                {{#locked}}<div class="ct-tile__reason">{{{reason}}}</div>{{/locked}}
-                <p class="ct-tile__meta">{{activitieslabel}}</p>
-                {{#hasprogress}}
-                    <div class="ct-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100"
-                         aria-valuenow="{{percent}}" aria-label="{{progresslabel}}">
-                        <span class="ct-progress__bar" style="--ct-pct: {{percent}}%"></span>
-                    </div>
-                    <p class="ct-tile__meta">{{progresslabel}}</p>
-                {{/hasprogress}}
-                <p class="ct-state ct-state--{{state}}"><i class="fa-solid {{stateicon}}" aria-hidden="true"></i> <span>{{statelabel}}</span></p>
+                {{> format_customtiles/local/tile_body }}
             </div>
         </li>
     {{/tiles}}

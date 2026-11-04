@@ -1,0 +1,133 @@
+// Carousel: scroll-snap track, slides peek at the edges on mobile.
+.ct-carousel {
+  display: grid;
+  gap: var(--ct-space-3);
+}
+
+.ct-carousel__track {
+  display: flex;
+  gap: var(--ct-space-3);
+  margin: 0;
+  padding: var(--ct-space-1) 0 var(--ct-space-3);
+  list-style: none;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  &:focus-visible {
+    outline: var(--ct-focus);
+    outline-offset: -3px;
+  }
+}
+
+.ct-slide {
+  flex: 0 0 min(88%, 26rem);
+  display: flex;
+  flex-direction: column;
+  scroll-snap-align: start;
+  border-radius: var(--ct-radius-l);
+  background: var(--ct-surface);
+  box-shadow: var(--ct-shadow-2);
+  overflow: hidden;
+  min-block-size: min(70vh, 32rem);
+
+  &--locked {
+    background: var(--ct-surface2);
+  }
+
+  &--current {
+    box-shadow: 0 0 0 2px var(--ct-primary), var(--ct-shadow-2);
+  }
+}
+
+.ct-slide__cover {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 16 / 9;
+  background: linear-gradient(135deg, var(--ct-primary), color-mix(in srgb, var(--ct-primary) 40%, var(--ct-accent)));
+  color: var(--ct-onprimary);
+
+  .ct-slide--locked & {
+    background: var(--ct-surface2);
+    color: var(--ct-muted);
+  }
+}
+
+.ct-slide__num {
+  font-size: 3rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.ct-slide__body {
+  padding: var(--ct-space-4);
+}
+
+.ct-carousel .ct-item__title {
+  font-size: 1.25rem;
+}
+
+.ct-carousel .ct-item__summary {
+  display: block;
+}
+
+.ct-carousel__nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ct-space-3);
+
+  &[hidden] {
+    display: none;
+  }
+}
+
+.ct-carousel__dots {
+  min-inline-size: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+// 44 px hit area around a small dot.
+.ct-carousel__dot {
+  position: relative;
+  inline-size: var(--ct-touch);
+  block-size: var(--ct-touch);
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 50% auto auto 50%;
+    inline-size: .75rem;
+    block-size: .75rem;
+    border-radius: 50%;
+    background: var(--ct-border);
+    transform: translate(-50%, -50%);
+    transition: transform var(--ct-dur) var(--ct-ease), background var(--ct-dur) var(--ct-ease);
+  }
+
+  &[aria-current="true"]::before {
+    background: var(--ct-primary);
+    transform: translate(-50%, -50%) scale(1.4);
+  }
+}
+
+@container ct-main (min-width: 48rem) {
+  .ct-slide {
+    flex-basis: min(60%, 28rem);
+  }
+}

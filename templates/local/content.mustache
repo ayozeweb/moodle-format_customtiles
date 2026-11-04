@@ -28,6 +28,8 @@
         "isindex": true,
         "showtiles": true,
         "hastiles": true,
+        "tilecount": 1,
+        "variants": [{"cssclass": "", "istiles": true}],
         "hero": {
             "title": "Example course",
             "summary": "A short description.",
@@ -60,13 +62,25 @@
         <div class="ct-main" id="ct-main">
             <h2 class="accesshide">{{{title}}}</h2>
             {{#hastiles}}
-                {{> format_customtiles/local/layout_tiles }}
+                {{#variants}}
+                    <div class="ct-variant {{cssclass}}">
+                        {{#istiles}}{{> format_customtiles/local/layout_tiles }}{{/istiles}}
+                        {{#iscards}}{{> format_customtiles/local/layout_cards }}{{/iscards}}
+                        {{#ispath}}{{> format_customtiles/local/layout_path }}{{/ispath}}
+                        {{#iscarousel}}{{> format_customtiles/local/layout_carousel }}{{/iscarousel}}
+                    </div>
+                {{/variants}}
             {{/hastiles}}
         </div>
         {{#js}}
             require(['core_courseformat/local/content'], function(component) {
                 component.init('#page', {}, null, null);
             });
+            {{#hascarousel}}
+            require(['format_customtiles/carousel'], function(carousel) {
+                carousel.init();
+            });
+            {{/hascarousel}}
         {{/js}}
     {{/showtiles}}
     {{^showtiles}}

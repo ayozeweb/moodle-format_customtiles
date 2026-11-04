@@ -1,0 +1,44 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template format_customtiles/local/tile_body
+
+    Shared body of a section item (title, summary, meta, progress, state) used by every layout.
+
+    Example context (json):
+    {
+        "name": "Section", "url": "#", "locked": false, "state": "inprogress",
+        "statelabel": "In progress", "stateicon": "fa-circle-half-stroke",
+        "summary": "Summary", "activitieslabel": "3 activities", "hasprogress": true,
+        "percent": 33, "progresslabel": "1 of 3 completed", "reason": ""
+    }
+}}
+<h3 class="ct-item__title">
+    {{#locked}}<span class="ct-item__name">{{{name}}}</span>{{/locked}}
+    {{^locked}}<a class="ct-item__link" href="{{url}}">{{{name}}}</a>{{/locked}}
+</h3>
+{{#summary}}<p class="ct-item__summary">{{summary}}</p>{{/summary}}
+{{#locked}}<div class="ct-item__reason">{{{reason}}}</div>{{/locked}}
+<p class="ct-item__meta">{{activitieslabel}}</p>
+{{#hasprogress}}
+    <div class="ct-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100"
+         aria-valuenow="{{percent}}" aria-label="{{progresslabel}}">
+        <span class="ct-progress__bar" style="--ct-pct: {{percent}}%"></span>
+    </div>
+    <p class="ct-item__meta">{{progresslabel}}</p>
+{{/hasprogress}}
+<p class="ct-state ct-state--{{state}}"><i class="fa-solid {{stateicon}}" aria-hidden="true"></i> <span>{{statelabel}}</span></p>

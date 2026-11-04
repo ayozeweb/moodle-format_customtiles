@@ -60,4 +60,27 @@ final class format_customtiles_test extends \advanced_testcase {
         $course = $this->getDataGenerator()->create_course(['format' => 'customtiles']);
         $this->assertSame(COURSE_DISPLAY_MULTIPAGE, course_get_format($course)->get_course_display());
     }
+
+    /**
+     * All layouts are selectable and a mobile layout produces two variants.
+     */
+    public function test_layouts_and_variants(): void {
+        global $PAGE;
+        $this->resetAfterTest();
+        $this->assertSame(['tiles', 'cards', 'path', 'carousel'], \format_customtiles\local\layouts::get_ids());
+        $course = $this->getDataGenerator()->create_course(['format' => 'customtiles', 'numsections' => 2]);
+        $user = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $this->setUser($user);
+        $format = course_get_format($course);
+        $format->update_course_format_options(['layout' => 'cards', 'layoutmobile' => 'carousel']);
+        $format = course_get_format($course->id);
+        $PAGE->set_url('/course/view.php', ['id' => $course->id]);
+        $content = new \format_customtiles\output\courseformat\content($format);
+        $data = $content->export_for_template($PAGE->get_renderer('format_customtiles'));
+        $this->assertCount(2, $data->variants);
+        $this->assertTrue($data->variants[0]['iscards']);
+        $this->assertTrue($data->variants[1]['iscarousel']);
+        $this->assertTrue($data->hascarousel);
+        $this->assertSame(3, $data->tilecount);
+    }
 }
