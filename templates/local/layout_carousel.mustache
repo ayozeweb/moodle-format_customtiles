@@ -35,9 +35,9 @@
 }}
 <div class="ct-carousel" role="region" aria-roledescription="carousel" aria-label="{{#str}} carouselaria, format_customtiles {{/str}}"
      data-region="ct-carousel" data-count="{{tilecount}}">
-    <ul class="ct-carousel__track" data-region="track" tabindex="0">
+    <div class="ct-carousel__track" data-region="track" tabindex="0">
         {{#tiles}}
-            <li class="ct-slide ct-item ct-slide--{{state}}{{#iscurrent}} ct-slide--current{{/iscurrent}}" data-section-id="{{id}}"
+            <div class="ct-slide ct-item ct-slide--{{state}}{{#iscurrent}} ct-slide--current{{/iscurrent}}" data-section-id="{{id}}"
                 role="group" aria-roledescription="slide"
                 aria-label="{{#str}} slidex, format_customtiles, {"x": {{position}}, "n": {{tilecount}}} {{/str}}">
                 <div class="ct-slide__cover{{#hascolor}} ct-has-color{{/hascolor}}" aria-hidden="true"{{#hascolor}} style="{{coverstyle}}"{{/hascolor}}>
@@ -46,9 +46,9 @@
                 <div class="ct-slide__body">
                     {{> format_customtiles/local/tile_body }}
                 </div>
-            </li>
+            </div>
         {{/tiles}}
-    </ul>
+    </div>
     <div class="ct-carousel__nav" data-region="nav" hidden>
         <button type="button" class="ct-iconbtn" data-action="prev" aria-label="{{#str}} prevslide, format_customtiles {{/str}}">
             <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>

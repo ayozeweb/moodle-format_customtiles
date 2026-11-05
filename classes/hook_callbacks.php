@@ -25,6 +25,8 @@
 namespace format_customtiles;
 
 use core\hook\output\before_http_headers;
+use core\hook\output\before_standard_top_of_body_html_generation;
+use format_customtiles\local\context_info;
 
 /**
  * Hook callbacks.
@@ -53,5 +55,46 @@ class hook_callbacks {
             return;
         }
         local\course_data::remember_last_activity((int)$course->id, (int)$cm->id);
+    }
+
+    /**
+     * Activity pages of a Custom tiles course: add the always-visible context line next to the page heading.
+     *
+     * @param before_http_headers $hook
+     */
+    public static function add_activity_context(before_http_headers $hook): void {
+        global $PAGE;
+        if (CLI_SCRIPT || AJAX_SCRIPT || !$PAGE->cm || !$PAGE->course || $PAGE->course->format !== 'customtiles') {
+            return;
+        }
+        $format = course_get_format($PAGE->course);
+        $cminfo = get_fast_modinfo($PAGE->course)->get_cm($PAGE->cm->id);
+        $parts = context_info::for_cm($format, $cminfo);
+        $last = count($parts) - 1;
+        $data = [
+            'parts' => array_map(fn($text, $i) => ['text' => $text, 'last' => $i === $last], $parts, array_keys($parts)),
+            'mapurl' => (new \moodle_url('/course/format/customtiles/map.php', ['id' => $PAGE->course->id]))->out(false),
+        ];
+        $PAGE->add_header_action($PAGE->get_renderer('format_customtiles')->render_from_template(
+            'format_customtiles/local/ctxbar',
+            $data
+        ));
+    }
+
+    /**
+     * Skip link at the very start of the page (first focusable element) in Custom tiles courses.
+     *
+     * @param before_standard_top_of_body_html_generation $hook
+     */
+    public static function add_skip_link(before_standard_top_of_body_html_generation $hook): void {
+        global $PAGE;
+        if (!$PAGE->course || $PAGE->course->id == SITEID || $PAGE->course->format !== 'customtiles') {
+            return;
+        }
+        $hook->add_html(\html_writer::link(
+            '#maincontent',
+            get_string('skiptocontent', 'format_customtiles'),
+            ['class' => 'ct-skip']
+        ));
     }
 }

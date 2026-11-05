@@ -1,0 +1,33 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template format_customtiles/local/ctxbar
+
+    Always visible context line and quick access to the course map.
+
+    Example context (json):
+    {
+        "parts": [{"text": "Module 2", "last": false}, {"text": "Activity 4 of 9", "last": true}],
+        "mapurl": "#"
+    }
+}}
+<nav class="ct-ctxbar" aria-label="{{#str}} contextinfo, format_customtiles {{/str}}">
+    <p class="ct-ctxbar__text">
+        {{#parts}}<span class="ct-ctxbar__part">{{text}}</span>{{^last}} <span aria-hidden="true">·</span> {{/last}}{{/parts}}
+    </p>
+    <a class="ct-ctxbar__map" href="{{mapurl}}"><i class="fa-solid fa-sitemap" aria-hidden="true"></i> {{#str}} coursemap, format_customtiles {{/str}}</a>
+</nav>

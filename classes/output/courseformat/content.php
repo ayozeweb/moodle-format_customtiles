@@ -78,6 +78,22 @@ class content extends content_base {
         $data->legend = array_values($legend);
         $data->haslegend = !empty($legend);
 
+        $data->mapurl = (new \moodle_url('/course/format/customtiles/map.php', ['id' => $course->id]))->out(false);
+        if (!$data->isindex && ($sectionid = $this->format->get_sectionid())) {
+            $section = $this->format->get_modinfo()->get_section_info_by_id($sectionid);
+            $parts = $section ? \format_customtiles\local\context_info::for_section($this->format, $section) : [];
+            $last = count($parts) - 1;
+            $data->parts = array_map(
+                fn($text, $i) => ['text' => $text, 'last' => $i === $last],
+                $parts,
+                array_keys($parts)
+            );
+            $data->hasctx = !empty($parts);
+        }
+
+        $data->logos = !empty($options['showlogos']) ? $this->get_logos() : [];
+        $data->haslogos = !empty($data->logos);
+
         if ($data->isindex) {
             $editing = $this->format->show_editor();
             $model = new course_data($this->format);
@@ -91,6 +107,31 @@ class content extends content_base {
             }
         }
         return $data;
+    }
+
+    /**
+     * Institutional logos uploaded by the administrator (the plugin ships none).
+     *
+     * @return array[] src and alt text (the file name without extension)
+     */
+    protected function get_logos(): array {
+        $context = \context_system::instance();
+        $files = get_file_storage()->get_area_files($context->id, 'format_customtiles', 'logos', 0, 'filepath, filename', false);
+        $logos = [];
+        foreach ($files as $file) {
+            $logos[] = [
+                'src' => \moodle_url::make_pluginfile_url(
+                    $context->id,
+                    'format_customtiles',
+                    'logos',
+                    0,
+                    $file->get_filepath(),
+                    $file->get_filename()
+                )->out(false),
+                'alt' => pathinfo($file->get_filename(), PATHINFO_FILENAME),
+            ];
+        }
+        return $logos;
     }
 
     /**

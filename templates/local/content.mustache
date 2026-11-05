@@ -26,6 +26,11 @@
         "tokens": "--ct-primary:#1d4ed8",
         "layout": "tiles",
         "isindex": true,
+        "mapurl": "#",
+        "hasctx": true,
+        "parts": [{"text": "Section", "last": true}],
+        "haslogos": true,
+        "logos": [{"src": "#", "alt": "Logo"}],
         "haslegend": true,
         "legend": [{"code": "AF", "name": "Training activity", "style": "--ct-cat-bg:#1d4ed8;--ct-cat-fg:#ffffff"}],
         "showtiles": true,
@@ -55,6 +60,9 @@
     }
 }}
 <div class="ct-root" data-ct-skin="{{skin}}" data-ct-layout="{{layout}}" style="{{tokens}}">
+    {{#hasctx}}
+        {{> format_customtiles/local/ctxbar }}
+    {{/hasctx}}
     {{#isindex}}
         {{#hero}}
             {{> format_customtiles/local/hero }}
@@ -88,6 +96,11 @@
     {{^showtiles}}
         {{> core_courseformat/local/content }}
     {{/showtiles}}
+    {{#haslogos}}
+        <div class="ct-strip" role="group" aria-label="{{#str}} logosaria, format_customtiles {{/str}}">
+            {{#logos}}<img src="{{src}}" alt="{{alt}}" height="48" loading="lazy">{{/logos}}
+        </div>
+    {{/haslogos}}
     {{#haslegend}}
         <details class="ct-legend">
             <summary>{{#str}} legendtitle, format_customtiles {{/str}}</summary>

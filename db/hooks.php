@@ -29,4 +29,12 @@ $callbacks = [
         'hook' => \core\hook\output\before_http_headers::class,
         'callback' => [\format_customtiles\hook_callbacks::class, 'remember_last_activity'],
     ],
+    [
+        'hook' => \core\hook\output\before_http_headers::class,
+        'callback' => [\format_customtiles\hook_callbacks::class, 'add_activity_context'],
+    ],
+    [
+        'hook' => \core\hook\output\before_standard_top_of_body_html_generation::class,
+        'callback' => [\format_customtiles\hook_callbacks::class, 'add_skip_link'],
+    ],
 ];

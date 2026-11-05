@@ -217,6 +217,7 @@ class format_customtiles extends core_courseformat\base {
                 'layoutmobile' => ['default' => '', 'type' => PARAM_ALPHANUMEXT],
                 'skin' => ['default' => skin::DEFAULT, 'type' => PARAM_ALPHANUMEXT],
                 'basecolor' => ['default' => '', 'type' => PARAM_RAW_TRIMMED],
+                'showlogos' => ['default' => 0, 'type' => PARAM_INT],
             ];
         }
         if ($foreditform && !isset($options['layout']['label'])) {
@@ -267,6 +268,12 @@ class format_customtiles extends core_courseformat\base {
                     'help_component' => 'format_customtiles',
                     'element_type' => 'text',
                     'element_attributes' => [['maxlength' => 7, 'size' => 8, 'placeholder' => '#1d4ed8']],
+                ],
+                'showlogos' => [
+                    'label' => new lang_string('showlogos', 'format_customtiles'),
+                    'help' => 'showlogos',
+                    'help_component' => 'format_customtiles',
+                    'element_type' => 'advcheckbox',
                 ],
             ];
             $options = array_merge_recursive($options, $edit);
@@ -536,6 +543,22 @@ function format_customtiles_inplace_editable($itemtype, $itemid, $newvalue) {
  * @return bool false when the file does not exist
  */
 function format_customtiles_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options = []) {
+    if ($context->contextlevel == CONTEXT_SYSTEM && $filearea === 'logos') {
+        // Institutional logos uploaded by the administrator are public.
+        $filename = array_pop($args);
+        $file = get_file_storage()->get_file(
+            $context->id,
+            'format_customtiles',
+            'logos',
+            (int)array_shift($args),
+            '/',
+            $filename
+        );
+        if (!$file || $file->is_directory()) {
+            return false;
+        }
+        send_stored_file($file, DAYSECS, 0, false, $options);
+    }
     if ($context->contextlevel != CONTEXT_COURSE || $filearea !== section_style::FILEAREA) {
         return false;
     }

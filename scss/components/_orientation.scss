@@ -1,0 +1,192 @@
+// Orientation: skip link, context bar, course map, secondary button and print rules.
+.ct-skip {
+  position: fixed;
+  inset-block-start: .5rem;
+  inset-inline-start: .5rem;
+  z-index: 2000;
+  padding: .75rem 1rem;
+  border-radius: .5rem;
+  background: #111827;
+  color: #fff;
+  font-weight: 700;
+  transform: translateY(-200%);
+
+  &:focus,
+  &:focus-visible {
+    transform: none;
+    color: #fff;
+    outline: 3px solid #fde047;
+    outline-offset: 2px;
+  }
+}
+
+.ct-ctxbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ct-space-2) var(--ct-space-3);
+  margin-block: var(--ct-space-2) var(--ct-space-3);
+  padding: .5rem var(--ct-space-3);
+  border-radius: var(--ct-radius);
+  background: var(--ct-surface2);
+  color: var(--ct-text);
+  font-size: .9375rem;
+}
+
+.ct-ctxbar__text {
+  margin: 0;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.ct-ctxbar__map {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  min-block-size: var(--ct-touch);
+  color: var(--ct-primary);
+  font-weight: 600;
+}
+
+.ct-btn--secondary {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  background: var(--ct-surface2);
+  color: var(--ct-text);
+  box-shadow: inset 0 0 0 1px var(--ct-border);
+
+  &:hover,
+  &:focus-visible {
+    color: var(--ct-text);
+    text-decoration: none;
+    background: var(--ct-surface);
+  }
+
+  &:focus-visible {
+    outline: 3px solid var(--ct-text);
+    outline-offset: 3px;
+  }
+}
+
+.ct-map {
+  max-inline-size: 60rem;
+}
+
+.ct-map__sections,
+.ct-map__activities {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ct-map__section {
+  margin-block-end: var(--ct-space-4);
+  padding: var(--ct-space-3);
+  border-radius: var(--ct-radius);
+  background: var(--ct-surface);
+  box-shadow: var(--ct-shadow-1);
+  break-inside: avoid;
+}
+
+.ct-map__sectiontitle {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--ct-space-2) var(--ct-space-3);
+  margin: 0 0 var(--ct-space-2);
+  font-size: 1.125rem;
+}
+
+.ct-map__activities li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--ct-space-2);
+  min-block-size: var(--ct-touch);
+  padding-block: .25rem;
+  border-block-start: 1px solid color-mix(in srgb, var(--ct-border) 30%, transparent);
+
+  a {
+    display: inline-flex;
+    align-items: center;
+    min-block-size: var(--ct-touch);
+  }
+}
+
+.ct-herowrap .ct-hero__actions {
+  align-items: stretch;
+}
+
+// Print: content and course map only.
+@media print {
+  .ct-skip,
+  .ct-ctxbar__map,
+  .ct-btn,
+  .ct-carousel__nav,
+  .ct-legend summary::marker {
+    display: none;
+  }
+
+  .ct-root {
+    color: #000;
+    background: #fff;
+  }
+
+  .ct-hero,
+  .ct-tile,
+  .ct-card,
+  .ct-step__card,
+  .ct-slide,
+  .ct-map__section,
+  .ct-legend {
+    box-shadow: none;
+    border: 1px solid #999;
+    break-inside: avoid;
+  }
+
+  .ct-hero__media,
+  .ct-tile__cover,
+  .ct-card__cover,
+  .ct-slide__cover,
+  .ct-cover__img {
+    display: none;
+  }
+
+  .ct-carousel__track {
+    display: block;
+    overflow: visible;
+  }
+
+  .ct-slide {
+    margin-block-end: var(--ct-space-3);
+    min-block-size: 0;
+  }
+
+  .ct-item__summary {
+    display: block;
+  }
+
+  .ct-legend:not([open]) .ct-legend__list {
+    display: grid;
+  }
+
+  .ct-item__link::after {
+    display: none;
+  }
+}
+
+// Touch targets inside the format: map links and the core completion buttons on section pages.
+.ct-map a,
+.ct-root .activity-completion .btn {
+  min-block-size: var(--ct-touch);
+}
+
+.ct-map__sectiontitle a,
+.ct-map > p a {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: var(--ct-touch);
+}

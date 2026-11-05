@@ -43,6 +43,14 @@ if ($ADMIN->fulltree) {
         60,
         6
     ));
+    $settings->add(new admin_setting_configstoredfile(
+        'format_customtiles/logos',
+        new lang_string('logos', 'format_customtiles'),
+        new lang_string('logos_desc', 'format_customtiles'),
+        'logos',
+        0,
+        ['maxfiles' => 8, 'accepted_types' => ['web_image']]
+    ));
     $settings->add(new admin_setting_configselect(
         'format_customtiles/enablelinearnav',
         new lang_string('linearnavigationsettings', 'core_courseformat'),

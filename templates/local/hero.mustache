@@ -23,6 +23,7 @@
     {
         "title": "Example course",
         "summary": "A short description.",
+        "mapurl": "#",
         "hasimage": true,
         "image": "https://example.com/cover.jpg",
         "hasprogress": true,
@@ -61,6 +62,9 @@
                     <span class="ct-ring__text" aria-hidden="true">{{percent}}%</span>
                 </div>
             {{/hasprogress}}
+            <a class="ct-btn ct-btn--secondary" href="{{mapurl}}">
+                <span class="ct-btn__label"><i class="fa-solid fa-sitemap" aria-hidden="true"></i> {{#str}} coursemap, format_customtiles {{/str}}</span>
+            </a>
             {{#continue}}
                 <a class="ct-btn ct-btn--primary" href="{{url}}">
                     <span class="ct-btn__label">{{continuelabel}}</span>

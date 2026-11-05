@@ -7,7 +7,7 @@
   border-radius: 999px;
   background: var(--ct-cat-bg, #1d4ed8);
   color: var(--ct-cat-fg, #fff);
-  font-size: .8125rem;
+  font-size: .875rem;
   font-weight: 700;
   line-height: 1.5;
   white-space: nowrap;
@@ -36,4 +36,25 @@
   margin: 0;
   padding: 0;
   list-style: none;
+}
+
+// Institutional strip (logos uploaded by the administrator).
+.ct-strip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--ct-space-3) var(--ct-space-4);
+  margin-block: var(--ct-space-4);
+  padding: var(--ct-space-3);
+  border-radius: var(--ct-radius);
+  background: #fff;
+  box-shadow: var(--ct-shadow-1);
+
+  img {
+    block-size: 3rem;
+    inline-size: auto;
+    max-inline-size: 100%;
+    object-fit: contain;
+  }
 }
