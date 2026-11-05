@@ -59,7 +59,7 @@
         ]
     }
 }}
-<div class="ct-root" data-ct-skin="{{skin}}" data-ct-layout="{{layout}}" style="{{tokens}}">
+<div class="ct-root{{#showtiles}} ct-root--page{{/showtiles}}" data-ct-skin="{{skin}}" data-ct-layout="{{layout}}" style="{{tokens}}">
     {{#hasctx}}
         {{> format_customtiles/local/ctxbar }}
     {{/hasctx}}

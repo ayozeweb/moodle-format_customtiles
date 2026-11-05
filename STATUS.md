@@ -1,7 +1,7 @@
 # STATUS
 
 ## Hito actual
-Hitos 1–5 cerrados → siguiente: Hito 6 (calidad: Mustache lint, capturas, README con galería).
+Hitos 1–6 cerrados. Extras (Bento, Lista, app móvil) sin empezar.
 
 ## Hecho
 - Plugin `format_customtiles` 0.1.0 ALPHA (Moodle 5.3, `requires 2026100200`), instala sin errores.
@@ -13,8 +13,10 @@ Hitos 1–5 cerrados → siguiente: Hito 6 (calidad: Mustache lint, capturas, RE
 - **Hito 3**: layouts Itinerario (`path`), Tarjetas (`cards`) y Carrusel (`carousel`, scroll-snap + botones + puntos + flechas de teclado, JS en `amd/src/carousel.js`), selector por curso y layout distinto en móvil (`layoutmobile`: se renderizan ambas variantes y se alterna por media query a 48rem). Cuerpo común en `templates/local/tile_body.mustache`. Verificado sin scroll horizontal a 360/768/1280.
 - **Hito 4**: 6 presets (Claro, Oscuro, Corporativo, Vibrante, Minimal, Alto contraste AAA) + temas extra del admin (`id|Nombre|preset|#color`, validado) con paleta accesible; fuentes locales OFL (Inter y Atkinson Hyperlegible, `fonts/`, `thirdpartylibs.xml`). Opciones por sección: portada (File API + variantes 480/960 con `srcset`), icono, color/degradado, subtítulo y tiempo estimado, con vista previa en vivo en el formulario de sección. Categorías de actividad (tablas `format_customtiles_cat`/`cmcat`, página de admin, preset SEPE, página de asignación del docente en el menú «Más», insignia con código+icono+nombre accesible, leyenda, API pública `\format_customtiles\api`). Backup/restore de opciones, portadas y categorías (por código). Tests: 22 PHPUnit en verde, phpcs limpio.
 - **Hito 5**: mapa del curso (`map.php`, imprimible, un toque desde el hero y la barra de contexto), línea de contexto «Sección · Actividad x de y» (secciones delegadas = UF dentro del módulo) en páginas de sección y de actividad (como acción de cabecera), enlace «Saltar al contenido» al inicio de la página, hoja de impresión (carrusel aplanado, sin fondos ni botones), franja institucional configurable (logotipos subidos por el admin; el plugin no incluye ninguno), botones ≥44 px. Auditoría automática con axe-core (WCAG 2.1 A/AA): 0 violaciones en la portada del curso en tiles, tarjetas, itinerario y carrusel con skins claro, oscuro, vibrante, corporativo (+ color corregido), minimal y alto contraste a 360/768/1280; sin scroll horizontal; LCP ≈ 0,15–0,2 s y CLS ≈ 0 (localhost, sin red). La única violación hallada es del core (botón «Marcar como hecho» en `course/section.php`, `label-content-name-mismatch`).
+- **Hito 6**: PHPUnit 27 tests en verde (skins/contraste, opciones, progreso/continuar, categorías, backup/restore, orientación, render de todas las plantillas con su contexto de ejemplo), phpcs (estándar moodle) sin avisos, 30 capturas en `docs/screenshots/` (4 layouts y 6 temas × 360/768/1280, con Playwright contra el Moodle local), README bilingüe con galería.
 
 ## Decisiones
+- **Mustache lint**: el linter de moodle-plugin-ci necesita el `npm ci` del core, bloqueado en el sandbox (403). En su lugar, un test PHPUnit renderiza cada plantilla con el JSON de su «Example context» y comprueba la cabecera `@template`; el CI de GitHub ejecuta el lint real.
 - **Barra de contexto en actividades**: se añade con `$PAGE->add_header_action()`; poner HTML en la parte superior del body quedaría tapado por la barra fija de Boost.
 - **Recorte de portada**: no hay recortador interactivo; la imagen se recorta con `object-fit: cover` centrada a la proporción del layout (se avisa en la ayuda del campo).
 - **Insignia de categoría en `afterlink`**: la plantilla `cm` del core no ofrece hueco para formatos y sobrescribir la cadena de bloques es frágil.
@@ -36,5 +38,8 @@ Hitos 1–5 cerrados → siguiente: Hito 6 (calidad: Mustache lint, capturas, RE
 ## Bloqueos
 - Ninguno por ahora. Sin red para descargar `composer.phar`/otros (se usa un wrapper local).
 
-## Siguiente paso
+## Siguiente paso (extras)
+Layouts Bento y Lista; soporte de la app móvil (`classes/output/mobile.php`). Regenerar `amd/build` con `grunt amd` en un entorno con red.
+
+## Siguiente paso (histórico)
 Hito 2: hero con «Continuar», rejilla Tiles responsive, estados y progreso por sección (con MUC).

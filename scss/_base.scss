@@ -21,3 +21,16 @@
     scroll-behavior: auto;
   }
 }
+
+// Course overview page: the skin background (matters for dark skins) with a small inner gutter.
+.ct-root--page {
+  padding: var(--ct-space-2) var(--ct-space-2) var(--ct-space-3);
+  border-radius: var(--ct-radius-l);
+  background: var(--ct-bg);
+}
+
+@media (min-width: 48rem) {
+  .ct-root--page {
+    padding-inline: var(--ct-space-4);
+  }
+}
