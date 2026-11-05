@@ -153,7 +153,8 @@ final class api_test extends \advanced_testcase {
         );
         $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
         $section = $DB->get_record('course_sections', ['course' => $course->id, 'section' => 1], '*', MUST_EXIST);
-        \core_courseformat\formatactions::section($course->id)->set_visibility(get_fast_modinfo($course)->get_section_info(1), false);
+        $sectioninfo = get_fast_modinfo($course)->get_section_info(1);
+        \core_courseformat\formatactions::section($course->id)->set_visibility($sectioninfo, false);
         $this->setUser($student);
         $context = \context_course::instance($course->id);
         $this->assertFalse(format_customtiles_pluginfile(
