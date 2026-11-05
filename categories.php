@@ -44,7 +44,7 @@ if ($action === 'sepe' && confirm_sesskey()) {
 
 $form = null;
 if ($action === 'edit' || $action === 'add') {
-    $form = new \format_customtiles\form\category_form($pageurl);
+    $form = new \format_customtiles\form\category_form(new moodle_url($pageurl, ['action' => $action]));
     if ($form->is_cancelled()) {
         redirect($pageurl);
     }
@@ -55,7 +55,6 @@ if ($action === 'edit' || $action === 'add') {
     if (!$form->is_submitted()) {
         $form->set_data($action === 'edit' ? $DB->get_record('format_customtiles_cat', ['id' => $id], '*', MUST_EXIST) : null);
     }
-    $form->set_data(['action' => $action]);
 }
 
 $PAGE->set_url($pageurl);

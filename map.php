@@ -28,6 +28,9 @@ $courseid = required_param('id', PARAM_INT);
 $course = get_course($courseid);
 require_login($course);
 $context = context_course::instance($courseid);
+if ($course->format !== 'customtiles') {
+    redirect(course_get_url($course));
+}
 
 $url = new moodle_url('/course/format/customtiles/map.php', ['id' => $courseid]);
 $PAGE->set_url($url);

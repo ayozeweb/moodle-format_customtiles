@@ -126,4 +126,43 @@ final class api_test extends \advanced_testcase {
         $this->assertSame('1 h 35 min', $style['timelabel']);
         $this->assertStringContainsString('--ct-fg:#111827', $style['coverstyle']);
     }
+
+    /**
+     * Category input is sanitised: no markup in names, codes limited, unknown icons dropped, colours normalised.
+     */
+    public function test_save_category_sanitises(): void {
+        $this->resetAfterTest();
+        $id = api::save_category((object)['code' => 'a<b>"x', 'name' => 'Name <script>alert(1)</script>',
+            'color' => 'javascript:1', 'icon' => 'fa-spin evil']);
+        $cat = (array)api::get_categories()[$id];
+        $this->assertSame('ABX', $cat['code']);
+        $this->assertStringNotContainsString('<', $cat['name']);
+        $this->assertSame('#1d4ed8', $cat['color']);
+        $this->assertSame('', $cat['icon']);
+    }
+
+    /**
+     * Covers of sections the user cannot see are not served.
+     */
+    public function test_pluginfile_hidden_section(): void {
+        global $DB;
+        $this->resetAfterTest();
+        $course = $this->getDataGenerator()->create_course(
+            ['format' => 'customtiles', 'numsections' => 1],
+            ['createsections' => true]
+        );
+        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $section = $DB->get_record('course_sections', ['course' => $course->id, 'section' => 1], '*', MUST_EXIST);
+        \core_courseformat\formatactions::section($course->id)->set_visibility(get_fast_modinfo($course)->get_section_info(1), false);
+        $this->setUser($student);
+        $context = \context_course::instance($course->id);
+        $this->assertFalse(format_customtiles_pluginfile(
+            $course,
+            null,
+            $context,
+            'sectioncover',
+            [$section->id, 'w480', 'cover.png'],
+            false
+        ));
+    }
 }

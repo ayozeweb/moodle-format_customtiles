@@ -564,6 +564,11 @@ function format_customtiles_pluginfile($course, $cm, $context, $filearea, $args,
     }
     require_login($course);
     $itemid = (int)array_shift($args);
+    // The cover of a section the user cannot see (hidden or restricted) is not served either.
+    $section = get_fast_modinfo($course)->get_section_info_by_id($itemid);
+    if (!$section || !$section->uservisible) {
+        return false;
+    }
     $filename = array_pop($args);
     $filepath = $args ? '/' . implode('/', $args) . '/' : '/';
     $fs = get_file_storage();
@@ -575,6 +580,9 @@ function format_customtiles_pluginfile($course, $cm, $context, $filearea, $args,
             return false;
         }
     }
+    // Defence in depth: never let the browser interpret these files as active content.
+    header('X-Content-Type-Options: nosniff');
+    header("Content-Security-Policy: default-src 'none'; style-src 'unsafe-inline'; sandbox");
     send_stored_file($file, DAYSECS, 0, $forcedownload, $options);
 }
 

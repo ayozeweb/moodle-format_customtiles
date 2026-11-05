@@ -127,11 +127,12 @@ class api {
     public static function save_category(\stdClass $data): int {
         global $DB;
         $now = time();
+        $icon = (string)($data->icon ?? '');
         $record = (object)[
-            'code' => strtoupper(trim($data->code)),
-            'name' => trim($data->name),
+            'code' => \core_text::substr(preg_replace('/[^A-Za-z0-9_-]/', '', strtoupper(trim($data->code))), 0, 20),
+            'name' => \core_text::substr(trim(clean_param($data->name, PARAM_TEXT)), 0, 100),
             'color' => color::normalise($data->color ?? '') ?? '#1d4ed8',
-            'icon' => $data->icon ?? '',
+            'icon' => isset(\format_customtiles\local\section_style::get_icons()[$icon]) ? $icon : '',
             'timemodified' => $now,
         ];
         if (!empty($data->id)) {
