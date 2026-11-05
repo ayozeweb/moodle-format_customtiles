@@ -1,7 +1,7 @@
 # STATUS
 
 ## Hito actual
-Hitos 1–6 cerrados. Extras (Bento, Lista, app móvil) sin empezar.
+Hitos 1–6 cerrados. Extras: layouts Bento y Lista compacta hechos (axe limpio); app móvil sin empezar.
 
 ## Hecho
 - Plugin `format_customtiles` 0.1.0 ALPHA (Moodle 5.3, `requires 2026100200`), instala sin errores.
@@ -39,7 +39,7 @@ Hitos 1–6 cerrados. Extras (Bento, Lista, app móvil) sin empezar.
 - Ninguno por ahora. Sin red para descargar `composer.phar`/otros (se usa un wrapper local).
 
 ## Siguiente paso (extras)
-Layouts Bento y Lista; soporte de la app móvil (`classes/output/mobile.php`). Regenerar `amd/build` con `grunt amd` en un entorno con red.
+Soporte de la app móvil (`classes/output/mobile.php`). Regenerar `amd/build` con `grunt amd` en un entorno con red.
 
 ## Siguiente paso (histórico)
 Hito 2: hero con «Continuar», rejilla Tiles responsive, estados y progreso por sección (con MUC).

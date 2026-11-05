@@ -41,7 +41,7 @@ class layouts {
      * @return string[]
      */
     public static function get_ids(): array {
-        return ['tiles', 'cards', 'path', 'carousel'];
+        return ['tiles', 'cards', 'path', 'carousel', 'bento', 'list'];
     }
 
     /**

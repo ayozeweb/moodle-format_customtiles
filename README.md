@@ -23,7 +23,7 @@ To rebuild the CSS: `npm install && npm run build:css` (the compiled `styles.css
 ## Features
 
 * **Hero**: cover, summary, context pills (sections, activities, duration, dates), overall progress ring and a *Continue where you left off* button (last visited activity, or the next pending one).
-* **Layouts** (per course, optionally a different one on mobile): Tiles, Large cards, Learning path, Carousel (scroll-snap, buttons, keyboard).
+* **Layouts** (per course, optionally a different one on mobile): Tiles, Large cards, Learning path, Carousel (scroll-snap, buttons, keyboard), Bento and Compact list.
 * **Visual themes**: Light, Dark, Corporate, Vibrant, Minimal, High contrast (AAA) + extra themes defined by the administrator; accent colour with automatic WCAG AA correction; local OFL fonts (Inter, Atkinson Hyperlegible).
 * **Sections**: cover image (responsive `srcset`), icon, colour/gradient, subtitle, estimated time, with live preview in the section form.
 * **Progress and states**: per section and overall (MUC-cached, invalidated by completion events); locked (with reason), hidden, pending, in progress, completed and new — always icon + text + colour.
@@ -69,7 +69,7 @@ Para recompilar el CSS: `npm install && npm run build:css` (el `styles.css` comp
 ### Funcionalidades
 
 * **Hero**: portada, resumen, píldoras de contexto (secciones, actividades, duración, fechas), anillo de progreso global y botón *Continuar donde lo dejaste* (última actividad visitada o la siguiente pendiente).
-* **Layouts** (por curso, con opción distinta en móvil): Tiles, Tarjetas grandes, Itinerario y Carrusel (scroll-snap, botones y teclado).
+* **Layouts** (por curso, con opción distinta en móvil): Tiles, Tarjetas grandes, Itinerario, Carrusel (scroll-snap, botones y teclado), Bento y Lista compacta.
 * **Temas visuales**: Claro, Oscuro, Corporativo, Vibrante, Minimal y Alto contraste (AAA) + temas adicionales del administrador; color de acento con corrección automática a contraste WCAG AA; tipografías locales OFL (Inter, Atkinson Hyperlegible).
 * **Secciones**: portada (con `srcset`), icono, color/degradado, subtítulo y tiempo estimado, con vista previa en vivo.
 * **Progreso y estados**: por sección y global (caché MUC invalidada por eventos de finalización); bloqueada (con motivo), oculta, pendiente, en curso, completada y nueva — siempre icono + texto + color.
@@ -89,6 +89,8 @@ Layouts (`docs/screenshots/`):
 | **Cards / Tarjetas** | <img src="docs/screenshots/layout-cards-360.png" width="120" alt="Cards / Tarjetas 360px"> | <img src="docs/screenshots/layout-cards-768.png" width="160" alt="Cards / Tarjetas 768px"> | <img src="docs/screenshots/layout-cards-1280.png" width="240" alt="Cards / Tarjetas 1280px"> |
 | **Path / Itinerario** | <img src="docs/screenshots/layout-path-360.png" width="120" alt="Path / Itinerario 360px"> | <img src="docs/screenshots/layout-path-768.png" width="160" alt="Path / Itinerario 768px"> | <img src="docs/screenshots/layout-path-1280.png" width="240" alt="Path / Itinerario 1280px"> |
 | **Carousel / Carrusel** | <img src="docs/screenshots/layout-carousel-360.png" width="120" alt="Carousel / Carrusel 360px"> | <img src="docs/screenshots/layout-carousel-768.png" width="160" alt="Carousel / Carrusel 768px"> | <img src="docs/screenshots/layout-carousel-1280.png" width="240" alt="Carousel / Carrusel 1280px"> |
+| **Bento** | <img src="docs/screenshots/layout-bento-360.png" width="120" alt="Bento 360px"> | <img src="docs/screenshots/layout-bento-768.png" width="160" alt="Bento 768px"> | <img src="docs/screenshots/layout-bento-1280.png" width="240" alt="Bento 1280px"> |
+| **List / Lista** | <img src="docs/screenshots/layout-list-360.png" width="120" alt="List / Lista 360px"> | <img src="docs/screenshots/layout-list-768.png" width="160" alt="List / Lista 768px"> | <img src="docs/screenshots/layout-list-1280.png" width="240" alt="List / Lista 1280px"> |
 
 Visual themes / Temas visuales:
 

@@ -13,7 +13,6 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
-
 /**
  * Spanish strings for format_customtiles.
  *
@@ -82,9 +81,11 @@ $string['icon_users'] = 'Personas';
 $string['icon_wrench'] = 'Herramientas';
 $string['iconnone'] = 'Ninguno';
 $string['layout'] = 'Diseño del curso';
+$string['layout_bento'] = 'Bento (secciones destacadas)';
 $string['layout_cards'] = 'Tarjetas grandes';
 $string['layout_carousel'] = 'Carrusel';
 $string['layout_help'] = 'Cómo se muestran las secciones en la página del curso.';
+$string['layout_list'] = 'Lista compacta';
 $string['layout_path'] = 'Itinerario';
 $string['layout_tiles'] = 'Tiles (mosaico)';
 $string['layoutmobile'] = 'Diseño en móvil';

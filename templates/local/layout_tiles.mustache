@@ -31,7 +31,7 @@
         ]
     }
 }}
-<ul class="ct-tiles" data-for="ct_tiles">
+<ul class="ct-tiles{{#isbento}} ct-tiles--bento{{/isbento}}" data-for="ct_tiles">
     {{#tiles}}
         <li class="ct-tile ct-item ct-tile--{{state}}{{#iscurrent}} ct-tile--current{{/iscurrent}}" data-section-id="{{id}}">
             <div class="ct-tile__cover{{#hascolor}} ct-has-color{{/hascolor}}" aria-hidden="true"{{#hascolor}} style="{{coverstyle}}"{{/hascolor}}>

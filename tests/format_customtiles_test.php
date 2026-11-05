@@ -67,7 +67,7 @@ final class format_customtiles_test extends \advanced_testcase {
     public function test_layouts_and_variants(): void {
         global $PAGE;
         $this->resetAfterTest();
-        $this->assertSame(['tiles', 'cards', 'path', 'carousel'], \format_customtiles\local\layouts::get_ids());
+        $this->assertSame(['tiles', 'cards', 'path', 'carousel', 'bento', 'list'], \format_customtiles\local\layouts::get_ids());
         $course = $this->getDataGenerator()->create_course(['format' => 'customtiles', 'numsections' => 2]);
         $user = $this->getDataGenerator()->create_and_enrol($course, 'student');
         $this->setUser($user);
