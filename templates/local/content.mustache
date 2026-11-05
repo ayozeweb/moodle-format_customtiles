@@ -26,6 +26,8 @@
         "tokens": "--ct-primary:#1d4ed8",
         "layout": "tiles",
         "isindex": true,
+        "haslegend": true,
+        "legend": [{"code": "AF", "name": "Training activity", "style": "--ct-cat-bg:#1d4ed8;--ct-cat-fg:#ffffff"}],
         "showtiles": true,
         "hastiles": true,
         "tilecount": 1,
@@ -86,4 +88,20 @@
     {{^showtiles}}
         {{> core_courseformat/local/content }}
     {{/showtiles}}
+    {{#haslegend}}
+        <details class="ct-legend">
+            <summary>{{#str}} legendtitle, format_customtiles {{/str}}</summary>
+            <ul class="ct-legend__list" aria-label="{{#str}} legend, format_customtiles {{/str}}">
+                {{#legend}}
+                    <li>
+                        <span class="ct-catbadge" style="{{style}}">
+                            {{#hasicon}}<i class="fa-solid fa-{{icon}}" aria-hidden="true"></i>{{/hasicon}}
+                            {{code}}
+                        </span>
+                        {{name}}
+                    </li>
+                {{/legend}}
+            </ul>
+        </details>
+    {{/haslegend}}
 </div>

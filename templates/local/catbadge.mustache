@@ -1,0 +1,32 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template format_customtiles/local/catbadge
+
+    Activity category badge: code and icon, with the full name for assistive technology.
+
+    Example context (json):
+    {
+        "code": "AF", "name": "Training activity", "label": "Category: Training activity",
+        "style": "--ct-cat-bg:#1d4ed8;--ct-cat-fg:#ffffff", "hasicon": true, "icon": "book-open"
+    }
+}}
+<span class="ct-catbadge" style="{{style}}" title="{{name}}">
+    {{#hasicon}}<i class="fa-solid fa-{{icon}}" aria-hidden="true"></i>{{/hasicon}}
+    <span aria-hidden="true">{{code}}</span>
+    <span class="visually-hidden">{{label}}</span>
+</span>

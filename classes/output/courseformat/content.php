@@ -27,6 +27,7 @@ namespace format_customtiles\output\courseformat;
 use core_courseformat\output\local\content as content_base;
 use format_customtiles\local\course_data;
 use format_customtiles\local\layouts;
+use format_customtiles\local\section_style;
 use format_customtiles\local\skin;
 use renderer_base;
 
@@ -69,6 +70,13 @@ class content extends content_base {
         $data->tokens = skin::css_variables($skinid, $options['basecolor'] ?? '');
         $data->isindex = empty($data->hasnavigation);
         $data->coursename = format_string($course->fullname, true, ['context' => \context_course::instance($course->id)]);
+
+        $legend = [];
+        foreach (\format_customtiles\api::get_course_assignments((int)$course->id) as $category) {
+            $legend[$category['code']] = \format_customtiles\api::export_badge($category);
+        }
+        $data->legend = array_values($legend);
+        $data->haslegend = !empty($legend);
 
         if ($data->isindex) {
             $editing = $this->format->show_editor();
@@ -144,6 +152,12 @@ class content extends content_base {
             $pills[] = [
                 'icon' => 'fa-list-check',
                 'text' => get_string('nactivities', 'format_customtiles', $figures['activities']),
+            ];
+        }
+        if (!empty($figures['minutes'])) {
+            $pills[] = [
+                'icon' => 'fa-clock',
+                'text' => get_string('duration', 'format_customtiles', section_style::format_minutes($figures['minutes'])),
             ];
         }
         if (!empty($course->startdate)) {

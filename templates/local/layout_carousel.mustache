@@ -40,9 +40,9 @@
             <li class="ct-slide ct-item ct-slide--{{state}}{{#iscurrent}} ct-slide--current{{/iscurrent}}" data-section-id="{{id}}"
                 role="group" aria-roledescription="slide"
                 aria-label="{{#str}} slidex, format_customtiles, {"x": {{position}}, "n": {{tilecount}}} {{/str}}">
-                <div class="ct-slide__cover" aria-hidden="true">
-                    <span class="ct-slide__num">{{num}}</span>
-                </div>
+                <div class="ct-slide__cover{{#hascolor}} ct-has-color{{/hascolor}}" aria-hidden="true"{{#hascolor}} style="{{coverstyle}}"{{/hascolor}}>
+                {{> format_customtiles/local/cover }}
+            </div>
                 <div class="ct-slide__body">
                     {{> format_customtiles/local/tile_body }}
                 </div>

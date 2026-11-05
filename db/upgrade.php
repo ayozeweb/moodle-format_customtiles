@@ -29,5 +29,19 @@
  * @return bool
  */
 function xmldb_format_customtiles_upgrade($oldversion) {
+    global $DB;
+    $dbman = $DB->get_manager();
+
+    if ($oldversion < 2026110403) {
+        // Activity categories tables.
+        if (!$dbman->table_exists('format_customtiles_cat')) {
+            $dbman->install_one_table_from_xmldb_file(__DIR__ . '/install.xml', 'format_customtiles_cat');
+        }
+        if (!$dbman->table_exists('format_customtiles_cmcat')) {
+            $dbman->install_one_table_from_xmldb_file(__DIR__ . '/install.xml', 'format_customtiles_cmcat');
+        }
+        upgrade_plugin_savepoint(true, 2026110403, 'format', 'customtiles');
+    }
+
     return true;
 }

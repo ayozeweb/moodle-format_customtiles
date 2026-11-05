@@ -1,3 +1,31 @@
 <?xml version="1.0"?>
 <libraries>
+  <library>
+    <location>fonts/inter-latin-wght-normal.woff2</location>
+    <name>Inter (variable, latin)</name>
+    <version>5.x (fontsource)</version>
+    <license>OFL-1.1</license>
+    <licenseversion>1.1</licenseversion>
+  </library>
+  <library>
+    <location>fonts/inter-latin-ext-wght-normal.woff2</location>
+    <name>Inter (variable, latin-ext)</name>
+    <version>5.x (fontsource)</version>
+    <license>OFL-1.1</license>
+    <licenseversion>1.1</licenseversion>
+  </library>
+  <library>
+    <location>fonts/atkinson-hyperlegible-latin-400-normal.woff2</location>
+    <name>Atkinson Hyperlegible 400</name>
+    <version>5.x (fontsource)</version>
+    <license>OFL-1.1</license>
+    <licenseversion>1.1</licenseversion>
+  </library>
+  <library>
+    <location>fonts/atkinson-hyperlegible-latin-700-normal.woff2</location>
+    <name>Atkinson Hyperlegible 700</name>
+    <version>5.x (fontsource)</version>
+    <license>OFL-1.1</license>
+    <licenseversion>1.1</licenseversion>
+  </library>
 </libraries>

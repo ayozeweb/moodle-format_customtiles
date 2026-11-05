@@ -23,7 +23,7 @@
     {
         "name": "Section", "url": "#", "locked": false, "state": "inprogress",
         "statelabel": "In progress", "stateicon": "fa-circle-half-stroke",
-        "summary": "Summary", "activitieslabel": "3 activities", "hasprogress": true,
+        "subtitle": "Subtitle", "timelabel": "25 min", "summary": "Summary", "activitieslabel": "3 activities", "hasprogress": true,
         "percent": 33, "progresslabel": "1 of 3 completed", "reason": ""
     }
 }}
@@ -31,9 +31,10 @@
     {{#locked}}<span class="ct-item__name">{{{name}}}</span>{{/locked}}
     {{^locked}}<a class="ct-item__link" href="{{url}}">{{{name}}}</a>{{/locked}}
 </h3>
+{{#subtitle}}<p class="ct-item__subtitle">{{subtitle}}</p>{{/subtitle}}
 {{#summary}}<p class="ct-item__summary">{{summary}}</p>{{/summary}}
 {{#locked}}<div class="ct-item__reason">{{{reason}}}</div>{{/locked}}
-<p class="ct-item__meta">{{activitieslabel}}</p>
+<p class="ct-item__meta">{{activitieslabel}}{{#timelabel}} · <i class="fa-regular fa-clock" aria-hidden="true"></i> <span class="visually-hidden">{{#str}} estimatedtime, format_customtiles {{/str}}</span>{{timelabel}}{{/timelabel}}</p>
 {{#hasprogress}}
     <div class="ct-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100"
          aria-valuenow="{{percent}}" aria-label="{{progresslabel}}">

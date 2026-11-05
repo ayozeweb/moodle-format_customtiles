@@ -34,8 +34,8 @@
 <ul class="ct-tiles" data-for="ct_tiles">
     {{#tiles}}
         <li class="ct-tile ct-item ct-tile--{{state}}{{#iscurrent}} ct-tile--current{{/iscurrent}}" data-section-id="{{id}}">
-            <div class="ct-tile__cover" aria-hidden="true">
-                <span class="ct-tile__num">{{num}}</span>
+            <div class="ct-tile__cover{{#hascolor}} ct-has-color{{/hascolor}}" aria-hidden="true"{{#hascolor}} style="{{coverstyle}}"{{/hascolor}}>
+                {{> format_customtiles/local/cover }}
             </div>
             <div class="ct-tile__body">
                 {{> format_customtiles/local/tile_body }}

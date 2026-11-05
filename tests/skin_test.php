@@ -64,6 +64,40 @@ final class skin_test extends \advanced_testcase {
     }
 
     /**
+     * The high contrast skin reaches AAA (7:1) for text.
+     */
+    public function test_highcontrast_is_aaa(): void {
+        $t = skin::get_builtin()['highcontrast'];
+        foreach (['text', 'muted', 'primary', 'accent', 'success', 'warning', 'danger', 'info'] as $name) {
+            $this->assertGreaterThanOrEqual(7.0, color::contrast($t[$name], $t['surface']), $name);
+        }
+        $this->assertGreaterThanOrEqual(7.0, color::contrast($t['onprimary'], $t['primary']));
+    }
+
+    /**
+     * Administrator skins are parsed, validated and kept AA.
+     */
+    public function test_custom_skins(): void {
+        $this->resetAfterTest();
+        $raw = "ocean|Ocean|light|#ffff00\nbad line\nlight|Dup|light|#000000\nnight|Night|dark|#112233";
+        $parsed = skin::parse_custom($raw);
+        $this->assertSame(['ocean', 'night'], array_keys($parsed['skins']));
+        $this->assertCount(2, $parsed['errors']);
+        set_config('customskins', $raw, 'format_customtiles');
+        $all = skin::get_all();
+        $this->assertArrayHasKey('ocean', $all);
+        foreach (['ocean', 'night'] as $id) {
+            foreach (skin::contrast_pairs() as [$fg, $bg, $min]) {
+                if ($fg === 'border') {
+                    continue;
+                }
+                $this->assertGreaterThanOrEqual($min, color::contrast($all[$id][$fg], $all[$id][$bg]), "$id $fg/$bg");
+            }
+        }
+        $this->assertSame('Ocean', skin::get_options()['ocean']);
+    }
+
+    /**
      * A base colour without contrast is corrected; one with contrast is untouched.
      */
     public function test_palette_adjusts_low_contrast(): void {

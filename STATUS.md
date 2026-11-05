@@ -1,7 +1,7 @@
 # STATUS
 
 ## Hito actual
-Hitos 1, 2 y 3 cerrados → siguiente: Hito 4 (personalización por sección, presets, categorías).
+Hitos 1–4 cerrados → siguiente: Hito 5 (orientación, accesibilidad y rendimiento).
 
 ## Hecho
 - Plugin `format_customtiles` 0.1.0 ALPHA (Moodle 5.3, `requires 2026100200`), instala sin errores.
@@ -11,8 +11,13 @@ Hitos 1, 2 y 3 cerrados → siguiente: Hito 4 (personalización por sección, pr
 
 - **Hito 2**: hero (portada, título, resumen, píldoras, anillo de progreso, botón «Continuar»), rejilla Tiles (2 columnas a 360 px, container queries), estados con icono+texto (bloqueada con motivo, oculta, pendiente, en curso, completada, nueva), progreso por sección y global con caché MUC (`progress`, clave usuario_curso, invalidada por eventos de finalización y por `cacherev`). Sección enfocada = página de sección del core con transición `@view-transition`. Verificado sin scroll horizontal a 360/1280 px y en modo edición.
 - **Hito 3**: layouts Itinerario (`path`), Tarjetas (`cards`) y Carrusel (`carousel`, scroll-snap + botones + puntos + flechas de teclado, JS en `amd/src/carousel.js`), selector por curso y layout distinto en móvil (`layoutmobile`: se renderizan ambas variantes y se alterna por media query a 48rem). Cuerpo común en `templates/local/tile_body.mustache`. Verificado sin scroll horizontal a 360/768/1280.
+- **Hito 4**: 6 presets (Claro, Oscuro, Corporativo, Vibrante, Minimal, Alto contraste AAA) + temas extra del admin (`id|Nombre|preset|#color`, validado) con paleta accesible; fuentes locales OFL (Inter y Atkinson Hyperlegible, `fonts/`, `thirdpartylibs.xml`). Opciones por sección: portada (File API + variantes 480/960 con `srcset`), icono, color/degradado, subtítulo y tiempo estimado, con vista previa en vivo en el formulario de sección. Categorías de actividad (tablas `format_customtiles_cat`/`cmcat`, página de admin, preset SEPE, página de asignación del docente en el menú «Más», insignia con código+icono+nombre accesible, leyenda, API pública `\format_customtiles\api`). Backup/restore de opciones, portadas y categorías (por código). Tests: 22 PHPUnit en verde, phpcs limpio.
 
 ## Decisiones
+- **Recorte de portada**: no hay recortador interactivo; la imagen se recorta con `object-fit: cover` centrada a la proporción del layout (se avisa en la ayuda del campo).
+- **Insignia de categoría en `afterlink`**: la plantilla `cm` del core no ofrece hueco para formatos y sobrescribir la cadena de bloques es frágil.
+- **Restauración de categorías**: se hace en `after_restore_course()` (ya con las actividades restauradas) emparejando por código de categoría.
+- **Sin WebP/AVIF**: Moodle no los genera desde la File API; se sirven variantes redimensionadas en el formato original.
 - **AMD build**: `npm ci` del core está bloqueado por la red del sandbox (403), así que `amd/build/*.min.js` se genera con `/home/user/tools/build-amd.js` (babel AMD + terser), una aproximación a `grunt amd`; conviene regenerarlo con grunt en un entorno con red.
 - **«Continuar»**: la última actividad visitada se guarda como preferencia de usuario (hook `before_http_headers`), con Privacy API `user_preference_provider`; si está completada salta a la siguiente pendiente. Sin tabla propia.
 - **Contenedores de consulta** (`container-type`) solo en `.ct-herowrap` y `.ct-main`, no en `.ct-root`, para no crear bloque contenedor de elementos `position: fixed` del modo edición.

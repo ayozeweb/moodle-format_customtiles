@@ -262,7 +262,11 @@ class course_data {
                 ),
                 'iscurrent' => $marker > 0 && $marker === (int)$num,
                 'visible' => (bool)$section->visible,
-            ];
+            ] + section_style::export($section, (int)$this->course->id);
+            if ($locked) {
+                $item['hascolor'] = false;
+                $item['hascover'] = false;
+            }
             $out[] = $item;
         }
         return $out;
@@ -384,9 +388,16 @@ class course_data {
                 $sections++;
             }
         }
+        $minutes = 0;
+        foreach ($this->modinfo->get_listed_section_info_all() as $num => $section) {
+            if ($num > 0 && $this->format->is_section_visible($section) && $section->uservisible) {
+                $minutes += max(0, (int)($section->ct_minutes ?? 0));
+            }
+        }
         return [
             'sections' => $sections,
             'activities' => count($progress['all']),
+            'minutes' => $minutes,
         ];
     }
 }
