@@ -18,7 +18,7 @@
  * Context information: "Module 2 · UF 3 · Activity 4 of 9".
  *
  * @package    format_customtiles
- * @copyright  2026 Ayoze
+ * @copyright  2026 ayozeweb (https://github.com/ayozeweb)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -28,7 +28,7 @@ namespace format_customtiles\local;
  * Builds the orientation line shown on course, section and activity pages.
  *
  * @package    format_customtiles
- * @copyright  2026 Ayoze
+ * @copyright  2026 ayozeweb (https://github.com/ayozeweb)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class context_info {

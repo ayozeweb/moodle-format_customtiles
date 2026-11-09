@@ -18,7 +18,7 @@
  * Visual skins (design token presets).
  *
  * @package    format_customtiles
- * @copyright  2026 Ayoze
+ * @copyright  2026 ayozeweb (https://github.com/ayozeweb)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -29,7 +29,7 @@ namespace format_customtiles\local;
  * are shared and defined in SCSS. Tokens are exposed as CSS variables under the --ct- namespace.
  *
  * @package    format_customtiles
- * @copyright  2026 Ayoze
+ * @copyright  2026 ayozeweb (https://github.com/ayozeweb)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class skin {

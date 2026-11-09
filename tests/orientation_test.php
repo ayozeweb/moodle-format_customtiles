@@ -18,7 +18,7 @@
  * Tests for the orientation features (context line, course map, skip link, logos).
  *
  * @package    format_customtiles
- * @copyright  2026 Ayoze
+ * @copyright  2026 ayozeweb (https://github.com/ayozeweb)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -31,7 +31,7 @@ use format_customtiles\local\course_map;
  * Orientation tests.
  *
  * @package    format_customtiles
- * @copyright  2026 Ayoze
+ * @copyright  2026 ayozeweb (https://github.com/ayozeweb)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @covers     \format_customtiles\local\context_info
  * @covers     \format_customtiles\local\course_map

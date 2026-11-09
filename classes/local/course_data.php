@@ -18,7 +18,7 @@
  * Data model of the course page: sections, progress, states and the "continue" target.
  *
  * @package    format_customtiles
- * @copyright  2026 Ayoze
+ * @copyright  2026 ayozeweb (https://github.com/ayozeweb)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -33,7 +33,7 @@ use core_courseformat\base as format_base;
  * events and by the course cache revision, so painting the course issues no per-section queries.
  *
  * @package    format_customtiles
- * @copyright  2026 Ayoze
+ * @copyright  2026 ayozeweb (https://github.com/ayozeweb)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class course_data {

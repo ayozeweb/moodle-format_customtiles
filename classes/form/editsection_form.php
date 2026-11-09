@@ -18,7 +18,7 @@
  * Section edit form with cover image preparation.
  *
  * @package    format_customtiles
- * @copyright  2026 Ayoze
+ * @copyright  2026 ayozeweb (https://github.com/ayozeweb)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -35,7 +35,7 @@ use format_customtiles\local\section_style;
  * Prepares the cover filemanager draft area.
  *
  * @package    format_customtiles
- * @copyright  2026 Ayoze
+ * @copyright  2026 ayozeweb (https://github.com/ayozeweb)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class editsection_form extends \editsection_form {

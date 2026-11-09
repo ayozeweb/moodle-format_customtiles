@@ -17,7 +17,7 @@
  * Live preview of a section tile in the section edit form.
  *
  * @module     format_customtiles/sectionpreview
- * @copyright  2026 Ayoze
+ * @copyright  2026 ayozeweb (https://github.com/ayozeweb)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 

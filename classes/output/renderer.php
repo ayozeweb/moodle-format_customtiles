@@ -18,7 +18,7 @@
  * Renderer for format_customtiles.
  *
  * @package    format_customtiles
- * @copyright  2026 Ayoze
+ * @copyright  2026 ayozeweb (https://github.com/ayozeweb)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -31,7 +31,7 @@ use moodle_page;
  * Basic renderer for the format.
  *
  * @package    format_customtiles
- * @copyright  2026 Ayoze
+ * @copyright  2026 ayozeweb (https://github.com/ayozeweb)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class renderer extends section_renderer {
@@ -66,5 +66,25 @@ class renderer extends section_renderer {
      */
     public function section_title_without_link($section, $course) {
         return $this->render(course_get_format($course)->inplace_editable_render_section_name($section, false));
+    }
+
+    /**
+     * Administration page listing the activity categories.
+     *
+     * @param array $data template data
+     * @return string
+     */
+    public function render_admin_categories(array $data): string {
+        return $this->render_from_template('format_customtiles/local/admin_categories', $data);
+    }
+
+    /**
+     * Teacher page to assign a category to each activity.
+     *
+     * @param array $data template data
+     * @return string
+     */
+    public function render_assign_categories(array $data): string {
+        return $this->render_from_template('format_customtiles/local/assign_categories', $data);
     }
 }

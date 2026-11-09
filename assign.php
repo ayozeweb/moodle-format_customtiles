@@ -18,12 +18,13 @@
  * Teacher page: assign a category to each activity of the course.
  *
  * @package    format_customtiles
- * @copyright  2026 Ayoze
+ * @copyright  2026 ayozeweb (https://github.com/ayozeweb)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 require_once(__DIR__ . '/../../../config.php');
 
+use core\output\notification;
 use format_customtiles\api;
 
 $courseid = required_param('id', PARAM_INT);
@@ -53,47 +54,40 @@ if ($categories && data_submitted() && confirm_sesskey()) {
             api::set_activity_category($courseid, (int)$cm->id, $value ?: null);
         }
     }
-    redirect($url, get_string('categorysavedall', 'format_customtiles'), null, \core\output\notification::NOTIFY_SUCCESS);
+    redirect($url, get_string('categorysavedall', 'format_customtiles'), null, notification::NOTIFY_SUCCESS);
 }
 
-echo $OUTPUT->header();
-echo $OUTPUT->heading(get_string('assigncategories', 'format_customtiles'));
-if (!$categories) {
-    echo $OUTPUT->notification(get_string('nocategoriesadmin', 'format_customtiles'), 'info');
-    echo $OUTPUT->footer();
-    exit;
-}
-echo html_writer::tag('p', get_string('assigncategories_intro', 'format_customtiles'));
-$options = [0 => get_string('nocategory', 'format_customtiles')];
-foreach ($categories as $cat) {
-    $options[$cat->id] = $cat->code . ' · ' . format_string($cat->name);
-}
-echo html_writer::start_tag('form', ['method' => 'post', 'action' => $url->out(false)]);
-echo html_writer::empty_tag('input', ['type' => 'hidden', 'name' => 'sesskey', 'value' => sesskey()]);
+$sections = [];
 foreach ($modinfo->get_section_info_all() as $num => $section) {
-    $cmids = $modinfo->sections[$num] ?? [];
-    if (!$cmids) {
-        continue;
-    }
-    echo html_writer::tag('h3', get_section_name($course, $section), ['class' => 'h5 mt-4']);
-    foreach ($cmids as $cmid) {
+    $activities = [];
+    foreach ($modinfo->sections[$num] ?? [] as $cmid) {
         $cm = $modinfo->cms[$cmid];
         if (!$cm->url) {
             continue;
         }
         $selected = $assigned[$cmid]['id'] ?? 0;
-        echo html_writer::start_div('row align-items-center mb-2');
-        echo html_writer::tag('label', $cm->get_formatted_name(), ['for' => 'cat_' . $cmid, 'class' => 'col-md-6 col-form-label']);
-        echo html_writer::div(html_writer::select(
-            $options,
-            'cat_' . $cmid,
-            $selected,
-            false,
-            ['id' => 'cat_' . $cmid, 'class' => 'form-select']
-        ), 'col-md-6');
-        echo html_writer::end_div();
+        $options = [['value' => 0, 'label' => get_string('nocategory', 'format_customtiles'), 'selected' => $selected === 0]];
+        foreach ($categories as $category) {
+            $options[] = [
+                'value' => (int)$category->id,
+                'label' => $category->code . ' · ' . format_string($category->name),
+                'selected' => $selected === (int)$category->id,
+            ];
+        }
+        $activities[] = ['id' => (int)$cmid, 'name' => $cm->get_formatted_name(), 'options' => $options];
+    }
+    if ($activities) {
+        $sections[] = ['name' => get_section_name($course, $section), 'activities' => $activities];
     }
 }
-echo html_writer::empty_tag('input', ['type' => 'submit', 'class' => 'btn btn-primary mt-3', 'value' => get_string('savechanges')]);
-echo html_writer::end_tag('form');
+
+echo $OUTPUT->header();
+echo $OUTPUT->heading(get_string('assigncategories', 'format_customtiles'));
+echo $PAGE->get_renderer('format_customtiles')->render_assign_categories([
+    'hascategories' => !empty($categories),
+    'intro' => get_string('assigncategories_intro', 'format_customtiles'),
+    'formurl' => $url->out(false),
+    'sesskey' => sesskey(),
+    'sections' => $sections,
+]);
 echo $OUTPUT->footer();

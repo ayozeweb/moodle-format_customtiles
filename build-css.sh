@@ -1,4 +1,5 @@
 #!/bin/sh
+# This file is part of Moodle - http://moodle.org/ - GNU GPL v3 or later (see LICENSE).
 # Compile scss/ into styles.css (Moodle plugins ship plain CSS) and format it with Moodle's own stylelint
 # configuration (4-space indentation, at-rule spacing). Needs `npm install` once in this directory and, for the
 # formatting step, a Moodle checkout with its node_modules: set MOODLE_DIR (defaults to ../../../.. when the

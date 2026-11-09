@@ -18,7 +18,7 @@
  * English strings for format_customtiles.
  *
  * @package    format_customtiles
- * @copyright  2026 Ayoze
+ * @copyright  2026 ayozeweb (https://github.com/ayozeweb)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -44,13 +44,12 @@ $string['categorysavedall'] = 'Categories saved.';
 $string['caticon'] = 'Icon';
 $string['catname'] = 'Name';
 $string['codeexists'] = 'This code is already in use.';
-$string['confirmdeletecat'] = 'Delete this category and its assignments?';
+$string['confirmdeletecat'] = 'Delete the category {$a} and remove it from all activities?';
 $string['contextinfo'] = 'Where you are';
 $string['continue'] = 'Continue where you left off';
 $string['contrastadjusted'] = 'The colour was adjusted to reach AA contrast.';
 $string['coursecontext'] = 'Course information';
 $string['coursemap'] = 'Course map';
-$string['courseprogress'] = 'Course progress';
 $string['customskins'] = 'Additional visual themes';
 $string['customskins_desc'] = 'One theme per line: <code>id|Name|base preset|#colour</code>, for example <code>ocean|Ocean|light|#0e7490</code>. The accent colour is adjusted automatically to keep WCAG AA contrast. Base presets: light, dark, corporate, vibrant, minimal, highcontrast.';
 $string['customskinsbadline'] = 'Line {$a} is not valid (expected id|Name|base preset|#colour, unique id of 2-20 lowercase letters, digits or underscores).';
@@ -104,7 +103,6 @@ $string['nextslide'] = 'Next section';
 $string['nocategories'] = 'No categories yet.';
 $string['nocategoriesadmin'] = 'There are no categories defined. Ask the site administrator to create them.';
 $string['nocategory'] = 'No category';
-$string['nosummary'] = 'No description';
 $string['nsections'] = '{$a} sections';
 $string['oneactivity'] = '1 activity';
 $string['onesection'] = '1 section';
@@ -123,7 +121,6 @@ $string['sectioncolor_help'] = 'Hex colour (for example #1d4ed8) used as the sec
 $string['sectioncover'] = 'Cover image';
 $string['sectioncover_help'] = 'Image shown on the section tile. It is cropped to the proportion of the layout (centred), so use a landscape image.';
 $string['sectionicon'] = 'Icon';
-$string['sectionlocked'] = 'Not available yet';
 $string['sectionminutes'] = 'Estimated time (minutes)';
 $string['sectionminutes_help'] = 'Estimated minutes to complete the section. The course total is shown in the header.';
 $string['sectionname'] = 'Section';
@@ -155,4 +152,3 @@ $string['state_inprogress'] = 'In progress';
 $string['state_locked'] = 'Locked';
 $string['state_new'] = 'New';
 $string['state_pending'] = 'Not started';
-$string['stepx'] = 'Step {$a}';

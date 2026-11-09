@@ -18,7 +18,7 @@
  * Spanish strings for format_customtiles.
  *
  * @package    format_customtiles
- * @copyright  2026 Ayoze
+ * @copyright  2026 ayozeweb (https://github.com/ayozeweb)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -44,13 +44,12 @@ $string['categorysavedall'] = 'Categorías guardadas.';
 $string['caticon'] = 'Icono';
 $string['catname'] = 'Nombre';
 $string['codeexists'] = 'Este código ya está en uso.';
-$string['confirmdeletecat'] = '¿Eliminar esta categoría y sus asignaciones?';
+$string['confirmdeletecat'] = '¿Eliminar la categoría {$a} y quitarla de todas las actividades?';
 $string['contextinfo'] = 'Dónde estás';
 $string['continue'] = 'Continuar donde lo dejaste';
 $string['contrastadjusted'] = 'El color se ha ajustado para alcanzar el contraste AA.';
 $string['coursecontext'] = 'Información del curso';
 $string['coursemap'] = 'Mapa del curso';
-$string['courseprogress'] = 'Progreso del curso';
 $string['customskins'] = 'Temas visuales adicionales';
 $string['customskins_desc'] = 'Un tema por línea: <code>id|Nombre|preset base|#color</code>, por ejemplo <code>ocean|Océano|light|#0e7490</code>. El color de acento se ajusta automáticamente para mantener el contraste WCAG AA. Presets base: light, dark, corporate, vibrant, minimal, highcontrast.';
 $string['customskinsbadline'] = 'La línea {$a} no es válida (se espera id|Nombre|preset base|#color, con un id único de 2-20 minúsculas, dígitos o guion bajo).';
@@ -104,7 +103,6 @@ $string['nextslide'] = 'Sección siguiente';
 $string['nocategories'] = 'Aún no hay categorías.';
 $string['nocategoriesadmin'] = 'No hay categorías definidas. Pide al administrador del sitio que las cree.';
 $string['nocategory'] = 'Sin categoría';
-$string['nosummary'] = 'Sin descripción';
 $string['nsections'] = '{$a} secciones';
 $string['oneactivity'] = '1 actividad';
 $string['onesection'] = '1 sección';
@@ -123,7 +121,6 @@ $string['sectioncolor_help'] = 'Color hexadecimal (por ejemplo #1d4ed8) usado co
 $string['sectioncover'] = 'Imagen de portada';
 $string['sectioncover_help'] = 'Imagen que se muestra en la sección. Se recorta (centrada) a la proporción del diseño, así que usa una imagen apaisada.';
 $string['sectionicon'] = 'Icono';
-$string['sectionlocked'] = 'Aún no disponible';
 $string['sectionminutes'] = 'Tiempo estimado (minutos)';
 $string['sectionminutes_help'] = 'Minutos estimados para completar la sección. El total del curso se muestra en la cabecera.';
 $string['sectionname'] = 'Sección';
@@ -155,4 +152,3 @@ $string['state_inprogress'] = 'En curso';
 $string['state_locked'] = 'Bloqueada';
 $string['state_new'] = 'Nueva';
 $string['state_pending'] = 'Sin empezar';
-$string['stepx'] = 'Paso {$a}';
