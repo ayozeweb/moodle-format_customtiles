@@ -131,4 +131,15 @@ final class orientation_test extends \advanced_testcase {
         $this->assertTrue($data->haslogos);
         $this->assertSame('Funder', $data->logos[0]['alt']);
     }
+
+    /**
+     * Counts use singular and plural strings.
+     */
+    public function test_plurals(): void {
+        $this->assertSame('1 activity', \format_customtiles\local\plural::activities(1));
+        $this->assertSame('0 activities', \format_customtiles\local\plural::activities(0));
+        $this->assertSame('3 activities', \format_customtiles\local\plural::activities(3));
+        $this->assertSame('1 section', \format_customtiles\local\plural::sections(1));
+        $this->assertSame('6 sections', \format_customtiles\local\plural::sections(6));
+    }
 }

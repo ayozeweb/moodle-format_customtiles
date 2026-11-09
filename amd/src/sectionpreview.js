@@ -21,6 +21,8 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+import {getString} from 'core/str';
+
 const HEX = /^#?([0-9a-f]{3}|[0-9a-f]{6})$/i;
 
 /**
@@ -76,7 +78,16 @@ export const init = () => {
         title.textContent = (name && name.value) || (name && name.placeholder) || '';
         subtitle.textContent = field('ct_subtitle').value;
         const minutes = parseInt(field('ct_minutes').value, 10);
-        time.textContent = minutes > 0 ? '~' + minutes + ' min' : '';
+        if (minutes > 0) {
+            getString('minutesshort', 'format_customtiles', minutes).then((text) => {
+                time.textContent = '~' + text;
+                return text;
+            }).catch(() => {
+                time.textContent = '';
+            });
+        } else {
+            time.textContent = '';
+        }
         const iconName = field('ct_icon').value;
         icon.className = 'fa-solid ct-tile__icon' + (iconName ? ' fa-' + iconName : '');
         const c1 = normalise(field('ct_color').value);

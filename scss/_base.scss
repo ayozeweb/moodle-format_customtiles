@@ -15,9 +15,9 @@
   .ct-root *,
   .ct-root *::before,
   .ct-root *::after {
-    animation-duration: .001ms;
+    animation-duration: 0s;
     animation-iteration-count: 1;
-    transition-duration: .001ms;
+    transition-duration: 0s;
     scroll-behavior: auto;
   }
 }

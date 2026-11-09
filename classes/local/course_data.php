@@ -250,7 +250,7 @@ class course_data {
                 'reason' => $locked ? (string)$section->availableinfo : '',
                 'summary' => $locked ? '' : $this->excerpt($section, $context),
                 'activities' => $row['activities'],
-                'activitieslabel' => get_string('nactivities', 'format_customtiles', $row['activities']),
+                'activitieslabel' => plural::activities((int)$row['activities']),
                 'hasprogress' => $percent !== null,
                 'done' => $row['done'],
                 'tracked' => $row['tracked'],

@@ -1,4 +1,5 @@
 // Local fonts (SIL OFL 1.1), never from a CDN. [[font:...]] is resolved by Moodle's CSS processor.
+/* stylelint-disable max-line-length */
 @font-face {
   font-family: "CT Inter";
   font-style: normal;
@@ -32,3 +33,4 @@
   font-display: swap;
   src: url("[[font:format_customtiles|atkinson-hyperlegible-latin-700-normal.woff2]]") format("woff2");
 }
+/* stylelint-enable max-line-length */

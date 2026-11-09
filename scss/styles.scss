@@ -1,4 +1,7 @@
 // format_customtiles: tokens -> base -> components -> layouts.
+/* Modern CSS (container queries, view transitions, clamp()/min()) is unknown to the
+   csstree version bundled with Moodle's stylelint. */
+/* stylelint-disable csstree/validator, property-no-unknown */
 @use "fonts";
 @use "tokens";
 @use "base";

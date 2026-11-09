@@ -427,6 +427,7 @@ class format_customtiles extends core_courseformat\base {
             '<p class="ct-item__meta" data-region="subtitle"></p>' .
             '<p class="ct-item__meta" data-region="time"></p></div></div></div>'
         );
+        $PAGE->requires->strings_for_js(['minutesshort'], 'format_customtiles');
         $PAGE->requires->js_call_amd('format_customtiles/sectionpreview', 'init');
         return $elements;
     }

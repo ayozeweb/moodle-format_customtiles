@@ -17,9 +17,13 @@
   aspect-ratio: 16 / 7;
   inline-size: 100%;
   max-block-size: 11rem;
-  background:
-    radial-gradient(120% 140% at 100% 0%, color-mix(in srgb, var(--ct-accent) 55%, transparent), transparent 60%),
-    linear-gradient(135deg, var(--ct-primary), color-mix(in srgb, var(--ct-primary) 45%, var(--ct-accent)));
+  --ct-glow: color-mix(in srgb, var(--ct-accent) 55%, transparent);
+  --ct-hero-end: color-mix(in srgb, var(--ct-primary) 45%, var(--ct-accent));
+
+  --ct-hero-glow: radial-gradient(120% 140% at 100% 0%, var(--ct-glow), transparent 60%);
+  --ct-hero-base: linear-gradient(135deg, var(--ct-primary), var(--ct-hero-end));
+
+  background: var(--ct-hero-glow), var(--ct-hero-base);
 
   img {
     display: block;

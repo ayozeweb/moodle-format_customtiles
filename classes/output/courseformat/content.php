@@ -186,13 +186,13 @@ class content extends content_base {
         if ($figures['sections']) {
             $pills[] = [
                 'icon' => 'fa-layer-group',
-                'text' => get_string('nmodules', 'format_customtiles', $figures['sections']),
+                'text' => \format_customtiles\local\plural::sections((int)$figures['sections']),
             ];
         }
         if ($figures['activities']) {
             $pills[] = [
                 'icon' => 'fa-list-check',
-                'text' => get_string('nactivities', 'format_customtiles', $figures['activities']),
+                'text' => \format_customtiles\local\plural::activities((int)$figures['activities']),
             ];
         }
         if (!empty($figures['minutes'])) {

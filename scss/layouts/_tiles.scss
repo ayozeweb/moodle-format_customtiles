@@ -65,7 +65,9 @@
 
   .ct-tile--locked & {
     background: var(--ct-surface2);
-    background-image: repeating-linear-gradient(45deg, transparent 0 8px, color-mix(in srgb, var(--ct-border) 25%, transparent) 8px 16px);
+    --ct-hatch: color-mix(in srgb, var(--ct-border) 25%, transparent);
+
+    background-image: repeating-linear-gradient(45deg, transparent 0 8px, var(--ct-hatch) 8px 16px);
     color: var(--ct-muted);
   }
 }

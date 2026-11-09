@@ -62,7 +62,7 @@ class context_info {
         $parts = self::section_trail($format, $section);
         $count = count(self::activities_of($format, $section));
         if ($count) {
-            $parts[] = get_string('nactivities', 'format_customtiles', $count);
+            $parts[] = plural::activities($count);
         }
         return $parts;
     }

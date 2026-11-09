@@ -34,7 +34,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
-          extensions: ${{ matrix.extensions }}
+          extensions: sodium
           ini-values: max_input_vars=5000
           coverage: none
 
@@ -67,6 +67,10 @@ jobs:
       - name: PHP Code Sniffer (moodle standard)
         if: ${{ !cancelled() }}
         run: moodle-plugin-ci phpcs --max-warnings 0
+
+      - name: Grunt (AMD build must match amd/src; lint JS and CSS)
+        if: ${{ !cancelled() }}
+        run: moodle-plugin-ci grunt --max-lint-warnings 0
 
       - name: PHPDoc Checker
         if: ${{ !cancelled() }}

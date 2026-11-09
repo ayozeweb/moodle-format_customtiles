@@ -22,7 +22,10 @@ Hitos 1–6 cerrados. Extras: layouts Bento y Lista compacta hechos (axe limpio)
 - **Insignia de categoría en `afterlink`**: la plantilla `cm` del core no ofrece hueco para formatos y sobrescribir la cadena de bloques es frágil.
 - **Restauración de categorías**: se hace en `after_restore_course()` (ya con las actividades restauradas) emparejando por código de categoría.
 - **Sin WebP/AVIF**: Moodle no los genera desde la File API; se sirven variantes redimensionadas en el formato original.
-- **AMD build**: `npm ci` del core está bloqueado por la red del sandbox (403), así que `amd/build/*.min.js` se genera con `/home/user/tools/build-amd.js` (babel AMD + terser), una aproximación a `grunt amd`; conviene regenerarlo con grunt en un entorno con red.
+- **AMD build**: `amd/build/*.min.js` se genera ya con el `grunt amd` real del core (ESLint + rollup/babel con las versiones fijadas del shrinkwrap). En el sandbox hubo que instalar las dependencias de Node del core sin `shifter` e `istanbul` (tarballs de GitHub bloqueados); no afectan a `amd`.
+- **CSS**: `styles.css` se formatea con el stylelint de Moodle (`build-css.sh`, 4 espacios) y pasa sin errores. Se desactivan solo `csstree/validator` y `property-no-unknown` en el SCSS, porque el validador del core no conoce container queries ni `@view-transition`.
+- **Plurales**: cadenas separadas singular/plural (`oneactivity`/`nactivities`, `onesection`/`nsections`) mediante `local\plural`.
+- **CI**: añadido el paso `moodle-plugin-ci grunt` y corregida la variable `extensions` inexistente.
 - **«Continuar»**: la última actividad visitada se guarda como preferencia de usuario (hook `before_http_headers`), con Privacy API `user_preference_provider`; si está completada salta a la siguiente pendiente. Sin tabla propia.
 - **Contenedores de consulta** (`container-type`) solo en `.ct-herowrap` y `.ct-main`, no en `.ct-root`, para no crear bloque contenedor de elementos `position: fixed` del modo edición.
 - Título del hero duplica el H1 del tema (requisito del brief); queda como `h2`.
