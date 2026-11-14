@@ -14,80 +14,80 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 // Tiles layout: responsive grid, 2 columns from 360 px.
-.ct-main {
-  container: ct-main / inline-size;
+.fct-main {
+  container: fct-main / inline-size;
 }
 
-.ct-tiles {
+.fct-tiles {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(min(100%, 9.5rem), 1fr));
-  gap: var(--ct-space-3);
+  gap: var(--fct-space-3);
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-.ct-tile {
+.fct-tile {
   position: relative;
   display: flex;
   flex-direction: column;
   min-inline-size: 0;
-  border-radius: var(--ct-radius);
-  background: var(--ct-surface);
-  box-shadow: var(--ct-shadow-1);
+  border-radius: var(--fct-radius);
+  background: var(--fct-surface);
+  box-shadow: var(--fct-shadow-1);
   overflow: hidden;
-  transition: transform var(--ct-dur) var(--ct-ease), box-shadow var(--ct-dur) var(--ct-ease);
+  transition: transform var(--fct-dur) var(--fct-ease), box-shadow var(--fct-dur) var(--fct-ease);
 
   &:hover,
   &:focus-within {
-    box-shadow: var(--ct-shadow-2);
+    box-shadow: var(--fct-shadow-2);
     transform: translateY(-2px);
   }
 
   &:focus-within {
-    outline: var(--ct-focus);
+    outline: var(--fct-focus);
     outline-offset: 2px;
   }
 
   &--current {
-    box-shadow: 0 0 0 2px var(--ct-primary), var(--ct-shadow-1);
+    box-shadow: 0 0 0 2px var(--fct-primary), var(--fct-shadow-1);
   }
 
   &--locked {
-    background: var(--ct-surface2);
+    background: var(--fct-surface2);
   }
 }
 
-.ct-tile__cover {
+.fct-tile__cover {
   display: grid;
   place-items: center;
   aspect-ratio: 16 / 10;
-  background: linear-gradient(135deg, var(--ct-primary), color-mix(in srgb, var(--ct-primary) 40%, var(--ct-accent)));
-  color: var(--ct-onprimary);
+  background: linear-gradient(135deg, var(--fct-primary), color-mix(in srgb, var(--fct-primary) 40%, var(--fct-accent)));
+  color: var(--fct-onprimary);
   view-transition-name: none;
 
-  .ct-tile:nth-child(4n + 2) & {
-    background: linear-gradient(135deg, color-mix(in srgb, var(--ct-primary) 70%, var(--ct-accent)), var(--ct-accent));
+  .fct-tile:nth-child(4n + 2) & {
+    background: linear-gradient(135deg, color-mix(in srgb, var(--fct-primary) 70%, var(--fct-accent)), var(--fct-accent));
   }
 
-  .ct-tile:nth-child(4n + 3) & {
-    background: linear-gradient(135deg, var(--ct-accent), color-mix(in srgb, var(--ct-accent) 55%, var(--ct-primary)));
+  .fct-tile:nth-child(4n + 3) & {
+    background: linear-gradient(135deg, var(--fct-accent), color-mix(in srgb, var(--fct-accent) 55%, var(--fct-primary)));
   }
 
-  .ct-tile:nth-child(4n) & {
-    background: linear-gradient(135deg, color-mix(in srgb, var(--ct-primary) 55%, var(--ct-text)), var(--ct-primary));
+  .fct-tile:nth-child(4n) & {
+    background: linear-gradient(135deg, color-mix(in srgb, var(--fct-primary) 55%, var(--fct-text)), var(--fct-primary));
   }
 
-  .ct-tile--locked & {
-    background: var(--ct-surface2);
-    --ct-hatch: color-mix(in srgb, var(--ct-border) 25%, transparent);
+  .fct-tile--locked & {
+    background: var(--fct-surface2);
+    --fct-hatch: color-mix(in srgb, var(--fct-border) 25%, transparent);
 
-    background-image: repeating-linear-gradient(45deg, transparent 0 8px, var(--ct-hatch) 8px 16px);
-    color: var(--ct-muted);
+    background-image: repeating-linear-gradient(45deg, transparent 0 8px, var(--fct-hatch) 8px 16px);
+    color: var(--fct-muted);
   }
 }
 
-.ct-tile__num {
+.fct-tile__num {
   font-size: 2rem;
   font-weight: 800;
   line-height: 1;
@@ -95,23 +95,23 @@
 }
 
 
-@container ct-main (min-width: 37.5rem) {
-  .ct-tiles {
+@container fct-main (min-width: 37.5rem) {
+  .fct-tiles {
     grid-template-columns: repeat(auto-fill, minmax(min(100%, 14rem), 1fr));
   }
 
 }
 
-@container ct-main (min-width: 64rem) {
-  .ct-tiles {
+@container fct-main (min-width: 64rem) {
+  .fct-tiles {
     grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr));
-    gap: var(--ct-space-4);
+    gap: var(--fct-space-4);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ct-tile:hover,
-  .ct-tile:focus-within {
+  .fct-tile:hover,
+  .fct-tile:focus-within {
     transform: none;
   }
 }
@@ -123,20 +123,20 @@
   }
 
   ::view-transition-old(root) {
-    animation: ct-fade-out .15s ease both;
+    animation: fct-fade-out .15s ease both;
   }
 
   ::view-transition-new(root) {
-    animation: ct-fade-in .25s ease both;
+    animation: fct-fade-in .25s ease both;
   }
 
-  @keyframes ct-fade-out {
+  @keyframes fct-fade-out {
     to {
       opacity: 0;
     }
   }
 
-  @keyframes ct-fade-in {
+  @keyframes fct-fade-in {
     from {
       opacity: 0;
     }

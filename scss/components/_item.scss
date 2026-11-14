@@ -14,34 +14,34 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 // Shared section item body (used by tiles, cards, path and carousel).
-.ct-item {
+.fct-item {
   position: relative;
   min-inline-size: 0;
 }
 
-.ct-tile__body,
-.ct-card__body,
-.ct-step__card,
-.ct-slide__body {
+.fct-tile__body,
+.fct-card__body,
+.fct-step__card,
+.fct-slide__body {
   display: flex;
   flex: 1;
   flex-direction: column;
-  gap: var(--ct-space-2);
-  padding: var(--ct-space-3);
+  gap: var(--fct-space-2);
+  padding: var(--fct-space-3);
   min-inline-size: 0;
 }
 
-.ct-item__title {
+.fct-item__title {
   margin: 0;
-  font-family: var(--ct-font-heading);
+  font-family: var(--fct-font-heading);
   font-size: 1rem;
   font-weight: 700;
   line-height: 1.3;
   overflow-wrap: anywhere;
 }
 
-.ct-item__link {
-  color: var(--ct-text);
+.fct-item__link {
+  color: var(--fct-text);
   text-decoration: none;
 
   // The whole item is the touch target.
@@ -52,7 +52,7 @@
   }
 
   &:hover {
-    color: var(--ct-primary);
+    color: var(--fct-primary);
     text-decoration: underline;
   }
 
@@ -61,53 +61,53 @@
   }
 }
 
-.ct-item__name {
-  color: var(--ct-muted);
+.fct-item__name {
+  color: var(--fct-muted);
 }
 
-.ct-item__summary {
+.fct-item__summary {
   display: none;
   margin: 0;
-  color: var(--ct-muted);
+  color: var(--fct-muted);
   font-size: .9375rem;
 }
 
-.ct-item__meta {
+.fct-item__meta {
   margin: 0;
-  color: var(--ct-muted);
+  color: var(--fct-muted);
   font-size: .875rem;
 }
 
-.ct-item__reason {
-  color: var(--ct-muted);
+.fct-item__reason {
+  color: var(--fct-muted);
   font-size: .875rem;
 }
 
-.ct-item .ct-state {
+.fct-item .fct-state {
   margin-block-start: auto;
 }
 
-.ct-item:focus-within {
-  outline: var(--ct-focus);
+.fct-item:focus-within {
+  outline: var(--fct-focus);
   outline-offset: 2px;
 }
 
 // Icon button (carousel controls). 44 px touch target.
-.ct-iconbtn {
+.fct-iconbtn {
   flex: none;
   display: inline-grid;
   place-items: center;
-  inline-size: var(--ct-touch);
-  block-size: var(--ct-touch);
+  inline-size: var(--fct-touch);
+  block-size: var(--fct-touch);
   padding: 0;
-  border: 1px solid var(--ct-border);
+  border: 1px solid var(--fct-border);
   border-radius: 999px;
-  background: var(--ct-surface);
-  color: var(--ct-text);
+  background: var(--fct-surface);
+  color: var(--fct-text);
   cursor: pointer;
 
   &:hover:not(:disabled) {
-    background: var(--ct-surface2);
+    background: var(--fct-surface2);
   }
 
   &:disabled {
@@ -118,13 +118,13 @@
 
 // Layout variants: when a different layout is chosen for mobile, show one or the other.
 @media (max-width: 47.99rem) {
-  .ct-variant--desktop {
+  .fct-variant--desktop {
     display: none;
   }
 }
 
 @media (min-width: 48rem) {
-  .ct-variant--mobile {
+  .fct-variant--mobile {
     display: none;
   }
 }

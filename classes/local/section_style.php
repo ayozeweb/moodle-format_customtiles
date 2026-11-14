@@ -88,7 +88,7 @@ class section_style {
         if ($c1 !== null) {
             $c2 ??= color::mix($c1, '#000000', 0.35);
             $mid = color::mix($c1, $c2, 0.5);
-            $out['coverstyle'] = "--ct-c1:$c1;--ct-c2:$c2;--ct-fg:" . color::readable_on($mid);
+            $out['coverstyle'] = "--fct-c1:$c1;--fct-c2:$c2;--fct-fg:" . color::readable_on($mid);
         }
         $cover = (string)($section->ct_cover ?? '');
         if ($cover !== '') {

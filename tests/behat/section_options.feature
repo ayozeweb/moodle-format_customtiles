@@ -29,9 +29,9 @@ Feature: Personalise the sections of a Custom tiles course
     And I press "Save changes"
     And I log out
     And I am on the "C1" "course" page logged in as "student1"
-    Then I should see "First steps" in the ".ct-tile:nth-child(2)" "css_element"
-    And I should see "1 h 30 min" in the ".ct-tile:nth-child(2)" "css_element"
-    And I should see "Duration: 1 h 30 min" in the ".ct-hero" "css_element"
+    Then I should see "First steps" in the ".fct-tile:nth-child(2)" "css_element"
+    And I should see "1 h 30 min" in the ".fct-tile:nth-child(2)" "css_element"
+    And I should see "Duration: 1 h 30 min" in the ".fct-hero" "css_element"
 
   Scenario: A colour without enough contrast is accepted and corrected on the course page
     Given I am on the "C1" "course editing" page logged in as "teacher1"

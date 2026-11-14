@@ -13,34 +13,34 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-// Design tokens shared by every skin. Colour tokens (--ct-bg, --ct-primary...) are injected
+// Design tokens shared by every skin. Colour tokens (--fct-bg, --fct-primary...) are injected
 // per course by format_customtiles\local\skin::css_variables(), so only shape, spacing and
 // typography tokens live here. They inherit from Boost variables when they exist.
-.ct-root {
-  --ct-font-base: var(--bs-body-font-family, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif);
-  --ct-font: var(--ct-font-base);
-  --ct-font-heading: var(--ct-font);
-  --ct-fs-base: 1rem;
-  --ct-scale: 1.25;
-  --ct-lh: 1.55;
-  --ct-radius-s: .5rem;
-  --ct-radius: 1rem;
-  --ct-radius-l: 1.5rem;
-  --ct-shadow-1: 0 1px 2px rgb(15 23 42 / 8%), 0 1px 3px rgb(15 23 42 / 6%);
-  --ct-shadow-2: 0 4px 12px rgb(15 23 42 / 10%), 0 2px 4px rgb(15 23 42 / 6%);
-  --ct-space-1: .25rem;
-  --ct-space-2: .5rem;
-  --ct-space-3: 1rem;
-  --ct-space-4: 1.5rem;
-  --ct-space-5: 2.5rem;
-  --ct-touch: 2.75rem; // 44px minimum touch target.
-  --ct-focus: 3px solid var(--ct-primary);
-  --ct-ease: cubic-bezier(.2, .7, .2, 1);
-  --ct-dur: .2s;
+.fct-root {
+  --fct-font-base: var(--bs-body-font-family, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif);
+  --fct-font: var(--fct-font-base);
+  --fct-font-heading: var(--fct-font);
+  --fct-fs-base: 1rem;
+  --fct-scale: 1.25;
+  --fct-lh: 1.55;
+  --fct-radius-s: .5rem;
+  --fct-radius: 1rem;
+  --fct-radius-l: 1.5rem;
+  --fct-shadow-1: 0 1px 2px rgb(15 23 42 / 8%), 0 1px 3px rgb(15 23 42 / 6%);
+  --fct-shadow-2: 0 4px 12px rgb(15 23 42 / 10%), 0 2px 4px rgb(15 23 42 / 6%);
+  --fct-space-1: .25rem;
+  --fct-space-2: .5rem;
+  --fct-space-3: 1rem;
+  --fct-space-4: 1.5rem;
+  --fct-space-5: 2.5rem;
+  --fct-touch: 2.75rem; // 44px minimum touch target.
+  --fct-focus: 3px solid var(--fct-primary);
+  --fct-ease: cubic-bezier(.2, .7, .2, 1);
+  --fct-dur: .2s;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ct-root {
-    --ct-dur: 0s;
+  .fct-root {
+    --fct-dur: 0s;
   }
 }

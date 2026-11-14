@@ -14,29 +14,29 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 // Activity category badge (code + optional icon; colour is never the only cue) and legend.
-.ct-catbadge {
+.fct-catbadge {
   display: inline-flex;
   align-items: center;
   gap: .3rem;
   padding: .125rem .6rem;
   border-radius: 999px;
-  background: var(--ct-cat-bg, #1d4ed8);
-  color: var(--ct-cat-fg, #fff);
+  background: var(--fct-cat-bg, #1d4ed8);
+  color: var(--fct-cat-fg, #fff);
   font-size: .875rem;
   font-weight: 700;
   line-height: 1.5;
   white-space: nowrap;
 }
 
-.ct-legend {
-  margin-block: var(--ct-space-4);
-  padding: var(--ct-space-3);
-  border-radius: var(--ct-radius);
-  background: var(--ct-surface);
-  box-shadow: var(--ct-shadow-1);
+.fct-legend {
+  margin-block: var(--fct-space-4);
+  padding: var(--fct-space-3);
+  border-radius: var(--fct-radius);
+  background: var(--fct-surface);
+  box-shadow: var(--fct-shadow-1);
 
   summary {
-    min-block-size: var(--ct-touch);
+    min-block-size: var(--fct-touch);
     display: flex;
     align-items: center;
     font-weight: 600;
@@ -44,27 +44,27 @@
   }
 }
 
-.ct-legend__list {
+.fct-legend__list {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(min(100%, 14rem), 1fr));
-  gap: var(--ct-space-2) var(--ct-space-3);
+  gap: var(--fct-space-2) var(--fct-space-3);
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
 // Institutional strip (logos uploaded by the administrator).
-.ct-strip {
+.fct-strip {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  gap: var(--ct-space-3) var(--ct-space-4);
-  margin-block: var(--ct-space-4);
-  padding: var(--ct-space-3);
-  border-radius: var(--ct-radius);
+  gap: var(--fct-space-3) var(--fct-space-4);
+  margin-block: var(--fct-space-4);
+  padding: var(--fct-space-3);
+  border-radius: var(--fct-radius);
   background: #fff;
-  box-shadow: var(--ct-shadow-1);
+  box-shadow: var(--fct-shadow-1);
 
   img {
     block-size: 3rem;

@@ -13,23 +13,23 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-.ct-root {
-  font-family: var(--ct-font);
-  font-size: max(1rem, var(--ct-fs-base));
-  line-height: var(--ct-lh);
-  color: var(--ct-text);
+.fct-root {
+  font-family: var(--fct-font);
+  font-size: max(1rem, var(--fct-fs-base));
+  line-height: var(--fct-lh);
+  color: var(--fct-text);
 
   :where(a, button, [tabindex]):focus-visible {
-    outline: var(--ct-focus);
+    outline: var(--fct-focus);
     outline-offset: 2px;
-    border-radius: var(--ct-radius-s);
+    border-radius: var(--fct-radius-s);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ct-root *,
-  .ct-root *::before,
-  .ct-root *::after {
+  .fct-root *,
+  .fct-root *::before,
+  .fct-root *::after {
     animation-duration: 0s;
     animation-iteration-count: 1;
     transition-duration: 0s;
@@ -38,14 +38,14 @@
 }
 
 // Course overview page: the skin background (matters for dark skins) with a small inner gutter.
-.ct-root--page {
-  padding: var(--ct-space-2) var(--ct-space-2) var(--ct-space-3);
-  border-radius: var(--ct-radius-l);
-  background: var(--ct-bg);
+.fct-root--page {
+  padding: var(--fct-space-2) var(--fct-space-2) var(--fct-space-3);
+  border-radius: var(--fct-radius-l);
+  background: var(--fct-bg);
 }
 
 @media (min-width: 48rem) {
-  .ct-root--page {
-    padding-inline: var(--ct-space-4);
+  .fct-root--page {
+    padding-inline: var(--fct-space-4);
   }
 }

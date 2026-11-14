@@ -24,7 +24,7 @@
         "intro": "Categories teachers assign to activities.",
         "hascategories": true,
         "categories": [
-            {"code": "AF", "name": "Training activity", "color": "#1d4ed8", "style": "--ct-cat-bg:#1d4ed8;--ct-cat-fg:#ffffff",
+            {"code": "AF", "name": "Training activity", "color": "#1d4ed8", "style": "--fct-cat-bg:#1d4ed8;--fct-cat-fg:#ffffff",
              "editurl": "#", "deleteurl": "#"}
         ],
         "addurl": "#",
@@ -32,10 +32,10 @@
         "sesskey": "abc"
     }
 }}
-<div class="ct-admin">
+<div class="fct-admin">
     <p>{{intro}}</p>
     {{#hascategories}}
-        <table class="generaltable ct-admin__table">
+        <table class="generaltable fct-admin__table">
             <caption class="visually-hidden">{{#str}} categoriesadmin, format_customtiles {{/str}}</caption>
             <thead>
                 <tr>
@@ -48,7 +48,7 @@
             <tbody>
                 {{#categories}}
                     <tr>
-                        <td><span class="ct-catbadge" style="{{style}}">{{code}}</span></td>
+                        <td><span class="fct-catbadge" style="{{style}}">{{code}}</span></td>
                         <td>{{name}}</td>
                         <td>{{color}}</td>
                         <td>

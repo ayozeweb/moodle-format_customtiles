@@ -83,4 +83,39 @@ final class format_customtiles_test extends \advanced_testcase {
         $this->assertTrue($data->hascarousel);
         $this->assertSame(3, $data->tilecount);
     }
+
+    /**
+     * The upgrade script runs from the first released version and records the new version.
+     */
+    public function test_upgrade_from_first_release(): void {
+        global $CFG, $DB;
+        $this->resetAfterTest();
+        require_once($CFG->dirroot . '/course/format/customtiles/db/upgrade.php');
+        require_once($CFG->libdir . '/upgradelib.php');
+        set_config('version', 2026110400, 'format_customtiles');
+        $this->assertTrue(xmldb_format_customtiles_upgrade(2026110400));
+        $this->assertTrue($DB->get_manager()->table_exists('format_customtiles_cat'));
+        $this->assertTrue($DB->get_manager()->table_exists('format_customtiles_cmcat'));
+        $this->assertEquals(2026111400, get_config('format_customtiles', 'version'));
+    }
+
+    /**
+     * Uninstalling removes the plugin files and the last-activity preferences, and nothing else.
+     */
+    public function test_uninstall_cleanup(): void {
+        global $CFG, $DB;
+        $this->resetAfterTest();
+        require_once($CFG->dirroot . '/course/format/customtiles/db/uninstall.php');
+        $user = $this->getDataGenerator()->create_user();
+        set_user_preference('format_customtiles_last_7', 3, $user);
+        set_user_preference('other_preference', 1, $user);
+        $context = \context_system::instance();
+        get_file_storage()->create_file_from_string(['contextid' => $context->id, 'component' => 'format_customtiles',
+            'filearea' => 'logos', 'itemid' => 0, 'filepath' => '/', 'filename' => 'logo.png'], 'x');
+
+        $this->assertTrue(xmldb_format_customtiles_uninstall());
+        $this->assertFalse($DB->record_exists('files', ['component' => 'format_customtiles']));
+        $this->assertFalse($DB->record_exists('user_preferences', ['name' => 'format_customtiles_last_7']));
+        $this->assertTrue($DB->record_exists('user_preferences', ['name' => 'other_preference']));
+    }
 }

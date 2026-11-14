@@ -18,8 +18,8 @@ Feature: Carousel layout
   Scenario: The carousel buttons move between sections
     Given I change window size to "mobile"
     And I am on the "C1" "course" page logged in as "student1"
-    Then the "aria-current" attribute of ".ct-carousel__dot:first-child" "css_element" should contain "true"
+    Then the "aria-current" attribute of ".fct-carousel__dot:first-child" "css_element" should contain "true"
     And the "disabled" attribute of "[data-action='prev']" "css_element" should be set
     When I click on "Next section" "button"
-    Then the "aria-current" attribute of ".ct-carousel__dot" "css_element" should be set
+    Then the "aria-current" attribute of ".fct-carousel__dot" "css_element" should be set
     And the "disabled" attribute of "[data-action='prev']" "css_element" should not be set

@@ -24,21 +24,21 @@ Feature: Custom tiles course page
 
   Scenario: A student sees the hero, the tiles and the start button
     When I am on the "C1" "course" page logged in as "student1"
-    Then I should see "Secure coding" in the ".ct-hero" "css_element"
-    And I should see "Learn the basics" in the ".ct-hero" "css_element"
-    And I should see "Start the course" in the ".ct-hero" "css_element"
-    And I should see "2 activities" in the ".ct-tile:nth-child(2)" "css_element"
-    And I should see "New" in the ".ct-tile:nth-child(2)" "css_element"
-    And ".ct-tiles" "css_element" should exist
+    Then I should see "Secure coding" in the ".fct-hero" "css_element"
+    And I should see "Learn the basics" in the ".fct-hero" "css_element"
+    And I should see "Start the course" in the ".fct-hero" "css_element"
+    And I should see "2 activities" in the ".fct-tile:nth-child(2)" "css_element"
+    And I should see "New" in the ".fct-tile:nth-child(2)" "css_element"
+    And ".fct-tiles" "css_element" should exist
 
   @javascript
   Scenario: Progress and the continue button follow the completion of activities
     Given I am on the "Page A" "page activity" page logged in as "student1"
     And I toggle the manual completion state of "Page A"
     When I am on the "C1" "course" page
-    Then I should see "1 of 2 completed" in the ".ct-tile:nth-child(2)" "css_element"
-    And I should see "In progress" in the ".ct-tile:nth-child(2)" "css_element"
-    And I should see "Continue where you left off" in the ".ct-hero" "css_element"
+    Then I should see "1 of 2 completed" in the ".fct-tile:nth-child(2)" "css_element"
+    And I should see "In progress" in the ".fct-tile:nth-child(2)" "css_element"
+    And I should see "Continue where you left off" in the ".fct-hero" "css_element"
 
   Scenario: The course map lists every section and activity
     When I am on the "C1" "course" page logged in as "student1"
@@ -56,5 +56,5 @@ Feature: Custom tiles course page
     When I am on the "C1" "course" page logged in as "teacher1"
     And I turn editing mode on
     Then I should see "Add content"
-    And ".ct-hero" "css_element" should exist
-    And ".ct-tiles" "css_element" should not exist
+    And ".fct-hero" "css_element" should exist
+    And ".fct-tiles" "css_element" should not exist

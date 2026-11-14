@@ -14,16 +14,16 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 // Carousel: scroll-snap track, slides peek at the edges on mobile.
-.ct-carousel {
+.fct-carousel {
   display: grid;
-  gap: var(--ct-space-3);
+  gap: var(--fct-space-3);
 }
 
-.ct-carousel__track {
+.fct-carousel__track {
   display: flex;
-  gap: var(--ct-space-3);
+  gap: var(--fct-space-3);
   margin: 0;
-  padding: var(--ct-space-1) 0 var(--ct-space-3);
+  padding: var(--fct-space-1) 0 var(--fct-space-3);
   list-style: none;
   overflow-x: auto;
   overscroll-behavior-x: contain;
@@ -35,74 +35,74 @@
   }
 
   &:focus-visible {
-    outline: var(--ct-focus);
+    outline: var(--fct-focus);
     outline-offset: -3px;
   }
 }
 
-.ct-slide {
+.fct-slide {
   flex: 0 0 min(88%, 26rem);
   display: flex;
   flex-direction: column;
   scroll-snap-align: start;
-  border-radius: var(--ct-radius-l);
-  background: var(--ct-surface);
-  box-shadow: var(--ct-shadow-2);
+  border-radius: var(--fct-radius-l);
+  background: var(--fct-surface);
+  box-shadow: var(--fct-shadow-2);
   overflow: hidden;
   min-block-size: min(70vh, 32rem);
 
   &--locked {
-    background: var(--ct-surface2);
+    background: var(--fct-surface2);
   }
 
   &--current {
-    box-shadow: 0 0 0 2px var(--ct-primary), var(--ct-shadow-2);
+    box-shadow: 0 0 0 2px var(--fct-primary), var(--fct-shadow-2);
   }
 }
 
-.ct-slide__cover {
+.fct-slide__cover {
   display: grid;
   place-items: center;
   aspect-ratio: 16 / 9;
-  background: linear-gradient(135deg, var(--ct-primary), color-mix(in srgb, var(--ct-primary) 40%, var(--ct-accent)));
-  color: var(--ct-onprimary);
+  background: linear-gradient(135deg, var(--fct-primary), color-mix(in srgb, var(--fct-primary) 40%, var(--fct-accent)));
+  color: var(--fct-onprimary);
 
-  .ct-slide--locked & {
-    background: var(--ct-surface2);
-    color: var(--ct-muted);
+  .fct-slide--locked & {
+    background: var(--fct-surface2);
+    color: var(--fct-muted);
   }
 }
 
-.ct-slide__num {
+.fct-slide__num {
   font-size: 3rem;
   font-weight: 800;
   line-height: 1;
 }
 
-.ct-slide__body {
-  padding: var(--ct-space-4);
+.fct-slide__body {
+  padding: var(--fct-space-4);
 }
 
-.ct-carousel .ct-item__title {
+.fct-carousel .fct-item__title {
   font-size: 1.25rem;
 }
 
-.ct-carousel .ct-item__summary {
+.fct-carousel .fct-item__summary {
   display: block;
 }
 
-.ct-carousel__nav {
+.fct-carousel__nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--ct-space-3);
+  gap: var(--fct-space-3);
 
   &[hidden] {
     display: none;
   }
 }
 
-.ct-carousel__dots {
+.fct-carousel__dots {
   min-inline-size: 0;
   display: flex;
   flex-wrap: wrap;
@@ -114,10 +114,10 @@
 }
 
 // 44 px hit area around a small dot.
-.ct-carousel__dot {
+.fct-carousel__dot {
   position: relative;
-  inline-size: var(--ct-touch);
-  block-size: var(--ct-touch);
+  inline-size: var(--fct-touch);
+  block-size: var(--fct-touch);
   padding: 0;
   border: 0;
   background: none;
@@ -130,19 +130,19 @@
     inline-size: .75rem;
     block-size: .75rem;
     border-radius: 50%;
-    background: var(--ct-border);
+    background: var(--fct-border);
     transform: translate(-50%, -50%);
-    transition: transform var(--ct-dur) var(--ct-ease), background var(--ct-dur) var(--ct-ease);
+    transition: transform var(--fct-dur) var(--fct-ease), background var(--fct-dur) var(--fct-ease);
   }
 
   &[aria-current="true"]::before {
-    background: var(--ct-primary);
+    background: var(--fct-primary);
     transform: translate(-50%, -50%) scale(1.4);
   }
 }
 
-@container ct-main (min-width: 48rem) {
-  .ct-slide {
+@container fct-main (min-width: 48rem) {
+  .fct-slide {
     flex-basis: min(60%, 28rem);
   }
 }

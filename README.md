@@ -8,7 +8,7 @@ themes (palettes, shapes), while meeting the usability and accessibility require
 Spanish public employment services (SEPE/SCE, Orden TMS/369/2019, Annex IV) without looking like an "official template".
 
 * Mobile-first (360 px up), touch targets ≥ 44 px, container queries, `prefers-reduced-motion`.
-* Design tokens as CSS variables (`--ct-*`) inheriting from Boost when available.
+* Design tokens as CSS variables (`--fct-*`) inheriting from Boost when available.
 * WCAG 2.1 AA: every built-in skin is contrast-checked by PHPUnit; custom accent colours are auto-corrected.
 * Works with reactive editing, the course index and Boost child themes.
 * No CDN: everything ships inside the plugin.
@@ -54,7 +54,7 @@ y cumple de serie los requisitos de usabilidad y accesibilidad de los servicios 
 Orden TMS/369/2019, Anexo IV) sin parecer una «plantilla oficial».
 
 * Mobile-first (desde 360 px), objetivos táctiles ≥ 44 px, *container queries*, respeto de `prefers-reduced-motion`.
-* Tokens de diseño como variables CSS (`--ct-*`) que heredan de Boost cuando existen.
+* Tokens de diseño como variables CSS (`--fct-*`) que heredan de Boost cuando existen.
 * WCAG 2.1 AA: cada tema incluido se verifica con PHPUnit; los colores de acento propios se corrigen automáticamente.
 * Compatible con edición reactiva, índice del curso y temas hijos de Boost.
 * Sin CDN: todo va dentro del plugin.

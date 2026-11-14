@@ -27,19 +27,19 @@
         "percent": 33, "progresslabel": "1 of 3 completed", "reason": ""
     }
 }}
-<h3 class="ct-item__title">
-    {{#locked}}<span class="ct-item__name">{{{name}}}</span>{{/locked}}
-    {{^locked}}<a class="ct-item__link" href="{{url}}">{{{name}}}</a>{{/locked}}
+<h3 class="fct-item__title">
+    {{#locked}}<span class="fct-item__name">{{{name}}}</span>{{/locked}}
+    {{^locked}}<a class="fct-item__link" href="{{url}}">{{{name}}}</a>{{/locked}}
 </h3>
-{{#subtitle}}<p class="ct-item__subtitle">{{subtitle}}</p>{{/subtitle}}
-{{#summary}}<p class="ct-item__summary">{{summary}}</p>{{/summary}}
-{{#locked}}<div class="ct-item__reason">{{{reason}}}</div>{{/locked}}
-<p class="ct-item__meta">{{activitieslabel}}{{#timelabel}} · <i class="fa-regular fa-clock" aria-hidden="true"></i> <span class="visually-hidden">{{#str}} estimatedtime, format_customtiles {{/str}}</span>{{timelabel}}{{/timelabel}}</p>
+{{#subtitle}}<p class="fct-item__subtitle">{{subtitle}}</p>{{/subtitle}}
+{{#summary}}<p class="fct-item__summary">{{summary}}</p>{{/summary}}
+{{#locked}}<div class="fct-item__reason">{{{reason}}}</div>{{/locked}}
+<p class="fct-item__meta">{{activitieslabel}}{{#timelabel}} · <i class="fa-regular fa-clock" aria-hidden="true"></i> <span class="visually-hidden">{{#str}} estimatedtime, format_customtiles {{/str}}</span>{{timelabel}}{{/timelabel}}</p>
 {{#hasprogress}}
-    <div class="ct-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100"
+    <div class="fct-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100"
          aria-valuenow="{{percent}}" aria-label="{{progresslabel}}">
-        <span class="ct-progress__bar" style="--ct-pct: {{percent}}%"></span>
+        <span class="fct-progress__bar" style="--fct-pct: {{percent}}%"></span>
     </div>
-    <p class="ct-item__meta">{{progresslabel}}</p>
+    <p class="fct-item__meta">{{progresslabel}}</p>
 {{/hasprogress}}
-<p class="ct-state ct-state--{{state}}"><i class="fa-solid {{stateicon}}" aria-hidden="true"></i> <span>{{statelabel}}</span></p>
+<p class="fct-state fct-state--{{state}}"><i class="fa-solid {{stateicon}}" aria-hidden="true"></i> <span>{{statelabel}}</span></p>

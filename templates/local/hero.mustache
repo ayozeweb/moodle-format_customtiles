@@ -36,40 +36,40 @@
         "continuelabel": "Continue where you left off"
     }
 }}
-<div class="ct-herowrap">
-<header class="ct-hero{{#hasimage}} ct-hero--image{{/hasimage}}" aria-label="{{#str}} coursecontext, format_customtiles {{/str}}">
-    <div class="ct-hero__media" aria-hidden="true">
+<div class="fct-herowrap">
+<header class="fct-hero{{#hasimage}} fct-hero--image{{/hasimage}}" aria-label="{{#str}} coursecontext, format_customtiles {{/str}}">
+    <div class="fct-hero__media" aria-hidden="true">
         {{#hasimage}}<img src="{{image}}" alt="" width="1200" height="675" decoding="async" fetchpriority="high">{{/hasimage}}
     </div>
-    <div class="ct-hero__body">
-        <h2 class="ct-hero__title">{{{title}}}</h2>
-        {{#summary}}<p class="ct-hero__summary">{{summary}}</p>{{/summary}}
+    <div class="fct-hero__body">
+        <h2 class="fct-hero__title">{{{title}}}</h2>
+        {{#summary}}<p class="fct-hero__summary">{{summary}}</p>{{/summary}}
         {{#haspills}}
-            <ul class="ct-pills">
+            <ul class="fct-pills">
                 {{#pills}}
-                    <li class="ct-pill"><i class="fa-solid {{icon}}" aria-hidden="true"></i> {{text}}</li>
+                    <li class="fct-pill"><i class="fa-solid {{icon}}" aria-hidden="true"></i> {{text}}</li>
                 {{/pills}}
             </ul>
         {{/haspills}}
-        <div class="ct-hero__actions">
+        <div class="fct-hero__actions">
             {{#hasprogress}}
-                <div class="ct-ring" role="img" aria-label="{{#str}} overallprogress, format_customtiles {{/str}}: {{percent}}%. {{progresslabel}}">
+                <div class="fct-ring" role="img" aria-label="{{#str}} overallprogress, format_customtiles {{/str}}: {{percent}}%. {{progresslabel}}">
                     <svg viewBox="0 0 36 36" aria-hidden="true" focusable="false">
-                        <circle class="ct-ring__track" cx="18" cy="18" r="15.9155"></circle>
-                        <circle class="ct-ring__value" cx="18" cy="18" r="15.9155" pathLength="100"
+                        <circle class="fct-ring__track" cx="18" cy="18" r="15.9155"></circle>
+                        <circle class="fct-ring__value" cx="18" cy="18" r="15.9155"
                                 stroke-dasharray="100" stroke-dashoffset="{{ringoffset}}"></circle>
                     </svg>
-                    <span class="ct-ring__text" aria-hidden="true">{{percent}}%</span>
+                    <span class="fct-ring__text" aria-hidden="true">{{percent}}%</span>
                 </div>
             {{/hasprogress}}
-            <a class="ct-btn ct-btn--secondary" href="{{mapurl}}">
-                <span class="ct-btn__label"><i class="fa-solid fa-sitemap" aria-hidden="true"></i> {{#str}} coursemap, format_customtiles {{/str}}</span>
+            <a class="fct-btn fct-btn--secondary" href="{{mapurl}}">
+                <span class="fct-btn__label"><i class="fa-solid fa-sitemap" aria-hidden="true"></i> {{#str}} coursemap, format_customtiles {{/str}}</span>
             </a>
             {{#continue}}
-                <a class="ct-btn ct-btn--primary" href="{{url}}">
-                    <span class="ct-btn__label">{{continuelabel}}</span>
-                    <span class="ct-btn__sub">{{{name}}}</span>
-                    <i class="fa-solid fa-arrow-right ct-btn__icon" aria-hidden="true"></i>
+                <a class="fct-btn fct-btn--primary" href="{{url}}">
+                    <span class="fct-btn__label">{{continuelabel}}</span>
+                    <span class="fct-btn__sub">{{{name}}}</span>
+                    <i class="fa-solid fa-arrow-right fct-btn__icon" aria-hidden="true"></i>
                 </a>
             {{/continue}}
         </div>

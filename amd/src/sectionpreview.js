@@ -61,13 +61,13 @@ const luminance = (hex) => {
  * Initialise the preview.
  */
 export const init = () => {
-    const preview = document.querySelector('[data-region="ct-sectionpreview"]');
+    const preview = document.querySelector('[data-region="fct-sectionpreview"]');
     const form = preview ? preview.closest('form') : null;
     if (!form) {
         return;
     }
     const field = (name) => form.querySelector('[name="' + name + '"]');
-    const cover = preview.querySelector('.ct-tile__cover');
+    const cover = preview.querySelector('.fct-tile__cover');
     const icon = preview.querySelector('[data-region="icon"]');
     const title = preview.querySelector('[data-region="title"]');
     const subtitle = preview.querySelector('[data-region="subtitle"]');
@@ -89,7 +89,7 @@ export const init = () => {
             time.textContent = '';
         }
         const iconName = field('ct_icon').value;
-        icon.className = 'fa-solid ct-tile__icon' + (iconName ? ' fa-' + iconName : '');
+        icon.className = 'fa-solid fct-tile__icon' + (iconName ? ' fa-' + iconName : '');
         const c1 = normalise(field('ct_color').value);
         let c2 = normalise(field('ct_color2').value);
         if (c1) {

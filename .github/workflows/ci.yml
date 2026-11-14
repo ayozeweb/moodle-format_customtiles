@@ -26,7 +26,7 @@ jobs:
         database: ['pgsql']
     steps:
       - name: Check out repository code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           path: plugin
 
@@ -71,6 +71,15 @@ jobs:
       - name: Grunt (AMD build must match amd/src; lint JS and CSS)
         if: ${{ !cancelled() }}
         run: moodle-plugin-ci grunt --max-lint-warnings 0
+
+      - name: Compiled CSS is up to date with scss/
+        if: ${{ !cancelled() }}
+        run: |
+          dir=$(find moodle -type d -path '*course/format/customtiles' | head -1)
+          cd "$dir"
+          npm install --no-save --no-audit --no-fund sass@1.107.1
+          ./build-css.sh
+          cmp styles.css "$GITHUB_WORKSPACE/plugin/styles.css"
 
       - name: PHPDoc Checker
         if: ${{ !cancelled() }}

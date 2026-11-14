@@ -14,84 +14,84 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 // Large cards: one per row, cover beside the text from 37.5rem of available width.
-.ct-cards {
+.fct-cards {
   display: grid;
-  gap: var(--ct-space-3);
+  gap: var(--fct-space-3);
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-.ct-card {
+.fct-card {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  border-radius: var(--ct-radius);
-  background: var(--ct-surface);
-  box-shadow: var(--ct-shadow-1);
+  border-radius: var(--fct-radius);
+  background: var(--fct-surface);
+  box-shadow: var(--fct-shadow-1);
   overflow: hidden;
-  transition: box-shadow var(--ct-dur) var(--ct-ease);
+  transition: box-shadow var(--fct-dur) var(--fct-ease);
 
   &:hover {
-    box-shadow: var(--ct-shadow-2);
+    box-shadow: var(--fct-shadow-2);
   }
 
   &--current {
-    box-shadow: 0 0 0 2px var(--ct-primary), var(--ct-shadow-1);
+    box-shadow: 0 0 0 2px var(--fct-primary), var(--fct-shadow-1);
   }
 
   &--locked {
-    background: var(--ct-surface2);
+    background: var(--fct-surface2);
   }
 }
 
-.ct-card__cover {
+.fct-card__cover {
   display: grid;
   place-items: center;
   aspect-ratio: 16 / 6;
-  background: linear-gradient(135deg, var(--ct-primary), color-mix(in srgb, var(--ct-primary) 40%, var(--ct-accent)));
-  color: var(--ct-onprimary);
+  background: linear-gradient(135deg, var(--fct-primary), color-mix(in srgb, var(--fct-primary) 40%, var(--fct-accent)));
+  color: var(--fct-onprimary);
 
-  .ct-card--locked & {
-    background: var(--ct-surface2);
-    color: var(--ct-muted);
+  .fct-card--locked & {
+    background: var(--fct-surface2);
+    color: var(--fct-muted);
   }
 }
 
-.ct-card__num {
+.fct-card__num {
   font-size: 2.25rem;
   font-weight: 800;
   line-height: 1;
 }
 
-.ct-card__body {
-  padding: var(--ct-space-3) var(--ct-space-3) var(--ct-space-4);
+.fct-card__body {
+  padding: var(--fct-space-3) var(--fct-space-3) var(--fct-space-4);
 }
 
-.ct-cards .ct-item__summary {
+.fct-cards .fct-item__summary {
   display: block;
 }
 
-@container ct-main (min-width: 37.5rem) {
-  .ct-card {
+@container fct-main (min-width: 37.5rem) {
+  .fct-card {
     grid-template-columns: minmax(10rem, 32%) minmax(0, 1fr);
   }
 
-  .ct-card__cover {
+  .fct-card__cover {
     aspect-ratio: auto;
     min-block-size: 9rem;
   }
 
-  .ct-cards .ct-item__title {
+  .fct-cards .fct-item__title {
     font-size: 1.25rem;
   }
 
-  .ct-card__body {
-    padding: var(--ct-space-4);
+  .fct-card__body {
+    padding: var(--fct-space-4);
   }
 }
 
-@container ct-main (min-width: 64rem) {
-  .ct-cards {
+@container fct-main (min-width: 64rem) {
+  .fct-cards {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }

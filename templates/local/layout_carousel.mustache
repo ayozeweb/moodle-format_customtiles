@@ -33,28 +33,28 @@
         ]
     }
 }}
-<div class="ct-carousel" role="region" aria-roledescription="carousel" aria-label="{{#str}} carouselaria, format_customtiles {{/str}}"
-     data-region="ct-carousel" data-count="{{tilecount}}">
-    <div class="ct-carousel__track" data-region="track" tabindex="0">
+<div class="fct-carousel" role="region" aria-roledescription="carousel" aria-label="{{#str}} carouselaria, format_customtiles {{/str}}"
+     data-region="fct-carousel" data-count="{{tilecount}}">
+    <div class="fct-carousel__track" data-region="track" tabindex="0">
         {{#tiles}}
-            <div class="ct-slide ct-item ct-slide--{{state}}{{#iscurrent}} ct-slide--current{{/iscurrent}}" data-section-id="{{id}}"
+            <div class="fct-slide fct-item fct-slide--{{state}}{{#iscurrent}} fct-slide--current{{/iscurrent}}" data-section-id="{{id}}"
                 role="group" aria-roledescription="slide"
                 aria-label="{{#str}} slidex, format_customtiles, {"x": {{position}}, "n": {{tilecount}}} {{/str}}">
-                <div class="ct-slide__cover{{#hascolor}} ct-has-color{{/hascolor}}" aria-hidden="true"{{#hascolor}} style="{{coverstyle}}"{{/hascolor}}>
+                <div class="fct-slide__cover{{#hascolor}} fct-has-color{{/hascolor}}" aria-hidden="true"{{#hascolor}} style="{{coverstyle}}"{{/hascolor}}>
                 {{> format_customtiles/local/cover }}
             </div>
-                <div class="ct-slide__body">
+                <div class="fct-slide__body">
                     {{> format_customtiles/local/tile_body }}
                 </div>
             </div>
         {{/tiles}}
     </div>
-    <div class="ct-carousel__nav" data-region="nav" hidden>
-        <button type="button" class="ct-iconbtn" data-action="prev" aria-label="{{#str}} prevslide, format_customtiles {{/str}}">
+    <div class="fct-carousel__nav" data-region="nav" hidden>
+        <button type="button" class="fct-iconbtn" data-action="prev" aria-label="{{#str}} prevslide, format_customtiles {{/str}}">
             <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
         </button>
-        <ol class="ct-carousel__dots" data-region="dots"></ol>
-        <button type="button" class="ct-iconbtn" data-action="next" aria-label="{{#str}} nextslide, format_customtiles {{/str}}">
+        <ol class="fct-carousel__dots" data-region="dots"></ol>
+        <button type="button" class="fct-iconbtn" data-action="next" aria-label="{{#str}} nextslide, format_customtiles {{/str}}">
             <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
         </button>
     </div>

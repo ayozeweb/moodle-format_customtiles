@@ -37,9 +37,6 @@ use stdClass;
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class cm extends cm_base {
-    /** @var array[]|null Assignments of the course, loaded once per request. */
-    protected static $assignments = [];
-
     /**
      * Export with the category badge.
      *
@@ -49,12 +46,11 @@ class cm extends cm_base {
     public function export_for_template(renderer_base $output): stdClass {
         $data = parent::export_for_template($output);
         $courseid = (int)$this->format->get_courseid();
-        if (!isset(self::$assignments[$courseid])) {
-            self::$assignments[$courseid] = api::get_course_assignments($courseid);
-        }
+        // One query per course and request: the API keeps the assignments in a request cache.
+        $assignments = api::get_course_assignments($courseid);
         $cmid = (int)$this->mod->id;
-        if (isset(self::$assignments[$courseid][$cmid])) {
-            $category = self::$assignments[$courseid][$cmid];
+        if (isset($assignments[$cmid])) {
+            $category = $assignments[$cmid];
             $badge = api::export_badge($category);
             $badge['label'] = get_string('catbadgelabel', 'format_customtiles', $category['name']);
             // The core cm template has no badge slot for formats, so the badge goes in the after-link area.
@@ -62,12 +58,5 @@ class cm extends cm_base {
                 ($data->afterlink ?? '');
         }
         return $data;
-    }
-
-    /**
-     * Forget the cached assignments (tests).
-     */
-    public static function reset_cache(): void {
-        self::$assignments = [];
     }
 }

@@ -6,6 +6,6 @@
     "build:css": "sass --no-source-map --style=expanded scss/styles.scss styles.css"
   },
   "devDependencies": {
-    "sass": "^1.80.0"
+    "sass": "1.107.1"
   }
 }

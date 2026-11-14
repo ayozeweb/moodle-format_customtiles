@@ -14,14 +14,14 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 // Section cover content (image, icon, number) and custom section colours.
-.ct-tile__cover,
-.ct-card__cover,
-.ct-slide__cover {
+.fct-tile__cover,
+.fct-card__cover,
+.fct-slide__cover {
   position: relative;
   overflow: hidden;
 }
 
-.ct-cover__img {
+.fct-cover__img {
   position: absolute;
   inset: 0;
   inline-size: 100%;
@@ -29,51 +29,51 @@
   object-fit: cover;
 }
 
-.ct-cover__num {
+.fct-cover__num {
   font-size: 2rem;
   font-weight: 800;
   line-height: 1;
 }
 
-.ct-cover__icon {
+.fct-cover__icon {
   font-size: 2.25rem;
 }
 
-.ct-cover__badge {
+.fct-cover__badge {
   position: absolute;
-  inset-block-start: var(--ct-space-2);
-  inset-inline-start: var(--ct-space-2);
+  inset-block-start: var(--fct-space-2);
+  inset-inline-start: var(--fct-space-2);
   display: grid;
   place-items: center;
   min-inline-size: 1.75rem;
   block-size: 1.75rem;
   padding-inline: .4rem;
   border-radius: 999px;
-  background: var(--ct-surface);
-  color: var(--ct-text);
+  background: var(--fct-surface);
+  color: var(--fct-text);
   font-size: .875rem;
   font-weight: 700;
-  box-shadow: var(--ct-shadow-1);
+  box-shadow: var(--fct-shadow-1);
 }
 
 // Custom colour or gradient set on the section (higher specificity than the default gradients).
-.ct-item .ct-has-color.ct-has-color {
-  background: linear-gradient(135deg, var(--ct-c1), var(--ct-c2));
-  color: var(--ct-fg);
+.fct-item .fct-has-color.fct-has-color {
+  background: linear-gradient(135deg, var(--fct-c1), var(--fct-c2));
+  color: var(--fct-fg);
 }
 
-.ct-item__subtitle {
+.fct-item__subtitle {
   margin: 0;
-  color: var(--ct-muted);
+  color: var(--fct-muted);
   font-size: .9375rem;
   font-weight: 500;
 }
 
 // Live preview in the section edit form.
-.ct-sectionpreview {
+.fct-sectionpreview {
   max-inline-size: 16rem;
 
-  .ct-tile__cover {
+  .fct-tile__cover {
     min-block-size: 6rem;
   }
 }

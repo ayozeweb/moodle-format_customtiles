@@ -145,8 +145,8 @@ class content extends content_base {
         $ids = [['id' => $data->layout, 'class' => '']];
         if ($mobile !== '' && layouts::exists($mobile) && $mobile !== $data->layout) {
             $ids = [
-                ['id' => $data->layout, 'class' => 'ct-variant--desktop'],
-                ['id' => $mobile, 'class' => 'ct-variant--mobile'],
+                ['id' => $data->layout, 'class' => 'fct-variant--desktop'],
+                ['id' => $mobile, 'class' => 'fct-variant--mobile'],
             ];
         }
         $data->variants = [];

@@ -146,6 +146,6 @@ final class skin_test extends \advanced_testcase {
      */
     public function test_css_variables(): void {
         $css = skin::css_variables('light');
-        $this->assertStringContainsString('--ct-primary:#1d4ed8', $css);
+        $this->assertStringContainsString('--fct-primary:#1d4ed8', $css);
     }
 }

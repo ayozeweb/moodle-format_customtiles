@@ -14,28 +14,28 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 // Section state: icon + text + colour (colour is never the only cue).
-.ct-state {
+.fct-state {
   display: inline-flex;
   align-items: center;
   gap: .4rem;
   margin: 0;
   font-size: .875rem;
   font-weight: 600;
-  color: var(--ct-muted);
+  color: var(--fct-muted);
 
   &--inprogress {
-    color: var(--ct-info);
+    color: var(--fct-info);
   }
 
   &--completed {
-    color: var(--ct-success);
+    color: var(--fct-success);
   }
 
   &--new {
-    color: var(--ct-warning);
+    color: var(--fct-warning);
   }
 
   &--locked {
-    color: var(--ct-muted);
+    color: var(--fct-muted);
   }
 }

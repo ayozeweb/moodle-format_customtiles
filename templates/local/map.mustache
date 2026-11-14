@@ -36,26 +36,26 @@
         ]
     }
 }}
-<div class="ct-root ct-map">
+<div class="fct-root fct-map">
     <p><a href="{{courseurl}}">{{#str}} backtocourse, format_customtiles {{/str}}</a></p>
-    <h2 class="ct-map__title">{{#str}} coursemap, format_customtiles {{/str}}</h2>
+    <h2 class="fct-map__title">{{#str}} coursemap, format_customtiles {{/str}}</h2>
     {{#hasoverall}}<p>{{#str}} overallprogress, format_customtiles {{/str}}: {{overall.percent}}% ({{overalllabel}})</p>{{/hasoverall}}
-    <ol class="ct-map__sections">
+    <ol class="fct-map__sections">
         {{#sections}}
-            <li class="ct-map__section">
-                <h3 class="ct-map__sectiontitle">
+            <li class="fct-map__section">
+                <h3 class="fct-map__sectiontitle">
                     {{#locked}}{{{name}}}{{/locked}}
                     {{^locked}}<a href="{{url}}">{{{name}}}</a>{{/locked}}
-                    <span class="ct-state ct-state--{{state}}"><i class="fa-solid {{stateicon}}" aria-hidden="true"></i> {{statelabel}}</span>
+                    <span class="fct-state fct-state--{{state}}"><i class="fa-solid {{stateicon}}" aria-hidden="true"></i> {{statelabel}}</span>
                 </h3>
-                {{#locked}}<div class="ct-item__reason">{{{reason}}}</div>{{/locked}}
+                {{#locked}}<div class="fct-item__reason">{{{reason}}}</div>{{/locked}}
                 {{#hasactivities}}
-                    <ul class="ct-map__activities">
+                    <ul class="fct-map__activities">
                         {{#activitylist}}
                             <li>
                                 <img src="{{icon}}" alt="" width="20" height="20">
                                 <a href="{{url}}">{{{name}}}</a>
-                                {{#tracked}}<span class="ct-state ct-state--{{#done}}completed{{/done}}{{^done}}pending{{/done}}">{{statelabel}}</span>{{/tracked}}
+                                {{#tracked}}<span class="fct-state fct-state--{{#done}}completed{{/done}}{{^done}}pending{{/done}}">{{statelabel}}</span>{{/tracked}}
                             </li>
                         {{/activitylist}}
                     </ul>

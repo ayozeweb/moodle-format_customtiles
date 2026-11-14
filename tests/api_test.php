@@ -77,7 +77,7 @@ final class api_test extends \advanced_testcase {
     public function test_badge_contrast(): void {
         foreach (['#f59e0b', '#1d4ed8', '#ffffff', '#000000', '#0f766e'] as $bg) {
             $badge = api::export_badge(['code' => 'X', 'name' => 'x', 'color' => $bg]);
-            preg_match('/--ct-cat-bg:(#[0-9a-f]{6});--ct-cat-fg:(#[0-9a-f]{6})/', $badge['style'], $m);
+            preg_match('/--fct-cat-bg:(#[0-9a-f]{6});--fct-cat-fg:(#[0-9a-f]{6})/', $badge['style'], $m);
             $this->assertGreaterThanOrEqual(4.5, color::contrast($m[1], $m[2]), $bg);
         }
     }
@@ -93,7 +93,6 @@ final class api_test extends \advanced_testcase {
         $page = $this->getDataGenerator()->create_module('page', ['course' => $course->id]);
         api::load_sepe_preset();
         api::set_activity_category($course->id, (int)$page->cmid, (int)api::get_category_by_code('PP')->id);
-        \format_customtiles\output\courseformat\content\cm::reset_cache();
         $format = course_get_format($course->id);
         $modinfo = get_fast_modinfo($course);
         $cm = $modinfo->get_cm($page->cmid);
@@ -102,7 +101,7 @@ final class api_test extends \advanced_testcase {
         $this->assertSame(\format_customtiles\output\courseformat\content\cm::class, $class);
         $output = new $class($format, $cm->get_section_info(), $cm);
         $data = $output->export_for_template($PAGE->get_renderer('format_customtiles'));
-        $this->assertStringContainsString('ct-catbadge', $data->afterlink);
+        $this->assertStringContainsString('fct-catbadge', $data->afterlink);
         $this->assertStringContainsString('PP', $data->afterlink);
     }
 
@@ -124,7 +123,7 @@ final class api_test extends \advanced_testcase {
         $this->assertTrue($style['hascolor']);
         $this->assertFalse($style['hasicon']);
         $this->assertSame('1 h 35 min', $style['timelabel']);
-        $this->assertStringContainsString('--ct-fg:#111827', $style['coverstyle']);
+        $this->assertStringContainsString('--fct-fg:#111827', $style['coverstyle']);
     }
 
     /**

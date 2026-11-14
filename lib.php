@@ -420,12 +420,12 @@ class format_customtiles extends core_courseformat\base {
             'static',
             'ct_preview',
             get_string('sectionpreview', 'format_customtiles'),
-            '<div class="ct-root ct-sectionpreview" data-region="ct-sectionpreview" aria-live="polite">' .
-            '<div class="ct-tile ct-item"><div class="ct-tile__cover" aria-hidden="true">' .
-            '<i class="fa-solid ct-tile__icon" data-region="icon"></i></div>' .
-            '<div class="ct-tile__body"><p class="ct-item__title" data-region="title"></p>' .
-            '<p class="ct-item__meta" data-region="subtitle"></p>' .
-            '<p class="ct-item__meta" data-region="time"></p></div></div></div>'
+            '<div class="fct-root fct-sectionpreview" data-region="fct-sectionpreview" aria-live="polite">' .
+            '<div class="fct-tile fct-item"><div class="fct-tile__cover" aria-hidden="true">' .
+            '<i class="fa-solid fct-tile__icon" data-region="icon"></i></div>' .
+            '<div class="fct-tile__body"><p class="fct-item__title" data-region="title"></p>' .
+            '<p class="fct-item__meta" data-region="subtitle"></p>' .
+            '<p class="fct-item__meta" data-region="time"></p></div></div></div>'
         );
         $PAGE->requires->strings_for_js(['minutesshort'], 'format_customtiles');
         $PAGE->requires->js_call_amd('format_customtiles/sectionpreview', 'init');

@@ -30,10 +30,10 @@ const reducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)'
  * @param {HTMLElement} root carousel element
  */
 const setup = (root) => {
-    if (root.dataset.ctReady) {
+    if (root.dataset.fctReady) {
         return;
     }
-    root.dataset.ctReady = '1';
+    root.dataset.fctReady = '1';
     const track = root.querySelector('[data-region="track"]');
     const nav = root.querySelector('[data-region="nav"]');
     const dots = root.querySelector('[data-region="dots"]');
@@ -49,7 +49,7 @@ const setup = (root) => {
         const item = document.createElement('li');
         const button = document.createElement('button');
         button.type = 'button';
-        button.className = 'ct-carousel__dot';
+        button.className = 'fct-carousel__dot';
         button.setAttribute('aria-label', slide.getAttribute('aria-label'));
         button.addEventListener('click', () => goTo(index));
         item.appendChild(button);
@@ -116,5 +116,5 @@ const setup = (root) => {
  * Initialise every carousel on the page.
  */
 export const init = () => {
-    document.querySelectorAll('[data-region="ct-carousel"]').forEach(setup);
+    document.querySelectorAll('[data-region="fct-carousel"]').forEach(setup);
 };

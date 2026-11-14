@@ -43,5 +43,10 @@ function xmldb_format_customtiles_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2026110403, 'format', 'customtiles');
     }
 
+    if ($oldversion < 2026111400) {
+        // 0.2.0: CSS prefix renamed and new request cache; nothing to migrate in the database.
+        upgrade_plugin_savepoint(true, 2026111400, 'format', 'customtiles');
+    }
+
     return true;
 }

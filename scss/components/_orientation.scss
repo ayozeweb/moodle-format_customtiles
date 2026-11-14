@@ -14,7 +14,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 // Orientation: skip link, context bar, course map, secondary button and print rules.
-.ct-skip {
+.fct-skip {
   position: fixed;
   inset-block-start: .5rem;
   inset-inline-start: .5rem;
@@ -35,173 +35,173 @@
   }
 }
 
-.ct-ctxbar {
+.fct-ctxbar {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: var(--ct-space-2) var(--ct-space-3);
-  margin-block: var(--ct-space-2) var(--ct-space-3);
-  padding: .5rem var(--ct-space-3);
-  border-radius: var(--ct-radius);
-  background: var(--ct-surface2);
-  color: var(--ct-text);
+  gap: var(--fct-space-2) var(--fct-space-3);
+  margin-block: var(--fct-space-2) var(--fct-space-3);
+  padding: .5rem var(--fct-space-3);
+  border-radius: var(--fct-radius);
+  background: var(--fct-surface2);
+  color: var(--fct-text);
   font-size: .9375rem;
 }
 
-.ct-ctxbar__text {
+.fct-ctxbar__text {
   margin: 0;
   font-weight: 600;
   overflow-wrap: anywhere;
 }
 
-.ct-ctxbar__map {
+.fct-ctxbar__map {
   display: inline-flex;
   align-items: center;
   gap: .4rem;
-  min-block-size: var(--ct-touch);
-  color: var(--ct-primary);
+  min-block-size: var(--fct-touch);
+  color: var(--fct-primary);
   font-weight: 600;
 }
 
-.ct-btn--secondary {
+.fct-btn--secondary {
   display: inline-flex;
   flex: 0 0 auto;
   align-items: center;
   justify-content: center;
-  background: var(--ct-surface2);
-  color: var(--ct-text);
-  box-shadow: inset 0 0 0 1px var(--ct-border);
+  background: var(--fct-surface2);
+  color: var(--fct-text);
+  box-shadow: inset 0 0 0 1px var(--fct-border);
 
   &:hover,
   &:focus-visible {
-    color: var(--ct-text);
+    color: var(--fct-text);
     text-decoration: none;
-    background: var(--ct-surface);
+    background: var(--fct-surface);
   }
 
   &:focus-visible {
-    outline: 3px solid var(--ct-text);
+    outline: 3px solid var(--fct-text);
     outline-offset: 3px;
   }
 }
 
-.ct-map {
+.fct-map {
   max-inline-size: 60rem;
 }
 
-.ct-map__sections,
-.ct-map__activities {
+.fct-map__sections,
+.fct-map__activities {
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-.ct-map__section {
-  margin-block-end: var(--ct-space-4);
-  padding: var(--ct-space-3);
-  border-radius: var(--ct-radius);
-  background: var(--ct-surface);
-  box-shadow: var(--ct-shadow-1);
+.fct-map__section {
+  margin-block-end: var(--fct-space-4);
+  padding: var(--fct-space-3);
+  border-radius: var(--fct-radius);
+  background: var(--fct-surface);
+  box-shadow: var(--fct-shadow-1);
   break-inside: avoid;
 }
 
-.ct-map__sectiontitle {
+.fct-map__sectiontitle {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--ct-space-2) var(--ct-space-3);
-  margin: 0 0 var(--ct-space-2);
+  gap: var(--fct-space-2) var(--fct-space-3);
+  margin: 0 0 var(--fct-space-2);
   font-size: 1.125rem;
 }
 
-.ct-map__activities li {
+.fct-map__activities li {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--ct-space-2);
-  min-block-size: var(--ct-touch);
+  gap: var(--fct-space-2);
+  min-block-size: var(--fct-touch);
   padding-block: .25rem;
-  border-block-start: 1px solid color-mix(in srgb, var(--ct-border) 30%, transparent);
+  border-block-start: 1px solid color-mix(in srgb, var(--fct-border) 30%, transparent);
 
   a {
     display: inline-flex;
     align-items: center;
-    min-block-size: var(--ct-touch);
+    min-block-size: var(--fct-touch);
   }
 }
 
-.ct-herowrap .ct-hero__actions {
+.fct-herowrap .fct-hero__actions {
   align-items: stretch;
 }
 
 // Print: content and course map only.
 @media print {
-  .ct-skip,
-  .ct-ctxbar__map,
-  .ct-btn,
-  .ct-carousel__nav,
-  .ct-legend summary::marker {
+  .fct-skip,
+  .fct-ctxbar__map,
+  .fct-btn,
+  .fct-carousel__nav,
+  .fct-legend summary::marker {
     display: none;
   }
 
-  .ct-root {
+  .fct-root {
     color: #000;
     background: #fff;
   }
 
-  .ct-hero,
-  .ct-tile,
-  .ct-card,
-  .ct-step__card,
-  .ct-slide,
-  .ct-map__section,
-  .ct-legend {
+  .fct-hero,
+  .fct-tile,
+  .fct-card,
+  .fct-step__card,
+  .fct-slide,
+  .fct-map__section,
+  .fct-legend {
     box-shadow: none;
     border: 1px solid #999;
     break-inside: avoid;
   }
 
-  .ct-hero__media,
-  .ct-tile__cover,
-  .ct-card__cover,
-  .ct-slide__cover,
-  .ct-cover__img {
+  .fct-hero__media,
+  .fct-tile__cover,
+  .fct-card__cover,
+  .fct-slide__cover,
+  .fct-cover__img {
     display: none;
   }
 
-  .ct-carousel__track {
+  .fct-carousel__track {
     display: block;
     overflow: visible;
   }
 
-  .ct-slide {
-    margin-block-end: var(--ct-space-3);
+  .fct-slide {
+    margin-block-end: var(--fct-space-3);
     min-block-size: 0;
   }
 
-  .ct-item__summary {
+  .fct-item__summary {
     display: block;
   }
 
-  .ct-legend:not([open]) .ct-legend__list {
+  .fct-legend:not([open]) .fct-legend__list {
     display: grid;
   }
 
-  .ct-item__link::after {
+  .fct-item__link::after {
     display: none;
   }
 }
 
 // Touch targets inside the format: map links and the core completion buttons on section pages.
-.ct-map a,
-.ct-root .activity-completion .btn {
-  min-block-size: var(--ct-touch);
+.fct-map a,
+.fct-root .activity-completion .btn {
+  min-block-size: var(--fct-touch);
 }
 
-.ct-map__sectiontitle a,
-.ct-map > p a {
+.fct-map__sectiontitle a,
+.fct-map > p a {
   display: inline-flex;
   align-items: center;
-  min-block-size: var(--ct-touch);
+  min-block-size: var(--fct-touch);
 }

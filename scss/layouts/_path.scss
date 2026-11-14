@@ -14,8 +14,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 // Learning path: vertical route with connected nodes.
-.ct-path {
-  --ct-node: 2.75rem;
+.fct-path {
+  --fct-node: 2.75rem;
 
   margin: 0;
   padding: 0;
@@ -23,86 +23,86 @@
   counter-reset: none;
 }
 
-.ct-step {
+.fct-step {
   position: relative;
   display: grid;
-  grid-template-columns: var(--ct-node) minmax(0, 1fr);
-  column-gap: var(--ct-space-3);
-  padding-block-end: var(--ct-space-3);
+  grid-template-columns: var(--fct-node) minmax(0, 1fr);
+  column-gap: var(--fct-space-3);
+  padding-block-end: var(--fct-space-3);
 
   // Connector to the next step; filled when this step is completed.
   &:not(:last-child)::before {
     content: "";
     position: absolute;
-    inset-block: var(--ct-node) 0;
-    inset-inline-start: calc(var(--ct-node) / 2 - 2px);
+    inset-block: var(--fct-node) 0;
+    inset-inline-start: calc(var(--fct-node) / 2 - 2px);
     inline-size: 4px;
     border-radius: 2px;
-    background: color-mix(in srgb, var(--ct-border) 45%, var(--ct-surface));
+    background: color-mix(in srgb, var(--fct-border) 45%, var(--fct-surface));
   }
 
   &--completed:not(:last-child)::before {
-    background: var(--ct-success);
+    background: var(--fct-success);
   }
 }
 
-.ct-step__node {
+.fct-step__node {
   position: relative;
   z-index: 1;
   display: grid;
   place-items: center;
-  inline-size: var(--ct-node);
-  block-size: var(--ct-node);
+  inline-size: var(--fct-node);
+  block-size: var(--fct-node);
   border-radius: 50%;
-  border: 3px solid var(--ct-primary);
-  background: var(--ct-surface);
-  color: var(--ct-primary);
+  border: 3px solid var(--fct-primary);
+  background: var(--fct-surface);
+  color: var(--fct-primary);
   font-weight: 800;
 
-  .ct-step--completed & {
-    background: var(--ct-success);
-    border-color: var(--ct-success);
-    color: var(--ct-surface);
+  .fct-step--completed & {
+    background: var(--fct-success);
+    border-color: var(--fct-success);
+    color: var(--fct-surface);
   }
 
-  .ct-step--inprogress & {
-    background: var(--ct-primary);
-    color: var(--ct-onprimary);
+  .fct-step--inprogress & {
+    background: var(--fct-primary);
+    color: var(--fct-onprimary);
   }
 
-  .ct-step--locked & {
+  .fct-step--locked & {
     border-style: dashed;
-    border-color: var(--ct-border);
-    color: var(--ct-muted);
-    background: var(--ct-surface2);
+    border-color: var(--fct-border);
+    color: var(--fct-muted);
+    background: var(--fct-surface2);
   }
 }
 
-.ct-step__card {
+.fct-step__card {
   flex: none;
-  border-radius: var(--ct-radius);
-  background: var(--ct-surface);
-  box-shadow: var(--ct-shadow-1);
+  border-radius: var(--fct-radius);
+  background: var(--fct-surface);
+  box-shadow: var(--fct-shadow-1);
 
-  .ct-step--locked & {
-    background: var(--ct-surface2);
+  .fct-step--locked & {
+    background: var(--fct-surface2);
     box-shadow: none;
   }
 
-  .ct-step--current & {
-    box-shadow: 0 0 0 2px var(--ct-primary), var(--ct-shadow-1);
+  .fct-step--current & {
+    box-shadow: 0 0 0 2px var(--fct-primary), var(--fct-shadow-1);
   }
 }
 
-.ct-path .ct-item__summary {
+.fct-path .fct-item__summary {
   display: block;
 }
 
-.ct-step.ct-item:focus-within {
+.fct-step.fct-item:focus-within {
   outline: none;
 
-  .ct-step__card {
-    outline: var(--ct-focus);
+  .fct-step__card {
+    outline: var(--fct-focus);
     outline-offset: 2px;
   }
 }

@@ -34,4 +34,10 @@ $definitions = [
         'staticaccelerationsize' => 10,
         'ttl' => 900,
     ],
+    // Activity category assignments of a course, for the duration of one request. Keys: course id.
+    'assignments' => [
+        'mode' => cache_store::MODE_REQUEST,
+        'simplekeys' => true,
+        'simpledata' => true,
+    ],
 ];

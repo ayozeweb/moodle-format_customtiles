@@ -94,14 +94,15 @@ Tamaño: S = una sesión corta, M = una sesión larga, L = varias sesiones.
 
 Objetivo: dejar el repositorio en condiciones de publicar una 0.2.0 sin cambiar funcionalidad.
 
-- [ ] `.gitattributes` con `export-ignore` para `docs/`, `tests/`, `scss/`, `.github/`, `STATUS.md`, `SECURITY.md`, `CLAUDE.md`, `plan_mejora_fable.md`, `package.json`, `build-css.sh` (D11). Comprobar con `git archive` que el zip resultante instala.
-- [ ] `CHANGES.md` (formato «Keep a Changelog») reconstruido desde el historial de git, `CONTRIBUTING.md`, `.editorconfig`.
-- [ ] `$plugin->supported = [503, 503]` en `version.php`.
-- [ ] Paso de CI que recompila el CSS y falla si `styles.css` difiere (`npm run build:css && git diff --exit-code styles.css`).
-- [ ] Sustituir la caché estática de `cm.php` por una caché de petición (`cache::make_from_params(cache_store::MODE_REQUEST, ...)`) y quitar `reset_cache()` (D12).
-- [ ] Test de actualización: instalar el esquema de 0.1.0 y pasar `db/upgrade.php`.
-- [ ] Limpieza al desinstalar: borrar el área de archivos `logos` del contexto de sistema (`db/uninstall.php`).
-- [ ] **[DECISIÓN]** Copyright definitivo (D16) y prefijo CSS (D17). Si se renombra el prefijo, hacerlo aquí y de una vez (SCSS, plantillas, JS, Behat), con las capturas regeneradas.
+- [x] `.gitattributes` con `export-ignore` para `docs/`, `tests/`, `scss/`, `.github/`, `STATUS.md`, `SECURITY.md`, `CLAUDE.md`, `plan_mejora_fable.md`, `package.json`, `build-css.sh` (D11). Comprobar con `git archive` que el zip resultante instala.
+- [x] `CHANGES.md` (formato «Keep a Changelog») reconstruido desde el historial de git, `CONTRIBUTING.md`, `.editorconfig`.
+- [x] `$plugin->supported = [503, 503]` en `version.php`.
+- [x] Paso de CI que recompila el CSS y falla si `styles.css` difiere (`npm run build:css && git diff --exit-code styles.css`).
+- [x] Sustituir la caché estática de `cm.php` por una caché de petición (`cache::make_from_params(cache_store::MODE_REQUEST, ...)`) y quitar `reset_cache()` (D12).
+- [x] Test de actualización: instalar el esquema de 0.1.0 y pasar `db/upgrade.php`.
+- [x] Limpieza al desinstalar: borrar el área de archivos `logos` del contexto de sistema (`db/uninstall.php`).
+- [~] **[DECISIÓN]** Prefijo renombrado a `fct-` (hecho). Copyright: sigue pendiente del nombre legal.
+- [ ] ~~Copyright definitivo~~ ver línea anterior. Texto original: Copyright definitivo (D16) y prefijo CSS (D17). Si se renombra el prefijo, hacerlo aquí y de una vez (SCSS, plantillas, JS, Behat), con las capturas regeneradas.
 
 Criterio de aceptación: CI completa en verde en GitHub (no solo en local), incluido Behat con JS. Esta fase es la primera vez que la CI real se ejecuta: **arreglar lo que falle allí es parte de la fase** (D3).
 

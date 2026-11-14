@@ -74,6 +74,11 @@ class api {
      */
     public static function get_course_assignments(int $courseid): array {
         global $DB;
+        $cache = \cache::make('format_customtiles', 'assignments');
+        $cached = $cache->get($courseid);
+        if (is_array($cached)) {
+            return $cached;
+        }
         $rows = $DB->get_records_sql(
             "SELECT m.cmid, c.id, c.code, c.name, c.color, c.icon
                FROM {format_customtiles_cmcat} m
@@ -88,6 +93,7 @@ class api {
                 'color' => $row->color, 'icon' => $row->icon,
             ];
         }
+        $cache->set($courseid, $out);
         return $out;
     }
 
@@ -100,6 +106,7 @@ class api {
      */
     public static function set_activity_category(int $courseid, int $cmid, ?int $categoryid): void {
         global $DB;
+        \cache::make('format_customtiles', 'assignments')->delete($courseid);
         $existing = $DB->get_record('format_customtiles_cmcat', ['cmid' => $cmid]);
         if (!$categoryid) {
             if ($existing) {
@@ -137,6 +144,7 @@ class api {
         ];
         if (!empty($data->id)) {
             $record->id = $data->id;
+            \cache::make('format_customtiles', 'assignments')->purge();
             $DB->update_record('format_customtiles_cat', $record);
             return (int)$data->id;
         }
@@ -152,6 +160,7 @@ class api {
      */
     public static function delete_category(int $id): void {
         global $DB;
+        \cache::make('format_customtiles', 'assignments')->purge();
         $DB->delete_records('format_customtiles_cmcat', ['categoryid' => $id]);
         $DB->delete_records('format_customtiles_cat', ['id' => $id]);
     }
@@ -185,7 +194,7 @@ class api {
         $bg = color::normalise($category['color'] ?? '') ?? '#1d4ed8';
         return [
             'code' => $category['code'], 'name' => $category['name'], 'icon' => $category['icon'] ?? '',
-            'hasicon' => !empty($category['icon']), 'style' => '--ct-cat-bg:' . $bg . ';--ct-cat-fg:' . color::readable_on($bg),
+            'hasicon' => !empty($category['icon']), 'style' => '--fct-cat-bg:' . $bg . ';--fct-cat-fg:' . color::readable_on($bg),
         ];
     }
 }

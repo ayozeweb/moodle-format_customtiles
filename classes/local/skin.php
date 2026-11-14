@@ -26,7 +26,7 @@ namespace format_customtiles\local;
 
 /**
  * Registry of skins. Each skin is a flat map of colour tokens; shape/typography tokens
- * are shared and defined in SCSS. Tokens are exposed as CSS variables under the --ct- namespace.
+ * are shared and defined in SCSS. Tokens are exposed as CSS variables under the --fct- namespace.
  *
  * @package    format_customtiles
  * @copyright  2026 ayozeweb (https://github.com/ayozeweb)
@@ -37,7 +37,7 @@ class skin {
     public const DEFAULT = 'light';
 
     /** @var string Font stack using the bundled Inter. */
-    private const FONT_INTER = '"CT Inter", var(--ct-font-base)';
+    private const FONT_INTER = '"CT Inter", var(--fct-font-base)';
 
     /** @var string[] Colour tokens every skin must define. */
     public const REQUIRED = [
@@ -102,12 +102,12 @@ class skin {
             'vibrant' => ['radius-s' => '.75rem', 'radius' => '1.5rem', 'radius-l' => '2rem', 'font' => self::FONT_INTER],
             'minimal' => [
                 'radius-s' => '.125rem', 'radius' => '.25rem', 'radius-l' => '.25rem', 'font' => self::FONT_INTER,
-                'shadow-1' => 'none', 'shadow-2' => '0 0 0 1px var(--ct-border)',
+                'shadow-1' => 'none', 'shadow-2' => '0 0 0 1px var(--fct-border)',
             ],
             'highcontrast' => [
                 'radius-s' => '.25rem', 'radius' => '.25rem', 'radius-l' => '.25rem',
-                'font' => '"CT Atkinson", var(--ct-font-base)', 'shadow-1' => '0 0 0 2px var(--ct-border)',
-                'shadow-2' => '0 0 0 3px var(--ct-border)', 'lh' => '1.7',
+                'font' => '"CT Atkinson", var(--fct-font-base)', 'shadow-1' => '0 0 0 2px var(--fct-border)',
+                'shadow-2' => '0 0 0 3px var(--fct-border)', 'lh' => '1.7',
             ],
         ];
     }
@@ -231,10 +231,10 @@ class skin {
     public static function css_variables(string $id, string $basecolor = ''): string {
         $css = [];
         foreach (self::get_tokens($id, $basecolor) as $name => $value) {
-            $css[] = '--ct-' . $name . ':' . $value;
+            $css[] = '--fct-' . $name . ':' . $value;
         }
         foreach (self::get_shapes()[$id] ?? [] as $name => $value) {
-            $css[] = '--ct-' . $name . ':' . $value;
+            $css[] = '--fct-' . $name . ':' . $value;
         }
         return implode(';', $css);
     }

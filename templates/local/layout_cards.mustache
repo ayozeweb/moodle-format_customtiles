@@ -31,13 +31,13 @@
         ]
     }
 }}
-<ul class="ct-cards" data-for="ct_cards">
+<ul class="fct-cards" data-for="ct_cards">
     {{#tiles}}
-        <li class="ct-card ct-item ct-card--{{state}}{{#iscurrent}} ct-card--current{{/iscurrent}}" data-section-id="{{id}}">
-            <div class="ct-card__cover{{#hascolor}} ct-has-color{{/hascolor}}" aria-hidden="true"{{#hascolor}} style="{{coverstyle}}"{{/hascolor}}>
+        <li class="fct-card fct-item fct-card--{{state}}{{#iscurrent}} fct-card--current{{/iscurrent}}" data-section-id="{{id}}">
+            <div class="fct-card__cover{{#hascolor}} fct-has-color{{/hascolor}}" aria-hidden="true"{{#hascolor}} style="{{coverstyle}}"{{/hascolor}}>
                 {{> format_customtiles/local/cover }}
             </div>
-            <div class="ct-card__body">
+            <div class="fct-card__body">
                 {{> format_customtiles/local/tile_body }}
             </div>
         </li>

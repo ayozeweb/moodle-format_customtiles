@@ -36,15 +36,15 @@
         ]
     }
 }}
-<ol class="ct-path" data-for="ct_path">
+<ol class="fct-path" data-for="ct_path">
     {{#tiles}}
-        <li class="ct-step ct-item ct-step--{{state}}{{#iscurrent}} ct-step--current{{/iscurrent}}" data-section-id="{{id}}">
-            <span class="ct-step__node" aria-hidden="true">
+        <li class="fct-step fct-item fct-step--{{state}}{{#iscurrent}} fct-step--current{{/iscurrent}}" data-section-id="{{id}}">
+            <span class="fct-step__node" aria-hidden="true">
                 {{#iscompleted}}<i class="fa-solid fa-check"></i>{{/iscompleted}}
                 {{#islocked}}<i class="fa-solid fa-lock"></i>{{/islocked}}
                 {{^iscompleted}}{{^islocked}}{{position}}{{/islocked}}{{/iscompleted}}
             </span>
-            <div class="ct-step__card">
+            <div class="fct-step__card">
                 {{> format_customtiles/local/tile_body }}
             </div>
         </li>

@@ -31,13 +31,13 @@
         ]
     }
 }}
-<ul class="ct-tiles{{#isbento}} ct-tiles--bento{{/isbento}}" data-for="ct_tiles">
+<ul class="fct-tiles{{#isbento}} fct-tiles--bento{{/isbento}}" data-for="ct_tiles">
     {{#tiles}}
-        <li class="ct-tile ct-item ct-tile--{{state}}{{#iscurrent}} ct-tile--current{{/iscurrent}}" data-section-id="{{id}}">
-            <div class="ct-tile__cover{{#hascolor}} ct-has-color{{/hascolor}}" aria-hidden="true"{{#hascolor}} style="{{coverstyle}}"{{/hascolor}}>
+        <li class="fct-tile fct-item fct-tile--{{state}}{{#iscurrent}} fct-tile--current{{/iscurrent}}" data-section-id="{{id}}">
+            <div class="fct-tile__cover{{#hascolor}} fct-has-color{{/hascolor}}" aria-hidden="true"{{#hascolor}} style="{{coverstyle}}"{{/hascolor}}>
                 {{> format_customtiles/local/cover }}
             </div>
-            <div class="ct-tile__body">
+            <div class="fct-tile__body">
                 {{> format_customtiles/local/tile_body }}
             </div>
         </li>

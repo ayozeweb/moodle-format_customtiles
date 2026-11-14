@@ -14,87 +14,87 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 // Bento: asymmetric grid, the first sections of each group of five are featured.
-@container ct-main (min-width: 37.5rem) {
-  .ct-tiles--bento {
+@container fct-main (min-width: 37.5rem) {
+  .fct-tiles--bento {
     grid-auto-flow: dense;
     grid-template-columns: repeat(4, minmax(0, 1fr));
 
-    .ct-tile {
+    .fct-tile {
       grid-column: span 2;
     }
 
-    .ct-tile:nth-child(5n + 1) {
+    .fct-tile:nth-child(5n + 1) {
       grid-column: span 2;
       grid-row: span 2;
 
-      .ct-tile__cover {
+      .fct-tile__cover {
         aspect-ratio: 16 / 11;
       }
     }
 
-    .ct-tile:nth-child(5n + 4),
-    .ct-tile:nth-child(5n) {
+    .fct-tile:nth-child(5n + 4),
+    .fct-tile:nth-child(5n) {
       grid-column: span 1;
     }
   }
 }
 
 // Compact list.
-.ct-list {
+.fct-list {
   display: grid;
-  gap: var(--ct-space-2);
+  gap: var(--fct-space-2);
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-.ct-row {
+.fct-row {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
   align-items: center;
-  gap: var(--ct-space-2) var(--ct-space-3);
+  gap: var(--fct-space-2) var(--fct-space-3);
   min-block-size: 3.5rem;
-  padding: var(--ct-space-2) var(--ct-space-3);
-  border-radius: var(--ct-radius);
-  background: var(--ct-surface);
-  box-shadow: var(--ct-shadow-1);
+  padding: var(--fct-space-2) var(--fct-space-3);
+  border-radius: var(--fct-radius);
+  background: var(--fct-surface);
+  box-shadow: var(--fct-shadow-1);
 
   &--current {
-    box-shadow: 0 0 0 2px var(--ct-primary), var(--ct-shadow-1);
+    box-shadow: 0 0 0 2px var(--fct-primary), var(--fct-shadow-1);
   }
 
   &--locked {
-    background: var(--ct-surface2);
+    background: var(--fct-surface2);
   }
 
-  .ct-state {
+  .fct-state {
     grid-column: 2;
   }
 }
 
-.ct-row__num {
+.fct-row__num {
   display: grid;
   place-items: center;
   inline-size: 2.25rem;
   block-size: 2.25rem;
   border-radius: 50%;
-  background: var(--ct-primary);
-  color: var(--ct-onprimary);
+  background: var(--fct-primary);
+  color: var(--fct-onprimary);
   font-weight: 800;
 }
 
-.ct-row__main {
+.fct-row__main {
   display: grid;
   gap: .25rem;
   min-inline-size: 0;
 }
 
-@container ct-main (min-width: 37.5rem) {
-  .ct-row {
+@container fct-main (min-width: 37.5rem) {
+  .fct-row {
     grid-template-columns: auto minmax(0, 1fr) auto;
   }
 
-  .ct-row .ct-state {
+  .fct-row .fct-state {
     grid-column: 3;
   }
 }

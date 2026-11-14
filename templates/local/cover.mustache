@@ -28,16 +28,16 @@
     }
 }}
 {{#hascover}}
-    <img class="ct-cover__img" src="{{coversrc}}" srcset="{{coversrcset}}" sizes="(min-width: 48rem) 480px, 50vw"
+    <img class="fct-cover__img" src="{{coversrc}}" srcset="{{coversrcset}}" sizes="(min-width: 48rem) 480px, 50vw"
          alt="" width="480" height="300" loading="lazy" decoding="async">
-    <span class="ct-cover__badge">{{num}}</span>
+    <span class="fct-cover__badge">{{num}}</span>
 {{/hascover}}
 {{^hascover}}
     {{#hasicon}}
-        <i class="fa-solid fa-{{icon}} ct-cover__icon"></i>
-        <span class="ct-cover__badge">{{num}}</span>
+        <i class="fa-solid fa-{{icon}} fct-cover__icon"></i>
+        <span class="fct-cover__badge">{{num}}</span>
     {{/hasicon}}
     {{^hasicon}}
-        <span class="ct-cover__num">{{num}}</span>
+        <span class="fct-cover__num">{{num}}</span>
     {{/hasicon}}
 {{/hascover}}

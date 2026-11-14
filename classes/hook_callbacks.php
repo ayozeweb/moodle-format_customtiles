@@ -94,7 +94,7 @@ class hook_callbacks {
         $hook->add_html(\html_writer::link(
             '#maincontent',
             get_string('skiptocontent', 'format_customtiles'),
-            ['class' => 'ct-skip']
+            ['class' => 'fct-skip']
         ));
     }
 }

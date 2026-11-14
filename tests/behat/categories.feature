@@ -66,7 +66,7 @@ Feature: Activity categories
     And I am on the "Page A" "page activity" page logged in as "student1"
     And I am on the "C1" "course" page
     And I should see "Legend"
-    And I should see "Training activity" in the ".ct-legend" "css_element"
+    And I should see "Training activity" in the ".fct-legend" "css_element"
 
   Scenario: Students are not offered the category assignment
     When I am on the "C1" "course" page logged in as "student1"

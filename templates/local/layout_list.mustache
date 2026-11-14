@@ -31,25 +31,25 @@
         ]
     }
 }}
-<ol class="ct-list" data-for="ct_list">
+<ol class="fct-list" data-for="ct_list">
     {{#tiles}}
-        <li class="ct-row ct-item ct-row--{{state}}{{#iscurrent}} ct-row--current{{/iscurrent}}" data-section-id="{{id}}">
-            <span class="ct-row__num" aria-hidden="true">{{num}}</span>
-            <div class="ct-row__main">
-                <h3 class="ct-item__title">
-                    {{#locked}}<span class="ct-item__name">{{{name}}}</span>{{/locked}}
-                    {{^locked}}<a class="ct-item__link" href="{{url}}">{{{name}}}</a>{{/locked}}
+        <li class="fct-row fct-item fct-row--{{state}}{{#iscurrent}} fct-row--current{{/iscurrent}}" data-section-id="{{id}}">
+            <span class="fct-row__num" aria-hidden="true">{{num}}</span>
+            <div class="fct-row__main">
+                <h3 class="fct-item__title">
+                    {{#locked}}<span class="fct-item__name">{{{name}}}</span>{{/locked}}
+                    {{^locked}}<a class="fct-item__link" href="{{url}}">{{{name}}}</a>{{/locked}}
                 </h3>
-                {{#locked}}<div class="ct-item__reason">{{{reason}}}</div>{{/locked}}
-                <p class="ct-item__meta">{{activitieslabel}}{{#timelabel}} · {{timelabel}}{{/timelabel}}</p>
+                {{#locked}}<div class="fct-item__reason">{{{reason}}}</div>{{/locked}}
+                <p class="fct-item__meta">{{activitieslabel}}{{#timelabel}} · {{timelabel}}{{/timelabel}}</p>
                 {{#hasprogress}}
-                    <div class="ct-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100"
+                    <div class="fct-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100"
                          aria-valuenow="{{percent}}" aria-label="{{progresslabel}}">
-                        <span class="ct-progress__bar" style="--ct-pct: {{percent}}%"></span>
+                        <span class="fct-progress__bar" style="--fct-pct: {{percent}}%"></span>
                     </div>
                 {{/hasprogress}}
             </div>
-            <p class="ct-state ct-state--{{state}}"><i class="fa-solid {{stateicon}}" aria-hidden="true"></i> <span>{{statelabel}}</span></p>
+            <p class="fct-state fct-state--{{state}}"><i class="fa-solid {{stateicon}}" aria-hidden="true"></i> <span>{{statelabel}}</span></p>
         </li>
     {{/tiles}}
 </ol>
