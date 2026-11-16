@@ -441,6 +441,59 @@
         display: none;
     }
 }
+.fct-units {
+    display: grid;
+    gap: 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-block-start: 1px solid color-mix(in srgb, var(--fct-border) 30%, transparent);
+}
+
+.fct-unit {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: var(--fct-space-2);
+    min-block-size: var(--fct-touch);
+    border-block-end: 1px solid color-mix(in srgb, var(--fct-border) 30%, transparent);
+    font-size: 0.9375rem;
+}
+
+.fct-unit__link {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    min-block-size: var(--fct-touch);
+    color: var(--fct-text);
+    font-weight: 600;
+    overflow-wrap: anywhere;
+}
+.fct-unit__link:hover,
+.fct-unit__link:focus-visible {
+    color: var(--fct-primary);
+}
+
+.fct-unit .fct-unit__state {
+    margin: 0;
+}
+
+.fct-unit__name {
+    color: var(--fct-muted);
+}
+
+.fct-unit__meta {
+    color: var(--fct-muted);
+    font-size: 0.875rem;
+    white-space: nowrap;
+}
+
+.fct-tiles .fct-units,
+.fct-list .fct-units {
+    display: none;
+}
+
 .fct-main {
     container: fct-main/inline-size;
 }
@@ -1280,6 +1333,31 @@
     min-block-size: var(--fct-touch);
 }
 
+.fct-map__units {
+    margin: var(--fct-space-2) 0 0;
+    padding: 0 0 0 var(--fct-space-3);
+    list-style: none;
+    border-inline-start: 3px solid color-mix(in srgb, var(--fct-primary) 45%, transparent);
+}
+
+.fct-map__unit {
+    padding-block: var(--fct-space-2);
+}
+
+.fct-map__unittitle {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--fct-space-2) var(--fct-space-3);
+    margin: 0;
+    font-size: 1rem;
+}
+.fct-map__unittitle a {
+    display: inline-flex;
+    align-items: center;
+    min-block-size: var(--fct-touch);
+}
+
 .fct-root--section {
     --bs-body-color: var(--fct-text);
     --bs-body-bg: var(--fct-surface);
@@ -1288,6 +1366,8 @@
     --bs-link-color: var(--fct-primary);
     --bs-link-hover-color: var(--fct-primary);
     --bs-emphasis-color: var(--fct-text);
+    --mds-bg-surface-default: var(--fct-surface2);
+    --mds-border-subtle: color-mix(in srgb, var(--fct-border) 35%, transparent);
     color: var(--fct-text);
 }
 .fct-root--section .activity-item {
@@ -1347,6 +1427,28 @@
     box-shadow: none;
     border-inline-start: 4px solid var(--fct-primary);
     border-radius: 0;
+}
+.fct-root--section .delegated-section .section-item .course-content-item-content .section-content-inner {
+    border-color: color-mix(in srgb, var(--fct-border) 35%, transparent);
+    background: transparent;
+}
+.fct-root--section .single-section .course-section .delegated-section .section-item {
+    border: 0;
+    border-radius: var(--fct-radius);
+    background: var(--fct-surface2);
+    color: var(--fct-text);
+}
+.fct-root--section .activity-altcontent .sectionname a {
+    display: inline-flex;
+    align-items: center;
+    min-block-size: var(--fct-touch);
+    color: var(--fct-text);
+}
+.fct-root--section .icons-collapse-expand {
+    min-inline-size: var(--fct-touch);
+    min-block-size: var(--fct-touch);
+    justify-content: center;
+    color: var(--fct-text);
 }
 .fct-root--section .section .course-section-header,
 .fct-root--section .section .sectionname,

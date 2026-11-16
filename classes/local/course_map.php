@@ -46,34 +46,41 @@ class course_map {
         $modinfo = $format->get_modinfo();
         $completion = new \completion_info($format->get_course());
         $tracking = $model->has_tracking();
+        // Activities of one section (or unit) the user can open, with their completion state.
+        $activitiesof = function (int $sectionid) use ($modinfo, $completion, $tracking): array {
+            $section = $modinfo->get_section_info_by_id($sectionid);
+            $activities = [];
+            foreach ($modinfo->sections[$section->section] ?? [] as $cmid) {
+                $cm = $modinfo->cms[$cmid];
+                if (!$cm->uservisible || !$cm->url || $cm->is_stealth()) {
+                    continue;
+                }
+                $done = false;
+                $tracked = $tracking && $completion->is_enabled($cm);
+                if ($tracked) {
+                    $state = (int)$completion->get_data($cm, true)->completionstate;
+                    $done = in_array($state, [COMPLETION_COMPLETE, COMPLETION_COMPLETE_PASS]);
+                }
+                $activities[] = [
+                    'name' => $cm->get_formatted_name(),
+                    'url' => $cm->url->out(false),
+                    'icon' => $cm->get_icon_url()->out(false),
+                    'tracked' => $tracked,
+                    'done' => $done,
+                    'statelabel' => get_string($done ? 'state_completed' : 'state_pending', 'format_customtiles'),
+                ];
+            }
+            return $activities;
+        };
         $sections = [];
         foreach ($model->get_sections() as $tile) {
-            $section = $modinfo->get_section_info_by_id($tile['id']);
-            $activities = [];
-            if (!$tile['locked']) {
-                foreach ($modinfo->sections[$section->section] ?? [] as $cmid) {
-                    $cm = $modinfo->cms[$cmid];
-                    if (!$cm->uservisible || !$cm->url || $cm->is_stealth()) {
-                        continue;
-                    }
-                    $done = false;
-                    $tracked = $tracking && $completion->is_enabled($cm);
-                    if ($tracked) {
-                        $state = (int)$completion->get_data($cm, true)->completionstate;
-                        $done = in_array($state, [COMPLETION_COMPLETE, COMPLETION_COMPLETE_PASS]);
-                    }
-                    $activities[] = [
-                        'name' => $cm->get_formatted_name(),
-                        'url' => $cm->url->out(false),
-                        'icon' => $cm->get_icon_url()->out(false),
-                        'tracked' => $tracked,
-                        'done' => $done,
-                        'statelabel' => get_string($done ? 'state_completed' : 'state_pending', 'format_customtiles'),
-                    ];
-                }
+            $tile['activitylist'] = $tile['locked'] ? [] : $activitiesof($tile['id']);
+            $tile['hasactivities'] = !empty($tile['activitylist']);
+            // Units are listed under their section, each with its own activities.
+            foreach ($tile['units'] as $index => $unit) {
+                $tile['units'][$index]['activitylist'] = $unit['locked'] ? [] : $activitiesof($unit['id']);
+                $tile['units'][$index]['hasactivities'] = !empty($tile['units'][$index]['activitylist']);
             }
-            $tile['activitylist'] = $activities;
-            $tile['hasactivities'] = !empty($activities);
             $sections[] = $tile;
         }
         $overall = $model->get_overall();

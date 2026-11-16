@@ -50,6 +50,9 @@ class course_data {
     /** @var string State: content added since the user's previous visit. */
     public const STATE_NEW = 'new';
 
+    /** @var array Progress row of a section without figures. */
+    private const EMPTY_ROW = ['activities' => 0, 'tracked' => 0, 'done' => 0, 'new' => false, 'units' => []];
+
     /** @var int Seconds without activity after which a course view counts as a new visit. */
     private const VISIT_GAP = 30 * MINSECS;
 
@@ -73,6 +76,8 @@ class course_data {
     private $userid;
     /** @var array|null */
     private $progress = null;
+    /** @var array[]|null Exported sections, built once per object. */
+    private $sections = null;
 
     /**
      * Constructor.
@@ -201,29 +206,37 @@ class course_data {
     /**
      * Compute the figures for all sections with one pass (completion data of the whole course is loaded once).
      *
+     * Sub-sections (units) are counted inside the section that contains them: the figures of a section
+     * are its own activities plus those of its units, in the order they appear on the page.
+     *
      * @return array
      */
     private function compute_progress(): array {
         $completion = new \completion_info($this->course);
         $tracking = $this->has_tracking();
         $previousvisit = self::get_previous_visit((int)$this->course->id, $this->userid);
-        $result = [
-            'rev' => (int)$this->course->cacherev,
-            'sections' => [],
-            'pending' => [],
-            'all' => [],
-            'tracked' => 0,
-            'done' => 0,
-        ];
+
+        // Own figures of every section (units included), and where each unit sits in its parent.
+        $own = [];
         foreach ($this->modinfo->get_section_info_all() as $num => $section) {
-            $row = ['activities' => 0, 'tracked' => 0, 'done' => 0, 'new' => false];
+            $row = ['activities' => 0, 'tracked' => 0, 'done' => 0, 'new' => false, 'all' => [], 'pending' => [],
+                'order' => [], 'units' => []];
             foreach ($this->modinfo->sections[$num] ?? [] as $cmid) {
                 $cm = $this->modinfo->cms[$cmid];
+                $unit = $cm->get_delegated_section_info();
+                if ($unit) {
+                    if ($cm->uservisible) {
+                        $row['order'][] = ['unit' => (int)$unit->section];
+                        $row['units'][] = (int)$unit->section;
+                    }
+                    continue;
+                }
                 if (!$cm->uservisible || !$cm->url || $cm->is_stealth()) {
                     continue;
                 }
                 $row['activities']++;
-                $result['all'][] = $cm->id;
+                $row['all'][] = (int)$cm->id;
+                $row['order'][] = ['cm' => (int)$cm->id];
                 if ($previousvisit > 0 && !empty($cm->added) && $cm->added > $previousvisit) {
                     $row['new'] = true;
                 }
@@ -235,12 +248,60 @@ class course_data {
                 if (in_array((int)$data->completionstate, [COMPLETION_COMPLETE, COMPLETION_COMPLETE_PASS])) {
                     $row['done']++;
                 } else {
-                    $result['pending'][] = $cm->id;
+                    $row['pending'][] = (int)$cm->id;
                 }
             }
-            $result['tracked'] += $row['tracked'];
-            $result['done'] += $row['done'];
+            $own[$num] = $row;
+        }
+
+        $result = [
+            'rev' => (int)$this->course->cacherev,
+            'sections' => [],
+            'pending' => [],
+            'all' => [],
+            'tracked' => 0,
+            'done' => 0,
+        ];
+        foreach ($this->modinfo->get_section_info_all() as $num => $section) {
+            $row = $own[$num];
+            if (!$section->is_delegated() && $row['units']) {
+                // Aggregate the units into their parent, keeping the page order.
+                $total = ['activities' => 0, 'tracked' => 0, 'done' => 0, 'new' => false, 'all' => [], 'pending' => []];
+                $ownpending = array_flip($row['pending']);
+                foreach ($row['order'] as $item) {
+                    if (isset($item['cm'])) {
+                        $total['all'][] = $item['cm'];
+                        if (isset($ownpending[$item['cm']])) {
+                            $total['pending'][] = $item['cm'];
+                        }
+                        continue;
+                    }
+                    $unit = $own[$item['unit']];
+                    $total['all'] = array_merge($total['all'], $unit['all']);
+                    $total['pending'] = array_merge($total['pending'], $unit['pending']);
+                    $total['activities'] += $unit['activities'];
+                    $total['tracked'] += $unit['tracked'];
+                    $total['done'] += $unit['done'];
+                    $total['new'] = $total['new'] || $unit['new'];
+                }
+                $row = [
+                    'activities' => $row['activities'] + $total['activities'],
+                    'tracked' => $row['tracked'] + $total['tracked'],
+                    'done' => $row['done'] + $total['done'],
+                    'new' => $row['new'] || $total['new'],
+                    'all' => $total['all'],
+                    'pending' => $total['pending'],
+                    'units' => $row['units'],
+                ];
+            }
+            unset($row['order']);
             $result['sections'][$num] = $row;
+            if (!$section->is_delegated()) {
+                $result['all'] = array_merge($result['all'], $row['all']);
+                $result['pending'] = array_merge($result['pending'], $row['pending']);
+                $result['tracked'] += $row['tracked'];
+                $result['done'] += $row['done'];
+            }
         }
         return $result;
     }
@@ -263,58 +324,142 @@ class course_data {
     }
 
     /**
-     * Section states, ready for templates.
+     * Section states, ready for templates. Each section carries its units (sub-sections), if any.
      *
      * @return array[]
      */
     public function get_sections(): array {
+        if ($this->sections !== null) {
+            return $this->sections;
+        }
         $progress = $this->get_progress();
-        $context = \context_course::instance($this->course->id);
-        $marker = (int)($this->course->marker ?? 0);
         $out = [];
         $position = 0;
         foreach ($this->modinfo->get_listed_section_info_all() as $num => $section) {
             if (!$this->format->is_section_visible($section)) {
                 continue;
             }
-            $row = $progress['sections'][$num] ?? ['activities' => 0, 'tracked' => 0, 'done' => 0, 'new' => false];
-            $state = $this->get_state($section, $row);
-            $locked = $state === self::STATE_LOCKED;
-            $percent = $row['tracked'] ? (int)floor(100 * $row['done'] / $row['tracked']) : null;
-            $item = [
-                'id' => (int)$section->id,
-                'num' => (int)$num,
-                'position' => ++$position,
-                'name' => $this->format->get_section_name($section),
-                'url' => $locked ? '' : $this->section_url($section),
-                'state' => $state,
-                'statelabel' => get_string('state_' . $state, 'format_customtiles'),
-                'stateicon' => self::STATE_ICONS[$state],
-                'is' . $state => true,
-                'locked' => $locked,
-                'reason' => $locked ? (string)$section->availableinfo : '',
-                'summary' => $locked ? '' : $this->excerpt($section, $context),
-                'activities' => $row['activities'],
-                'activitieslabel' => plural::activities((int)$row['activities']),
-                'hasprogress' => $percent !== null,
-                'done' => $row['done'],
-                'tracked' => $row['tracked'],
-                'percent' => $percent ?? 0,
-                'progresslabel' => $percent === null ? '' : get_string(
-                    'sectionprogress',
-                    'format_customtiles',
-                    ['done' => $row['done'], 'total' => $row['tracked']]
-                ),
-                'iscurrent' => $marker > 0 && $marker === (int)$num,
-                'visible' => (bool)$section->visible,
-            ] + section_style::export($section, (int)$this->course->id);
-            if ($locked) {
-                $item['hascolor'] = false;
-                $item['hascover'] = false;
+            $row = $progress['sections'][$num] ?? self::EMPTY_ROW;
+            $item = $this->export_section($section, $row, ++$position);
+            $units = [];
+            foreach ($row['units'] ?? [] as $index => $unitnum) {
+                $unit = $this->modinfo->get_section_info($unitnum);
+                if (!$unit) {
+                    continue;
+                }
+                $unititem = $this->export_section($unit, $progress['sections'][$unitnum] ?? self::EMPTY_ROW, $index + 1);
+                $unititem['isunit'] = true;
+                $unititem['displaynum'] = $item['displaynum'] . '.' . ($index + 1);
+                $unititem['parentid'] = (int)$section->id;
+                if ($item['locked']) {
+                    $unititem['locked'] = true;
+                    $unititem['url'] = '';
+                }
+                $units[] = $unititem;
+            }
+            $item['units'] = $units;
+            $item['hasunits'] = !empty($units);
+            $item['unitslabel'] = $units ? plural::units(count($units)) : '';
+            // A section without its own estimated time takes the sum of its units.
+            if ($units && !$item['minutes']) {
+                $item['minutes'] = array_sum(array_column($units, 'minutes'));
+                $item['timelabel'] = $item['minutes'] ? section_style::format_minutes($item['minutes']) : '';
             }
             $out[] = $item;
         }
-        return $out;
+        return $this->sections = $out;
+    }
+
+    /**
+     * One section or unit by id, with what is needed to move around it.
+     *
+     * @param int $sectionid
+     * @return array|null ['item', 'parent' (for units), 'previous', 'next'] where previous/next are open neighbours
+     */
+    public function get_section_view(int $sectionid): ?array {
+        $sections = $this->get_sections();
+        $open = array_values(array_filter($sections, fn($s) => !$s['locked']));
+        foreach ($sections as $section) {
+            if ($section['id'] === $sectionid) {
+                $index = array_search($sectionid, array_column($open, 'id'));
+                return [
+                    'item' => $section,
+                    'parent' => null,
+                    'previous' => $index !== false ? ($open[$index - 1] ?? null) : null,
+                    'next' => $index !== false ? ($open[$index + 1] ?? null) : null,
+                ];
+            }
+            foreach ($section['units'] as $unit) {
+                if ($unit['id'] !== $sectionid) {
+                    continue;
+                }
+                $siblings = array_values(array_filter($section['units'], fn($u) => !$u['locked']));
+                $index = array_search($sectionid, array_column($siblings, 'id'));
+                $parentindex = array_search($section['id'], array_column($open, 'id'));
+                return [
+                    'item' => $unit,
+                    'parent' => $section,
+                    // Before the first unit comes its section; after the last one, the next section.
+                    'previous' => $index !== false && isset($siblings[$index - 1]) ? $siblings[$index - 1] : $section,
+                    'next' => $index !== false && isset($siblings[$index + 1]) ? $siblings[$index + 1]
+                        : ($parentindex !== false ? ($open[$parentindex + 1] ?? null) : null),
+                ];
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Template data of a section or unit.
+     *
+     * @param \section_info $section
+     * @param array $row progress row
+     * @param int $position 1-based position among its siblings
+     * @return array
+     */
+    private function export_section(\section_info $section, array $row, int $position): array {
+        $context = \context_course::instance($this->course->id);
+        $marker = (int)($this->course->marker ?? 0);
+        $state = $this->get_state($section, $row);
+        $locked = $state === self::STATE_LOCKED;
+        $percent = $row['tracked'] ? (int)floor(100 * $row['done'] / $row['tracked']) : null;
+        $item = [
+            'id' => (int)$section->id,
+            'num' => (int)$section->section,
+            // Number shown to the user: units are numbered inside their section ("5.2").
+            'displaynum' => (string)$section->section,
+            'position' => $position,
+            'name' => $this->format->get_section_name($section),
+            'url' => $locked ? '' : $this->section_url($section),
+            'state' => $state,
+            'statelabel' => get_string('state_' . $state, 'format_customtiles'),
+            'stateicon' => self::STATE_ICONS[$state],
+            'is' . $state => true,
+            'locked' => $locked,
+            'reason' => $locked ? (string)$section->availableinfo : '',
+            'summary' => $locked ? '' : $this->excerpt($section, $context),
+            'activities' => $row['activities'],
+            'activitieslabel' => plural::activities((int)$row['activities']),
+            'hasprogress' => $percent !== null,
+            'done' => $row['done'],
+            'tracked' => $row['tracked'],
+            'percent' => $percent ?? 0,
+            'progresslabel' => $percent === null ? '' : get_string(
+                'sectionprogress',
+                'format_customtiles',
+                ['done' => $row['done'], 'total' => $row['tracked']]
+            ),
+            'iscurrent' => $marker > 0 && $marker === (int)$section->section,
+            'visible' => (bool)$section->visible,
+            'isunit' => false,
+            'units' => [],
+            'hasunits' => false,
+        ] + section_style::export($section, (int)$this->course->id);
+        if ($locked) {
+            $item['hascolor'] = false;
+            $item['hascover'] = false;
+        }
+        return $item;
     }
 
     /**
@@ -423,24 +568,24 @@ class course_data {
     /**
      * Course-level figures for the "context pills".
      *
-     * @return array
+     * @return array ['sections', 'units', 'activities', 'minutes']
      */
     public function get_context_figures(): array {
         $progress = $this->get_progress();
         $sections = 0;
-        foreach ($this->modinfo->get_listed_section_info_all() as $num => $section) {
-            if ($num > 0 && $this->format->is_section_visible($section) && $section->uservisible) {
-                $sections++;
-            }
-        }
+        $units = 0;
         $minutes = 0;
-        foreach ($this->modinfo->get_listed_section_info_all() as $num => $section) {
-            if ($num > 0 && $this->format->is_section_visible($section) && $section->uservisible) {
-                $minutes += max(0, (int)($section->ct_minutes ?? 0));
+        foreach ($this->get_sections() as $section) {
+            if ($section['num'] === 0 || $section['locked']) {
+                continue;
             }
+            $sections++;
+            $units += count($section['units']);
+            $minutes += (int)$section['minutes'];
         }
         return [
             'sections' => $sections,
+            'units' => $units,
             'activities' => count($progress['all']),
             'minutes' => $minutes,
         ];

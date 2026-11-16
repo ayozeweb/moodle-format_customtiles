@@ -22,7 +22,7 @@
 
     Example context (json):
     {
-        "id": 4, "num": 2, "state": "inprogress", "statelabel": "In progress",
+        "id": 4, "num": 2, "displaynum": "2", "state": "inprogress", "statelabel": "In progress",
         "stateicon": "fa-circle-half-stroke", "subtitle": "First steps", "timelabel": "1 h 30 min",
         "activitieslabel": "3 activities", "hasprogress": true, "percent": 33,
         "progresslabel": "1 of 3 completed", "hasicon": true, "icon": "flask",
@@ -36,7 +36,7 @@
     </div>
     <div class="fct-sechead__body">
         {{#subtitle}}<p class="fct-sechead__subtitle">{{subtitle}}</p>{{/subtitle}}
-        <p class="fct-item__meta">{{activitieslabel}}{{#timelabel}} · <i class="fa-regular fa-clock" aria-hidden="true"></i> <span class="visually-hidden">{{#str}} estimatedtime, format_customtiles {{/str}}</span>{{timelabel}}{{/timelabel}}</p>
+        <p class="fct-item__meta">{{#hasunits}}{{unitslabel}} · {{/hasunits}}{{activitieslabel}}{{#timelabel}} · <i class="fa-regular fa-clock" aria-hidden="true"></i> <span class="visually-hidden">{{#str}} estimatedtime, format_customtiles {{/str}}</span>{{timelabel}}{{/timelabel}}</p>
         {{#hasprogress}}
             <div class="fct-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100"
                  aria-valuenow="{{percent}}" aria-label="{{progresslabel}}">
@@ -47,5 +47,6 @@
             <p class="fct-state fct-state--{{state}}"><i class="fa-solid {{stateicon}}" aria-hidden="true"></i> <span>{{statelabel}}</span></p>
             {{#hasprogress}}<p class="fct-item__meta">{{progresslabel}}</p>{{/hasprogress}}
         </div>
+        {{> format_customtiles/local/units }}
     </div>
 </div>

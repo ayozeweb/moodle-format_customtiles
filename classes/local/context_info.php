@@ -61,8 +61,25 @@ class context_info {
     public static function for_section(\core_courseformat\base $format, \section_info $section): array {
         // The section name is the page heading, so the line says where it sits: parent (if any) and position.
         $parts = array_slice(self::section_trail($format, $section), 0, -1);
+        $modinfo = $format->get_modinfo();
+        if ($section->is_delegated() && ($parent = $section->get_component_instance()?->get_parent_section())) {
+            // A unit: position among the units of its section.
+            $units = [];
+            foreach ($modinfo->sections[$parent->section] ?? [] as $cmid) {
+                $cm = $modinfo->cms[$cmid];
+                $unit = $cm->get_delegated_section_info();
+                if ($unit && $cm->uservisible) {
+                    $units[] = (int)$unit->id;
+                }
+            }
+            $position = array_search((int)$section->id, $units, true);
+            if ($position !== false) {
+                $parts[] = get_string('unitxofy', 'format_customtiles', ['x' => $position + 1, 'y' => count($units)]);
+                return $parts;
+            }
+        }
         $numbers = [];
-        foreach ($format->get_modinfo()->get_listed_section_info_all() as $num => $info) {
+        foreach ($modinfo->get_listed_section_info_all() as $num => $info) {
             if ($num > 0 && $format->is_section_visible($info)) {
                 $numbers[] = (int)$info->id;
             }

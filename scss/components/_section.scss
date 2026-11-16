@@ -24,6 +24,9 @@
   --bs-link-color: var(--fct-primary);
   --bs-link-hover-color: var(--fct-primary);
   --bs-emphasis-color: var(--fct-text);
+  // Moodle design system variables used by the core for boxes inside a section page.
+  --mds-bg-surface-default: var(--fct-surface2);
+  --mds-border-subtle: color-mix(in srgb, var(--fct-border) 35%, transparent);
 
   color: var(--fct-text);
 
@@ -100,6 +103,35 @@
     box-shadow: none;
     border-inline-start: 4px solid var(--fct-primary);
     border-radius: 0;
+  }
+
+  // A unit shown inside its section: the core paints it as a white box; it follows the theme instead.
+  // The body of a unit, which the core paints light grey.
+  .delegated-section .section-item .course-content-item-content .section-content-inner {
+    border-color: color-mix(in srgb, var(--fct-border) 35%, transparent);
+    background: transparent;
+  }
+
+  .single-section .course-section .delegated-section .section-item {
+    border: 0;
+    border-radius: var(--fct-radius);
+    background: var(--fct-surface2);
+    color: var(--fct-text);
+  }
+
+  .activity-altcontent .sectionname a {
+    display: inline-flex;
+    align-items: center;
+    min-block-size: var(--fct-touch);
+    color: var(--fct-text);
+  }
+
+  // Core control to fold a unit: at least 44 px wide.
+  .icons-collapse-expand {
+    min-inline-size: var(--fct-touch);
+    min-block-size: var(--fct-touch);
+    justify-content: center;
+    color: var(--fct-text);
   }
 
   .section .course-section-header,

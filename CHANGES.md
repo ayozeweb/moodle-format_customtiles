@@ -2,6 +2,22 @@
 
 Format based on [Keep a Changelog](https://keepachangelog.com/). Versions follow [Semantic Versioning](https://semver.org/).
 
+## [0.5.0] - 2026-11-17
+
+### Added
+- Units: sub-sections (`mod_subsection`) are treated as units of the section that contains them. A section
+  shows the progress, activity count and estimated time of its own activities plus its units; each unit has
+  its own state, progress and page, a hierarchical number ("5.2") and "Unit x of y" in the context bar.
+- Units are listed on cards, path and carousel layouts, on the section header and nested in the course map;
+  small tiles and the compact list show how many there are.
+- Navigation from a unit: back to its section, on to the next unit, and after the last one to the next section.
+
+### Fixed
+- The progress of a section ignored the activities inside its sub-sections.
+- "Continue where you left off" placed the activities of sub-sections at the end of the course instead of
+  where they appear on the page.
+- Units shown inside a section were painted as white boxes on dark themes.
+
 ## [0.4.0] - 2026-11-17
 
 ### Security

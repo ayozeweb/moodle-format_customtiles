@@ -94,8 +94,10 @@ class content extends content_base {
                 array_keys($parts)
             );
             $data->hasctx = !empty($parts);
-            $data->backurl = (new \moodle_url('/course/view.php', ['id' => $course->id]))->out(false);
-            $data->backlabel = get_string('backto', 'format_customtiles', $data->coursename);
+            if (empty($data->backurl)) {
+                $data->backurl = (new \moodle_url('/course/view.php', ['id' => $course->id]))->out(false);
+                $data->backlabel = get_string('backto', 'format_customtiles', $data->coursename);
+            }
         }
 
         $data->logos = !empty($options['showlogos']) ? $this->get_logos() : [];
@@ -127,31 +129,28 @@ class content extends content_base {
      * @param int $sectionid
      */
     protected function export_section_view(\stdClass $data, int $sectionid): void {
-        $sections = (new course_data($this->format))->get_sections();
         $data->sectionview = true;
-        foreach ($sections as $index => $section) {
-            if ($section['id'] !== $sectionid) {
-                continue;
-            }
-            $data->sechead = $section;
-            $data->emptysection = $section['activities'] === 0;
-            // Neighbours the user can open (locked sections are skipped).
-            $open = array_values(array_filter($sections, fn($s) => !$s['locked']));
-            $position = array_search($sectionid, array_column($open, 'id'));
-            if ($position !== false) {
-                $previous = $open[$position - 1] ?? null;
-                $next = $open[$position + 1] ?? null;
-                $data->secnav = [
-                    'hasprevious' => (bool)$previous,
-                    'previousurl' => $previous['url'] ?? '',
-                    'previousname' => $previous['name'] ?? '',
-                    'hasnext' => (bool)$next,
-                    'nexturl' => $next['url'] ?? '',
-                    'nextname' => $next['name'] ?? '',
-                ];
-                $data->hassecnav = $previous || $next;
-            }
-            break;
+        $view = (new course_data($this->format))->get_section_view($sectionid);
+        if (!$view) {
+            return;
+        }
+        $data->sechead = $view['item'];
+        $data->emptysection = $view['item']['activities'] === 0 && !$view['item']['hasunits'];
+        $previous = $view['previous'];
+        $next = $view['next'];
+        $data->secnav = [
+            'hasprevious' => (bool)$previous,
+            'previousurl' => $previous['url'] ?? '',
+            'previousname' => $previous['name'] ?? '',
+            'hasnext' => (bool)$next,
+            'nexturl' => $next['url'] ?? '',
+            'nextname' => $next['name'] ?? '',
+        ];
+        $data->hassecnav = $previous || $next;
+        if ($view['parent']) {
+            // A unit goes back to the section that contains it.
+            $data->backurl = $view['parent']['url'];
+            $data->backlabel = get_string('backto', 'format_customtiles', $view['parent']['name']);
         }
     }
 
@@ -235,6 +234,12 @@ class content extends content_base {
             $pills[] = [
                 'icon' => 'fa-layer-group',
                 'text' => \format_customtiles\local\plural::sections((int)$figures['sections']),
+            ];
+        }
+        if (!empty($figures['units'])) {
+            $pills[] = [
+                'icon' => 'fa-diagram-project',
+                'text' => \format_customtiles\local\plural::units((int)$figures['units']),
             ];
         }
         if ($figures['activities']) {

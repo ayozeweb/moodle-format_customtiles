@@ -56,7 +56,7 @@ Regla práctica: **Opus para decidir, Sonnet para ejecutar**. Si una sesión con
 | D1 | **La vista de sección y la de actividad apenas están tocadas.** Usan las tarjetas del core tal cual. Es donde el alumno pasa casi todo el tiempo. | Alto |
 | D2 | El docente personaliza desde el formulario clásico de sección. No hay edición en el propio tile ni recortador de imagen. | Alto |
 | D3 | Los 3 escenarios Behat con JS nunca se han ejecutado (solo `--dry-run`). No hay tests Jest. | Medio |
-| D4 | La jerarquía módulo → unidad formativa solo existe como texto en la línea de contexto. No hay progreso por módulo que agregue sus UF. | Alto para SEPE |
+| D4 | ~~Jerarquía módulo → unidad sin progreso agregado~~ resuelto en 0.5.0. | — |
 | D5 | No hay informe de seguimiento para el tutor. Se delega en `local_customreport`, cuyo contrato no está definido. | Alto para SEPE |
 | D6 | Sin capacidades propias. `api::set_activity_category()` no comprueba permisos. | Medio |
 | D7 | Los tokens de color van en un atributo `style` en línea. Un sitio con CSP estricta (`style-src` sin `unsafe-inline`) los bloquearía. | Medio |
@@ -180,8 +180,8 @@ Criterios de aceptación:
 
 Tareas que se prevén. Confirmarlas o descartarlas con la matriz.
 
-- [ ] **Jerarquía módulo → UF con progreso agregado** (D4). Usar las subsecciones delegadas del core (`mod_subsection`) como unidades formativas dentro de una sección-módulo. Calcular y mostrar progreso por UF y por módulo. Extender `course_data` y su caché, con test de que no se introducen consultas N+1.
-- [ ] Duración por módulo como suma de sus UF, y total del curso frente a las horas de la especialidad (campo de curso «horas totales»).
+- [x] **Jerarquía módulo → UF con progreso agregado** (D4), hecho en 0.5.0. Usar las subsecciones delegadas del core (`mod_subsection`) como unidades formativas dentro de una sección-módulo. Calcular y mostrar progreso por UF y por módulo. Extender `course_data` y su caché, con test de que no se introducen consultas N+1.
+- [~] (suma de UF hecha; falta el campo de curso «horas totales» para compararla) Duración por módulo como suma de sus UF, y total del curso frente a las horas de la especialidad (campo de curso «horas totales»).
 - [ ] **Informe de seguimiento para el tutor** (D5). **[DECISIÓN]** Si vive aquí o en `local_customreport`. Recomendación: este plugin expone datos y `local_customreport` informa. En ese caso:
   - [ ] Servicios web `format_customtiles_get_course_structure` y `format_customtiles_get_user_progress`, con capacidad propia y tests.
   - [ ] Documento de contrato `docs/api.md` con versión, para que `local_customreport` no dependa de clases internas.

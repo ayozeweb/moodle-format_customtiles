@@ -23,7 +23,7 @@
     {
         "tiles": [
             {
-                "id": 1, "num": 1, "name": "Section", "url": "#", "state": "inprogress",
+                "id": 1, "num": 1, "displaynum": "1", "name": "Section", "url": "#", "state": "inprogress",
                 "statelabel": "In progress", "stateicon": "fa-circle-half-stroke",
                 "activitieslabel": "3 activities", "hasprogress": true,
                 "percent": 33, "progresslabel": "1 of 3 completed"
@@ -34,14 +34,14 @@
 <ol class="fct-list" data-for="ct_list">
     {{#tiles}}
         <li class="fct-row fct-item fct-row--{{state}}{{#iscurrent}} fct-row--current{{/iscurrent}}" data-section-id="{{id}}">
-            <span class="fct-row__num" aria-hidden="true">{{num}}</span>
+            <span class="fct-row__num" aria-hidden="true">{{displaynum}}</span>
             <div class="fct-row__main">
                 <h3 class="fct-item__title">
                     {{#locked}}<span class="fct-item__name">{{{name}}}</span>{{/locked}}
                     {{^locked}}<a class="fct-item__link" href="{{url}}">{{{name}}}</a>{{/locked}}
                 </h3>
                 {{#locked}}<div class="fct-item__reason">{{{reason}}}</div>{{/locked}}
-                <p class="fct-item__meta">{{activitieslabel}}{{#timelabel}} · {{timelabel}}{{/timelabel}}</p>
+                <p class="fct-item__meta">{{#hasunits}}{{unitslabel}} · {{/hasunits}}{{activitieslabel}}{{#timelabel}} · {{timelabel}}{{/timelabel}}</p>
                 {{#hasprogress}}
                     <div class="fct-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100"
                          aria-valuenow="{{percent}}" aria-label="{{progresslabel}}">

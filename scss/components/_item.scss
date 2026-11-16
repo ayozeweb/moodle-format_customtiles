@@ -128,3 +128,60 @@
     display: none;
   }
 }
+
+// Units (sub-sections) of a section: a compact list with state, name and progress.
+.fct-units {
+  display: grid;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-block-start: 1px solid color-mix(in srgb, var(--fct-border) 30%, transparent);
+}
+
+.fct-unit {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--fct-space-2);
+  min-block-size: var(--fct-touch);
+  border-block-end: 1px solid color-mix(in srgb, var(--fct-border) 30%, transparent);
+  font-size: .9375rem;
+}
+
+// Above the stretched link of the whole item, so each unit can be opened on its own.
+.fct-unit__link {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  min-block-size: var(--fct-touch);
+  color: var(--fct-text);
+  font-weight: 600;
+  overflow-wrap: anywhere;
+
+  &:hover,
+  &:focus-visible {
+    color: var(--fct-primary);
+  }
+}
+
+.fct-unit .fct-unit__state {
+  margin: 0;
+}
+
+.fct-unit__name {
+  color: var(--fct-muted);
+}
+
+.fct-unit__meta {
+  color: var(--fct-muted);
+  font-size: .875rem;
+  white-space: nowrap;
+}
+
+// Small tiles and the compact list only say how many units there are.
+.fct-tiles .fct-units,
+.fct-list .fct-units {
+  display: none;
+}

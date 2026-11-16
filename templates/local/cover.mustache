@@ -22,6 +22,7 @@
     Example context (json):
     {
         "num": 2,
+        "displaynum": "2",
         "hascover": false,
         "hasicon": true,
         "icon": "flask"
@@ -30,14 +31,14 @@
 {{#hascover}}
     <img class="fct-cover__img" src="{{coversrc}}" srcset="{{coversrcset}}" sizes="(min-width: 48rem) 480px, 50vw"
          alt="" width="480" height="300" loading="lazy" decoding="async">
-    <span class="fct-cover__badge">{{num}}</span>
+    <span class="fct-cover__badge">{{displaynum}}</span>
 {{/hascover}}
 {{^hascover}}
     {{#hasicon}}
         <i class="fa-solid fa-{{icon}} fct-cover__icon"></i>
-        <span class="fct-cover__badge">{{num}}</span>
+        <span class="fct-cover__badge">{{displaynum}}</span>
     {{/hasicon}}
     {{^hasicon}}
-        <span class="fct-cover__num">{{num}}</span>
+        <span class="fct-cover__num">{{displaynum}}</span>
     {{/hasicon}}
 {{/hascover}}

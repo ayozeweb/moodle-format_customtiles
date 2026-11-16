@@ -263,3 +263,30 @@
   align-items: center;
   min-block-size: var(--fct-touch);
 }
+
+// Units inside a section of the course map.
+.fct-map__units {
+  margin: var(--fct-space-2) 0 0;
+  padding: 0 0 0 var(--fct-space-3);
+  list-style: none;
+  border-inline-start: 3px solid color-mix(in srgb, var(--fct-primary) 45%, transparent);
+}
+
+.fct-map__unit {
+  padding-block: var(--fct-space-2);
+}
+
+.fct-map__unittitle {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--fct-space-2) var(--fct-space-3);
+  margin: 0;
+  font-size: 1rem;
+
+  a {
+    display: inline-flex;
+    align-items: center;
+    min-block-size: var(--fct-touch);
+  }
+}

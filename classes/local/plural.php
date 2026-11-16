@@ -51,4 +51,14 @@ class plural {
     public static function sections(int $count): string {
         return get_string($count === 1 ? 'onesection' : 'nsections', 'format_customtiles', $count);
     }
+
+    /**
+     * "1 unit" / "3 units" (sub-sections of a section).
+     *
+     * @param int $count
+     * @return string
+     */
+    public static function units(int $count): string {
+        return get_string($count === 1 ? 'oneunit' : 'nunits', 'format_customtiles', $count);
+    }
 }

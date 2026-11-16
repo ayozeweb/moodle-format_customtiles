@@ -27,7 +27,14 @@ Hitos 1–6 cerrados. Extras: layouts Bento y Lista compacta hechos (axe limpio)
 
 - **Plan de mejora, Fase 4 (0.4.0)**: modelo de amenazas (`docs/modelo_amenazas.md`), capacidades propias en páginas y API, portadas validadas y siempre recodificadas, limpieza al borrar actividades y cursos, test de backup manipulado, política de divulgación. 44 tests PHPUnit.
 
+- **0.5.0 — jerarquía módulo → unidad**: las subsecciones del core (`mod_subsection`) son unidades de la sección que las contiene. La sección agrega progreso, actividades y tiempo de sus unidades; cada unidad tiene estado, progreso, página propia, numeración «5.2» y «Unidad x de y». Se muestran en tarjetas, itinerario, carrusel, cabecera de sección y mapa. 50 tests PHPUnit, 15 escenarios Behat sin JS.
+
 ## Decisiones
+- **Error que había**: el progreso de una sección ignoraba lo que hubiera dentro de sus subsecciones (en el curso de prueba, 3 de 10 actividades), y «Continuar» mandaba esas actividades al final del curso. Corregido al agregar en el orden de la página.
+- **Tiempo estimado**: si la sección tiene tiempo propio, manda; si no, es la suma de sus unidades.
+- **Nombre neutro «unidad»** en la interfaz (no «UF»), porque el formato no es solo para SEPE; el nombre real lo pone el docente en cada subsección.
+- **Un solo nivel de anidamiento**, que es lo que permite el core.
+- **Estilo de las unidades anidadas**: el core las pinta con reglas muy específicas y variables de su sistema de diseño (`--mds-*`); se igualan esas variables al tema y se usa un selector equivalente. Riesgo si 5.4 cambia ese marcado: volverían a verse como cajas claras, sin romper nada.
 - **Portadas**: se guarda una copia principal saneada (máx. 1920 px) además de las variantes 480/960, porque el formulario de sección necesita un archivo que mostrar al volver a editar; si la imagen no cambia no se reprocesa.
 - **Restauración**: el core escribe las opciones sin pasar por la validación del plugin; por eso todo se valida de nuevo al pintar. El test lo comprobó: un layout inválido llega a la base de datos, pero la página usa el valor por defecto.
 - **Pendiente de la Fase 4**: compatibilidad con CSP estricta (estilos en línea, D7), decisión sobre los logotipos públicos y tests Behat de permisos por rol (las denegaciones lanzan excepción en Behat; están cubiertas por PHPUnit y por la prueba manual).

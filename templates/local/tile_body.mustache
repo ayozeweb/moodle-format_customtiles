@@ -34,7 +34,8 @@
 {{#subtitle}}<p class="fct-item__subtitle">{{subtitle}}</p>{{/subtitle}}
 {{#summary}}<p class="fct-item__summary">{{summary}}</p>{{/summary}}
 {{#locked}}<div class="fct-item__reason">{{{reason}}}</div>{{/locked}}
-<p class="fct-item__meta">{{activitieslabel}}{{#timelabel}} · <i class="fa-regular fa-clock" aria-hidden="true"></i> <span class="visually-hidden">{{#str}} estimatedtime, format_customtiles {{/str}}</span>{{timelabel}}{{/timelabel}}</p>
+<p class="fct-item__meta">{{#hasunits}}{{unitslabel}} · {{/hasunits}}{{activitieslabel}}{{#timelabel}} · <i class="fa-regular fa-clock" aria-hidden="true"></i> <span class="visually-hidden">{{#str}} estimatedtime, format_customtiles {{/str}}</span>{{timelabel}}{{/timelabel}}</p>
+{{> format_customtiles/local/units }}
 {{#hasprogress}}
     <div class="fct-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100"
          aria-valuenow="{{percent}}" aria-label="{{progresslabel}}">

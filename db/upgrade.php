@@ -64,5 +64,11 @@ function xmldb_format_customtiles_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2026111700, 'format', 'customtiles');
     }
 
+    if ($oldversion < 2026111701) {
+        // 0.5.0: sections aggregate their units (sub-sections). The progress cache changes shape; the
+        // caches are purged by the upgrade itself, so there is nothing to migrate.
+        upgrade_plugin_savepoint(true, 2026111701, 'format', 'customtiles');
+    }
+
     return true;
 }

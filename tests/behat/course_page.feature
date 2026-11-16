@@ -102,3 +102,20 @@ Feature: Custom tiles course page
     Then I should see "Due in 3 days" in the "Essay" "activity"
     And I should not see "Due in" in the "Far essay" "activity"
     And I should not see "Overdue" in the "Far essay" "activity"
+
+  Scenario: A section adds up its units and each unit has its own page
+    Given the following "activities" exist:
+      | activity   | name   | course | section |
+      | subsection | Unit A | C1     | 3       |
+    And the following "activities" exist:
+      | activity | name      | course | section | completion |
+      | page     | Unit page | C1     | 4       | 1          |
+    And I am on the "C1" "course" page logged in as "student1"
+    And I should see "1 unit" in the ".fct-tile:nth-child(4)" "css_element"
+    And I should see "1 activity" in the ".fct-tile:nth-child(4)" "css_element"
+    When I click on "New section" "link" in the ".fct-tile:nth-child(4)" "css_element"
+    Then I should see "Unit A" in the ".fct-sechead" "css_element"
+    And I click on "Unit A" "link" in the ".fct-sechead" "css_element"
+    And I should see "Unit 1 of 1" in the ".fct-ctxbar" "css_element"
+    And I should see "Unit page"
+    And I should see "Previous section" in the ".fct-secnav" "css_element"

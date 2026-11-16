@@ -33,6 +33,9 @@
             {
                 "name": "Section 1", "url": "#", "state": "inprogress", "statelabel": "In progress",
                 "stateicon": "fa-circle-half-stroke", "locked": false, "hasactivities": true,
+                "hasunits": true,
+                "units": [{"name": "Unit 1", "url": "#", "state": "completed", "statelabel": "Completed",
+                    "stateicon": "fa-circle-check", "locked": false, "hasactivities": false, "activitylist": []}],
                 "activitylist": [{"name": "Page", "url": "#", "icon": "#", "tracked": true, "done": true,
                     "statelabel": "Completed"}]
             }
@@ -63,6 +66,30 @@
                         {{/activitylist}}
                     </ul>
                 {{/hasactivities}}
+                {{#hasunits}}
+                    <ol class="fct-map__units">
+                        {{#units}}
+                            <li class="fct-map__unit">
+                                <h4 class="fct-map__unittitle">
+                                    {{#locked}}{{{name}}}{{/locked}}
+                                    {{^locked}}<a href="{{url}}">{{{name}}}</a>{{/locked}}
+                                    <span class="fct-state fct-state--{{state}}"><i class="fa-solid {{stateicon}}" aria-hidden="true"></i> {{statelabel}}</span>
+                                </h4>
+                                {{#hasactivities}}
+                                    <ul class="fct-map__activities">
+                                        {{#activitylist}}
+                                            <li>
+                                                <img src="{{icon}}" alt="" width="20" height="20">
+                                                <a href="{{url}}">{{{name}}}</a>
+                                                {{#tracked}}<span class="fct-state fct-state--{{#done}}completed{{/done}}{{^done}}pending{{/done}}">{{statelabel}}</span>{{/tracked}}
+                                            </li>
+                                        {{/activitylist}}
+                                    </ul>
+                                {{/hasactivities}}
+                            </li>
+                        {{/units}}
+                    </ol>
+                {{/hasunits}}
             </li>
         {{/sections}}
     </ol>

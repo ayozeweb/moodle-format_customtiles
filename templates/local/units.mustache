@@ -1,0 +1,50 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template format_customtiles/local/units
+
+    Units (sub-sections) of a section, each with its state and progress.
+
+    Example context (json):
+    {
+        "hasunits": true,
+        "unitslabel": "2 units",
+        "units": [
+            {"name": "Unit 1", "url": "#", "locked": false, "state": "completed", "statelabel": "Completed",
+             "stateicon": "fa-circle-check", "hasprogress": true, "percent": 100, "timelabel": "1 h"},
+            {"name": "Unit 2", "url": "", "locked": true, "state": "locked", "statelabel": "Locked",
+             "stateicon": "fa-lock", "hasprogress": false, "percent": 0, "timelabel": ""}
+        ]
+    }
+}}
+{{#hasunits}}
+    <ul class="fct-units" aria-label="{{unitslabel}}">
+        {{#units}}
+            <li class="fct-unit fct-unit--{{state}}">
+                <span class="fct-unit__state fct-state fct-state--{{state}}" title="{{statelabel}}">
+                    <i class="fa-solid {{stateicon}}" aria-hidden="true"></i>
+                    <span class="visually-hidden">{{statelabel}}</span>
+                </span>
+                {{#locked}}<span class="fct-unit__name">{{{name}}}</span>{{/locked}}
+                {{^locked}}<a class="fct-unit__link" href="{{url}}">{{{name}}}</a>{{/locked}}
+                <span class="fct-unit__meta">
+                    {{#timelabel}}{{timelabel}}{{/timelabel}}{{#hasprogress}}{{#timelabel}} · {{/timelabel}}{{percent}}%{{/hasprogress}}
+                </span>
+            </li>
+        {{/units}}
+    </ul>
+{{/hasunits}}
