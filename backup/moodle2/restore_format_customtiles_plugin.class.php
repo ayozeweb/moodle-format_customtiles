@@ -88,7 +88,8 @@ class restore_format_customtiles_plugin extends restore_format_plugin {
             $info = backup_controller_dbops::decode_backup_temp_info($row->info);
             $category = \format_customtiles\api::get_category_by_code((string)($info['code'] ?? ''));
             if ($newcmid && $category) {
-                \format_customtiles\api::set_activity_category($courseid, (int)$newcmid, (int)$category->id);
+                // The restore process already checked the user's restore permissions.
+                \format_customtiles\api::set_activity_category($courseid, (int)$newcmid, (int)$category->id, false);
             }
         }
     }

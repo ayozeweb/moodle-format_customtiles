@@ -58,5 +58,11 @@ function xmldb_format_customtiles_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2026111601, 'format', 'customtiles');
     }
 
+    if ($oldversion < 2026111700) {
+        // 0.4.0: own capabilities and new observers. Covers saved before this version keep their
+        // original upload until a new image is chosen; nothing to migrate.
+        upgrade_plugin_savepoint(true, 2026111700, 'format', 'customtiles');
+    }
+
     return true;
 }

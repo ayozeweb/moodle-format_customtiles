@@ -25,7 +25,12 @@ Hitos 1–6 cerrados. Extras: layouts Bento y Lista compacta hechos (axe limpio)
 
 - **0.3.1**: aviso de plazo por actividad («Vence hoy / mañana / en N días», hasta 7 días, y «Fuera de plazo» si hay seguimiento de finalización y sigue pendiente), leído de las fechas que cada módulo declara al core (`core\activity_dates`); opción de curso para mantener la miga de pan en móviles; copyright a nombre de Ayoze M de Paz Paz. Comprobado visualmente en claro y oscuro; al probarlo, axe detectó contraste insuficiente del texto de fechas del core en temas oscuros, corregido.
 
+- **Plan de mejora, Fase 4 (0.4.0)**: modelo de amenazas (`docs/modelo_amenazas.md`), capacidades propias en páginas y API, portadas validadas y siempre recodificadas, limpieza al borrar actividades y cursos, test de backup manipulado, política de divulgación. 44 tests PHPUnit.
+
 ## Decisiones
+- **Portadas**: se guarda una copia principal saneada (máx. 1920 px) además de las variantes 480/960, porque el formulario de sección necesita un archivo que mostrar al volver a editar; si la imagen no cambia no se reprocesa.
+- **Restauración**: el core escribe las opciones sin pasar por la validación del plugin; por eso todo se valida de nuevo al pintar. El test lo comprobó: un layout inválido llega a la base de datos, pero la página usa el valor por defecto.
+- **Pendiente de la Fase 4**: compatibilidad con CSP estricta (estilos en línea, D7), decisión sobre los logotipos públicos y tests Behat de permisos por rol (las denegaciones lanzan excepción en Behat; están cubiertas por PHPUnit y por la prueba manual).
 - **Miga de pan en móvil y seguimiento**: prueba controlada a 360 px con la miga oculta y visible; en ambos casos Moodle registra los mismos eventos (`course_module_viewed`, `section_viewed`, `course_viewed`), porque el registro es del servidor al cargar la página. Ocultarla no afecta a logs, tiempos ni finalización. Se mantiene oculta por defecto (84 % de contenido en la página de actividad frente a 77 %) y se añade la opción «Mantener la miga de pan en móviles» por si una inspección la exige a la vista.
 - **Aviso de plazo solo en la página de sección**, no en los tiles de la portada: leer las fechas de todas las actividades del curso costaría consultas por actividad en cada carga de la portada. Pendiente si se quiere: resumen «N vencen pronto» por sección, con caché.
 - **«Fuera de plazo»** solo se muestra cuando se sabe que la actividad sigue pendiente (finalización activada); sin seguimiento no se puede distinguir de una actividad ya entregada.

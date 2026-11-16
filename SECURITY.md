@@ -15,3 +15,18 @@ Scope: `format_customtiles` 0.1.x on Moodle 5.3. Method: manual code review (all
 Fixed during this review: category add/edit form did not save (lost its `action` parameter); `map.php`/`assign.php` now ignore courses with another format; category input is sanitised in the API (code, name, icon whitelist, colour); covers of hidden/restricted sections are no longer served; added `nosniff`/CSP headers on served files.
 
 Known / accepted: `\format_customtiles\api::set_activity_category()` does not check capabilities (callers must, as `assign.php` does); the activity category badge shares the core "after link" area; cover resizing uses GD on teacher-uploaded images (bounded by the site upload limit).
+
+## Since 0.4.0
+
+- Own capabilities: `format/customtiles:managecategories` (site) and `format/customtiles:assigncategories` (course). The public API checks them, and that an activity belongs to the course it is addressed through.
+- Section covers: only PNG, JPEG, GIF and WebP, up to 5 MB and 40 megapixels; always re-encoded (metadata and embedded payloads are dropped) and the original upload is not kept. SVG is not accepted.
+- Clean-up of category assignments and per-user preferences when an activity or a course is deleted.
+- A test restores a hand-edited backup and checks nothing reaches the page unescaped.
+- Threat model: `docs/modelo_amenazas.md`.
+
+## Reporting a vulnerability
+
+Please do not open a public issue. Use GitHub's private vulnerability reporting on this repository
+("Security" tab → "Report a vulnerability"). Include the plugin and Moodle versions and steps to reproduce.
+You will get an acknowledgement within 7 days. Only the latest released version receives security fixes.
+

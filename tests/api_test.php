@@ -42,6 +42,7 @@ final class api_test extends \advanced_testcase {
      */
     public function test_sepe_preset(): void {
         $this->resetAfterTest();
+        $this->setAdminUser();
         $this->assertSame(4, api::load_sepe_preset());
         $this->assertSame(0, api::load_sepe_preset());
         $codes = array_column(array_map(fn($c) => (array)$c, api::get_categories()), 'code');
@@ -53,6 +54,7 @@ final class api_test extends \advanced_testcase {
      */
     public function test_assignments(): void {
         $this->resetAfterTest();
+        $this->setAdminUser();
         $course = $this->getDataGenerator()->create_course(['format' => 'customtiles']);
         $page = $this->getDataGenerator()->create_module('page', ['course' => $course->id]);
         api::load_sepe_preset();
@@ -131,6 +133,7 @@ final class api_test extends \advanced_testcase {
      */
     public function test_save_category_sanitises(): void {
         $this->resetAfterTest();
+        $this->setAdminUser();
         $id = api::save_category((object)['code' => 'a<b>"x', 'name' => 'Name <script>alert(1)</script>',
             'color' => 'javascript:1', 'icon' => 'fa-spin evil']);
         $cat = (array)api::get_categories()[$id];

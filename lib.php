@@ -427,7 +427,7 @@ class format_customtiles extends core_courseformat\base {
             'ct_cover_filemanager',
             get_string('sectioncover', 'format_customtiles'),
             null,
-            ['subdirs' => 0, 'maxfiles' => 1, 'accepted_types' => ['web_image']]
+            section_style::filemanager_options()
         );
         $mform->addHelpButton('ct_cover_filemanager', 'sectioncover', 'format_customtiles');
         $elements[] = $mform->addElement(
@@ -589,9 +589,9 @@ function format_customtiles_pluginfile($course, $cm, $context, $filearea, $args,
     $fs = get_file_storage();
     $file = $fs->get_file($context->id, 'format_customtiles', $filearea, $itemid, $filepath, $filename);
     if (!$file || $file->is_directory()) {
-        // Fall back to the original when a resized variant is missing.
+        // A missing variant falls back to the sanitised main image.
         $file = $fs->get_file($context->id, 'format_customtiles', $filearea, $itemid, '/', $filename);
-        if (!$file) {
+        if (!$file || $file->is_directory()) {
             return false;
         }
     }
@@ -609,7 +609,7 @@ function format_customtiles_pluginfile($course, $cm, $context, $filearea, $args,
  * @param context $context
  */
 function format_customtiles_extend_navigation_course(navigation_node $navigation, stdClass $course, context $context) {
-    if ($course->format !== 'customtiles' || !has_capability('moodle/course:manageactivities', $context)) {
+    if ($course->format !== 'customtiles' || !has_capability('format/customtiles:assigncategories', $context)) {
         return;
     }
     $navigation->add(

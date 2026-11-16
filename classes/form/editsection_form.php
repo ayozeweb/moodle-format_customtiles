@@ -54,7 +54,7 @@ class editsection_form extends \editsection_form {
             'format_customtiles',
             section_style::FILEAREA,
             (int)$defaultvalues->id,
-            ['subdirs' => 0, 'maxfiles' => 1]
+            section_style::filemanager_options()
         );
         $defaultvalues->ct_cover_filemanager = $draftid;
         parent::set_data($defaultvalues);

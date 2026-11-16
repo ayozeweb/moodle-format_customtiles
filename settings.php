@@ -24,14 +24,13 @@
 
 defined('MOODLE_INTERNAL') || die;
 
-if ($hassiteconfig) {
-    $ADMIN->add('formatsettings', new admin_externalpage(
-        'format_customtiles_categories',
-        get_string('categoriesadmin', 'format_customtiles'),
-        new moodle_url('/course/format/customtiles/categories.php'),
-        'moodle/site:config'
-    ));
-}
+// Shown to anyone with the capability (the admin tree hides it from everybody else).
+$ADMIN->add('formatsettings', new admin_externalpage(
+    'format_customtiles_categories',
+    get_string('categoriesadmin', 'format_customtiles'),
+    new moodle_url('/course/format/customtiles/categories.php'),
+    'format/customtiles:managecategories'
+));
 
 if ($ADMIN->fulltree) {
     $settings->add(new \format_customtiles\admin\setting_customskins(

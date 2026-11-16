@@ -51,4 +51,31 @@ class observer {
     public static function course_completed(\core\event\course_completed $event): void {
         course_data::invalidate((int)$event->relateduserid, (int)$event->courseid);
     }
+
+    /**
+     * A course was deleted: remove what the plugin kept about it (category assignments and the
+     * per-user preferences "last activity" and "last visit"). Files go with the course context.
+     *
+     * @param \core\event\course_deleted $event
+     */
+    public static function course_deleted(\core\event\course_deleted $event): void {
+        global $DB;
+        $courseid = (int)$event->objectid;
+        $DB->delete_records('format_customtiles_cmcat', ['courseid' => $courseid]);
+        $DB->delete_records_select('user_preferences', 'name = ? OR name = ?', [
+            course_data::preference_name($courseid),
+            course_data::visit_preference_name($courseid),
+        ]);
+    }
+
+    /**
+     * An activity was deleted: forget its category.
+     *
+     * @param \core\event\course_module_deleted $event
+     */
+    public static function course_module_deleted(\core\event\course_module_deleted $event): void {
+        global $DB;
+        $DB->delete_records('format_customtiles_cmcat', ['cmid' => (int)$event->objectid]);
+        \cache::make('format_customtiles', 'assignments')->delete((int)$event->courseid);
+    }
 }

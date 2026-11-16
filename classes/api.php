@@ -100,12 +100,29 @@ class api {
     /**
      * Assign (or clear, with null) the category of an activity.
      *
+     * The caller needs format/customtiles:assigncategories in the course, and the activity must belong to it.
+     *
      * @param int $courseid
      * @param int $cmid
      * @param int|null $categoryid
+     * @param bool $checkcapability false only for trusted internal callers (restore)
      */
-    public static function set_activity_category(int $courseid, int $cmid, ?int $categoryid): void {
+    public static function set_activity_category(
+        int $courseid,
+        int $cmid,
+        ?int $categoryid,
+        bool $checkcapability = true
+    ): void {
         global $DB;
+        if ($checkcapability) {
+            require_capability('format/customtiles:assigncategories', \context_course::instance($courseid));
+        }
+        if (!$DB->record_exists('course_modules', ['id' => $cmid, 'course' => $courseid])) {
+            throw new \coding_exception('The activity does not belong to the course');
+        }
+        if ($categoryid && !$DB->record_exists('format_customtiles_cat', ['id' => $categoryid])) {
+            throw new \coding_exception('Unknown activity category');
+        }
         \cache::make('format_customtiles', 'assignments')->delete($courseid);
         $existing = $DB->get_record('format_customtiles_cmcat', ['cmid' => $cmid]);
         if (!$categoryid) {
@@ -129,10 +146,12 @@ class api {
      * Create or update a category.
      *
      * @param \stdClass $data code, name, color, icon (id to update)
+     * @param bool $checkcapability false only for trusted internal callers
      * @return int id
      */
-    public static function save_category(\stdClass $data): int {
+    public static function save_category(\stdClass $data, bool $checkcapability = true): int {
         global $DB;
+        self::require_manage($checkcapability);
         $now = time();
         $icon = (string)($data->icon ?? '');
         $record = (object)[
@@ -160,6 +179,7 @@ class api {
      */
     public static function delete_category(int $id): void {
         global $DB;
+        self::require_manage(true);
         \cache::make('format_customtiles', 'assignments')->purge();
         $DB->delete_records('format_customtiles_cmcat', ['categoryid' => $id]);
         $DB->delete_records('format_customtiles_cat', ['id' => $id]);
@@ -171,6 +191,7 @@ class api {
      * @return int number of categories created
      */
     public static function load_sepe_preset(): int {
+        self::require_manage(true);
         $created = 0;
         foreach (self::SEPE_PRESET as $code => [$stringid, $colour, $icon]) {
             if (self::get_category_by_code($code)) {
@@ -181,6 +202,17 @@ class api {
             $created++;
         }
         return $created;
+    }
+
+    /**
+     * Managing the site-wide categories needs format/customtiles:managecategories.
+     *
+     * @param bool $check
+     */
+    private static function require_manage(bool $check): void {
+        if ($check) {
+            require_capability('format/customtiles:managecategories', \context_system::instance());
+        }
     }
 
     /**

@@ -31,7 +31,7 @@ $courseid = required_param('id', PARAM_INT);
 $course = get_course($courseid);
 require_login($course);
 $context = context_course::instance($courseid);
-require_capability('moodle/course:manageactivities', $context);
+require_capability('format/customtiles:assigncategories', $context);
 if ($course->format !== 'customtiles') {
     redirect(course_get_url($course));
 }

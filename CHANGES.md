@@ -2,6 +2,18 @@
 
 Format based on [Keep a Changelog](https://keepachangelog.com/). Versions follow [Semantic Versioning](https://semver.org/).
 
+## [0.4.0] - 2026-11-17
+
+### Security
+- Own capabilities `format/customtiles:managecategories` and `format/customtiles:assigncategories`; the API
+  enforces them and checks that an activity belongs to the course.
+- Section covers are validated (raster formats only, 5 MB, 40 megapixels) and always re-encoded; the original
+  upload is no longer kept. SVG covers are not accepted.
+- Category assignments and per-user preferences are removed when an activity or a course is deleted.
+
+### Added
+- Threat model (`docs/modelo_amenazas.md`) and vulnerability reporting policy.
+
 ## [0.3.1] - 2026-11-16
 
 ### Added

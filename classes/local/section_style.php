@@ -38,6 +38,18 @@ class section_style {
     /** @var int[] Widths of the generated cover variants. */
     public const WIDTHS = [480, 960];
 
+    /** @var int Largest width kept for the sanitised main image. */
+    public const MAIN_WIDTH = 1920;
+
+    /** @var string[] Raster formats accepted for covers. SVG is not accepted: it can carry scripts. */
+    public const ACCEPTED_TYPES = ['.png', '.jpg', '.jpeg', '.gif', '.webp'];
+
+    /** @var int Largest upload accepted for a cover, in bytes. */
+    public const MAX_BYTES = 5 * 1024 * 1024;
+
+    /** @var int Largest image accepted, in pixels (width x height), to bound the memory used when resizing. */
+    public const MAX_PIXELS = 40000000;
+
     /**
      * Icons available for sections (Font Awesome names shipped with Moodle).
      *
@@ -124,43 +136,104 @@ class section_style {
     }
 
     /**
-     * Save the cover from a draft area, generate the responsive variants and return the file name.
+     * Options of the cover file manager.
+     *
+     * @return array
+     */
+    public static function filemanager_options(): array {
+        return ['subdirs' => 0, 'maxfiles' => 1, 'maxbytes' => self::MAX_BYTES, 'accepted_types' => self::ACCEPTED_TYPES];
+    }
+
+    /**
+     * Save the cover from a draft area and return its file name.
+     *
+     * The upload is never served as it came: it is checked (raster image, bounded size in bytes and
+     * pixels) and re-encoded, which also drops any metadata (EXIF, GPS) or payload embedded in the
+     * original file. What is kept is a sanitised main image (at most MAIN_WIDTH wide) and the
+     * responsive variants. If the image in the draft area is the one already stored, nothing is done.
      *
      * @param int $draftid
      * @param int $courseid
      * @param int $sectionid
-     * @return string file name, '' when no image
+     * @return string file name, '' when there is no valid image
      */
     public static function save_cover(int $draftid, int $courseid, int $sectionid): string {
+        global $USER;
         $ctx = \context_course::instance($courseid);
         $fs = get_file_storage();
-        $fs->delete_area_files($ctx->id, 'format_customtiles', self::FILEAREA, $sectionid);
-        file_save_draft_area_files(
+        $area = [$ctx->id, 'format_customtiles', self::FILEAREA, $sectionid];
+
+        // Main image currently stored and image now in the draft area (both at the root path).
+        $current = self::root_file($fs->get_area_files(...[...$area, 'id', false]));
+        $draft = self::root_file($fs->get_area_files(
+            \context_user::instance($USER->id)->id,
+            'user',
+            'draft',
             $draftid,
-            $ctx->id,
-            'format_customtiles',
-            self::FILEAREA,
-            $sectionid,
-            ['subdirs' => 0, 'maxfiles' => 1, 'accepted_types' => ['web_image']]
-        );
-        $files = $fs->get_area_files($ctx->id, 'format_customtiles', self::FILEAREA, $sectionid, 'id', false);
-        if (!$files) {
+            'id',
+            false
+        ));
+        if (!$draft) {
+            $fs->delete_area_files(...$area);
             return '';
         }
-        $file = reset($files);
-        foreach (self::WIDTHS as $w) {
-            $record = [
-                'contextid' => $ctx->id, 'component' => 'format_customtiles', 'filearea' => self::FILEAREA,
-                'itemid' => $sectionid, 'filepath' => '/w' . $w . '/', 'filename' => $file->get_filename(),
-            ];
-            try {
-                $fs->convert_image($record, $file, $w, null, true, 82);
-            } catch (\Throwable $e) {
-                // Keep the original only; the pluginfile callback falls back to it.
-                debugging('format_customtiles: could not resize cover: ' . $e->getMessage(), DEBUG_DEVELOPER);
+        if (
+            $current && $current->get_contenthash() === $draft->get_contenthash()
+                && $current->get_filename() === $draft->get_filename()
+        ) {
+            return $current->get_filename();
+        }
+
+        $filename = $draft->get_filename();
+        $info = $draft->get_imageinfo();
+        $valid = $info && !empty($info['width']) && !empty($info['height'])
+            && in_array($info['mimetype'] ?? '', ['image/png', 'image/jpeg', 'image/gif', 'image/webp'], true)
+            && ($info['width'] * $info['height']) <= self::MAX_PIXELS
+            && $draft->get_filesize() <= self::MAX_BYTES;
+        $fs->delete_area_files(...$area);
+        $created = 0;
+        if ($valid) {
+            $paths = ['/' => self::MAIN_WIDTH];
+            foreach (self::WIDTHS as $w) {
+                $paths['/w' . $w . '/'] = $w;
+            }
+            foreach ($paths as $path => $w) {
+                $record = [
+                    'contextid' => $ctx->id, 'component' => 'format_customtiles', 'filearea' => self::FILEAREA,
+                    'itemid' => $sectionid, 'filepath' => $path, 'filename' => $filename,
+                ];
+                try {
+                    // Never upscale: small images are re-encoded at their own width.
+                    $fs->convert_image($record, $draft, min($w, (int)$info['width']), null, true, 82);
+                    $created++;
+                } catch (\Throwable $e) {
+                    debugging('format_customtiles: could not re-encode cover: ' . $e->getMessage(), DEBUG_DEVELOPER);
+                }
             }
         }
-        return $file->get_filename();
+        if ($created !== count(self::WIDTHS) + 1) {
+            $fs->delete_area_files(...$area);
+            if (!CLI_SCRIPT) {
+                \core\notification::warning(get_string('coverrejected', 'format_customtiles'));
+            }
+            return '';
+        }
+        return $filename;
+    }
+
+    /**
+     * The file at the root path among the files of an area.
+     *
+     * @param \stored_file[] $files
+     * @return \stored_file|null
+     */
+    private static function root_file(array $files): ?\stored_file {
+        foreach ($files as $file) {
+            if ($file->get_filepath() === '/' && !$file->is_directory()) {
+                return $file;
+            }
+        }
+        return null;
     }
 
     /**

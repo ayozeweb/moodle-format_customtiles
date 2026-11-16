@@ -201,19 +201,19 @@ Partir de `SECURITY.md`. La revisión anterior fue lectura de código y pruebas 
 
 #### 4a. Modelo de amenazas (S, Opus)
 
-- [ ] `docs/modelo_amenazas.md`: actores (anónimo, alumno, docente, gestor, administrador, autor de un backup malicioso), activos (datos de progreso, imágenes, configuración), superficies (páginas propias, `pluginfile`, servicios web, restauración, ajustes de administración) y controles.
-- [ ] Revisar con ese modelo las piezas nuevas de las fases 1 a 3, sobre todo los servicios web y el editor reactivo.
+- [x] `docs/modelo_amenazas.md`: actores (anónimo, alumno, docente, gestor, administrador, autor de un backup malicioso), activos (datos de progreso, imágenes, configuración), superficies (páginas propias, `pluginfile`, servicios web, restauración, ajustes de administración) y controles.
+- [~] (hecho para las fases 0 y 1; repetir tras las fases 2 y 3) Revisar con ese modelo las piezas nuevas de las fases 1 a 3, sobre todo los servicios web y el editor reactivo.
 
 #### 4b. Endurecimiento (M, Sonnet)
 
-- [ ] **Capacidades propias** (D6): `format/customtiles:managecategories` (sitio), `:assigncategories` (curso), `:viewprogress` (curso). Definirlas en `db/access.php` con arquetipos sensatos y usarlas en páginas, navegación y servicios web. `api::set_activity_category()` debe comprobar permisos o documentarse como interna y moverse a un espacio de nombres `local`.
+- [x] **Capacidades propias** (D6): `format/customtiles:managecategories` (sitio), `:assigncategories` (curso), `:viewprogress` (curso). Definirlas en `db/access.php` con arquetipos sensatos y usarlas en páginas, navegación y servicios web. `api::set_activity_category()` debe comprobar permisos o documentarse como interna y moverse a un espacio de nombres `local`.
 - [ ] **Compatibilidad con CSP estricta** (D7). Sustituir el atributo `style` con los tokens por una hoja generada por curso y servida por un script propio con caché (patrón `styles.php?courseid=…&rev=…`), o por clases por tema para los presets y hoja generada solo para el color base. Los estilos por sección (`--ct-c1`, `--ct-pct`) necesitan la misma solución. Test que renderice la portada y falle si queda algún `style="` propio.
-- [ ] **Imágenes** (D8): rechazar imágenes por encima de un máximo de píxeles antes de pasarlas a GD, reencodar siempre (elimina EXIF y cargas incrustadas), limitar el tamaño de subida con un ajuste propio, y decidir si se admite SVG en portadas (recomendación: no).
+- [x] **Imágenes** (D8): rechazar imágenes por encima de un máximo de píxeles antes de pasarlas a GD, reencodar siempre (elimina EXIF y cargas incrustadas), limitar el tamaño de subida con un ajuste propio, y decidir si se admite SVG en portadas (recomendación: no).
 - [ ] **Logotipos públicos**: confirmar con el propietario que deben servirse sin login. Si no, exigir login y mostrarlos solo dentro del curso.
-- [ ] **Restauración**: test con un backup manipulado (opciones con HTML, colores inválidos, nombres de archivo con rutas) que demuestre que nada llega sin sanear a la salida.
-- [ ] **Privacidad**: revisar el proveedor con los datos nuevos de las fases 1 a 3 (por ejemplo, última visita, punto de reanudación). Añadir borrado explícito de las preferencias `format_customtiles_last_*` al eliminar un curso.
-- [ ] Tests de permisos en Behat para cada página propia con cada rol.
-- [ ] Política de divulgación en `SECURITY.md`: cómo reportar, plazos y versiones con soporte.
+- [x] **Restauración**: test con un backup manipulado (opciones con HTML, colores inválidos, nombres de archivo con rutas) que demuestre que nada llega sin sanear a la salida.
+- [x] **Privacidad**: revisar el proveedor con los datos nuevos de las fases 1 a 3 (por ejemplo, última visita, punto de reanudación). Añadir borrado explícito de las preferencias `format_customtiles_last_*` al eliminar un curso.
+- [~] (cubierto por PHPUnit y prueba manual; en Behat las denegaciones lanzan excepción) Tests de permisos en Behat para cada página propia con cada rol.
+- [x] Política de divulgación en `SECURITY.md`: cómo reportar, plazos y versiones con soporte.
 
 Criterio de aceptación: cada control del modelo de amenazas tiene un test o un procedimiento manual fechado.
 

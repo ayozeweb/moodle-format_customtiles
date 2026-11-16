@@ -30,6 +30,14 @@ $observers = [
         'callback' => '\format_customtiles\observer::completion_updated',
     ],
     [
+        'eventname' => '\core\event\course_deleted',
+        'callback' => '\format_customtiles\observer::course_deleted',
+    ],
+    [
+        'eventname' => '\core\event\course_module_deleted',
+        'callback' => '\format_customtiles\observer::course_module_deleted',
+    ],
+    [
         'eventname' => '\core\event\course_completed',
         'callback' => '\format_customtiles\observer::course_completed',
     ],
