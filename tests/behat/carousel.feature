@@ -21,5 +21,6 @@ Feature: Carousel layout
     Then the "aria-current" attribute of ".fct-carousel__dot:first-child" "css_element" should contain "true"
     And the "disabled" attribute of "[data-action='prev']" "css_element" should be set
     When I click on "Next section" "button"
-    Then the "aria-current" attribute of ".fct-carousel__dot" "css_element" should be set
+    Then the "aria-current" attribute of ".fct-carousel__dots li:nth-child(2) .fct-carousel__dot" "css_element" should be set
+    And the "aria-current" attribute of ".fct-carousel__dots li:nth-child(1) .fct-carousel__dot" "css_element" should not be set
     And the "disabled" attribute of "[data-action='prev']" "css_element" should not be set

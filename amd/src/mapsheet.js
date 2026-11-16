@@ -68,32 +68,29 @@ const build = (strings) => {
 };
 
 /**
- * Open the panel and load the map.
+ * Open the panel and load the map. If anything fails, fall back to the full page.
  *
  * @param {HTMLAnchorElement} link the link that was activated
- * @returns {Promise}
  */
-const open = (link) => {
-    return getStrings([
-        {key: 'coursemap', component: 'format_customtiles'},
-        {key: 'closemap', component: 'format_customtiles'},
-        {key: 'loadingmap', component: 'format_customtiles'},
-    ]).then((strings) => {
+const open = async(link) => {
+    try {
+        const strings = await getStrings([
+            {key: 'coursemap', component: 'format_customtiles'},
+            {key: 'closemap', component: 'format_customtiles'},
+            {key: 'loadingmap', component: 'format_customtiles'},
+        ]);
         if (!dialog) {
             dialog = build(strings);
         }
         const body = dialog.querySelector('[data-region="body"]');
         body.textContent = strings[2];
         dialog.showModal();
-        return Fragment.loadFragment('format_customtiles', 'map', parseInt(link.dataset.contextid, 10), {})
-            .then((html, js) => {
-                Templates.replaceNodeContents(body, html, js);
-                return html;
-            });
-    }).catch(() => {
-        // Anything failed: fall back to the full page.
+        // The map template carries no JavaScript, so only the HTML of the fragment is needed.
+        const html = await Fragment.loadFragment('format_customtiles', 'map', parseInt(link.dataset.contextid, 10), {});
+        Templates.replaceNodeContents(body, html, '');
+    } catch (error) {
         window.location.assign(link.href);
-    });
+    }
 };
 
 /**
