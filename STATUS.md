@@ -21,7 +21,10 @@ Hitos 1–6 cerrados. Extras: layouts Bento y Lista compacta hechos (axe limpio)
 
 - **Plan de mejora, Fase 1 (0.3.0)**: vista de sección con cabecera propia, tarjetas de actividad con el tema del curso, navegación anterior/siguiente y gesto de deslizar, mapa del curso como panel (`<dialog>` + fragmento), barra de contexto en una línea con «volver» (sustituye a la miga de pan en móvil), transición compartida tile → cabecera, estados vacíos, opción para repetir el título, «nueva» = añadido desde la visita anterior. Medido a 360×800: contenido 83 % en portada, 92 % en sección y 84 % en actividad (contando barra superior, navegación secundaria y pie fijo del core). axe sin violaciones propias en portada, sección, actividad y mapa con los temas claro, oscuro, alto contraste y vibrante.
 
+- **CI real en verde por primera vez** (ejecución 16, commit `7e4f006`): lint PHP, validación, Mustache, phpcs, grunt, CSS compilado, phpdoc, PHPUnit (36) y Behat (16 escenarios, incluidos los de JS). Las 15 ejecuciones anteriores fallaban.
+
 ## Decisiones
+- **Comprobar siempre con las herramientas de la CI**: `moodle-plugin-ci grunt` y `mustache` están instalados en local (`/home/user/tools/ci`) y se ejecutan antes de subir. Los fallos de la CI venían de comprobaciones que aquí se sustituían por aproximaciones (lint de Mustache, avisos de ESLint ocultos al recortar la salida).
 - **Miga de pan oculta en móvil** (< 768 px) dentro de cursos con este formato y fuera del modo edición: la barra de contexto da la misma orientación y el enlace de vuelta en una sola línea. En la página de actividad era la diferencia entre 77 % y 84 % de contenido.
 - **Tarjetas de actividad solo con CSS** sobre el marcado del core (variables de Bootstrap y áreas de la rejilla `activity-grid`), sin copiar plantillas. Riesgo: si 5.4 cambia esas áreas, la insignia de categoría vuelve a su fila; no se rompe nada.
 - **Fragmento del mapa sin `require_login` propio**: `core_get_fragment` ya valida contexto y acceso; llamarlo de nuevo lanza un error de codificación.
