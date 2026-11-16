@@ -92,6 +92,16 @@ Layouts (`docs/screenshots/`):
 | **Bento** | <img src="docs/screenshots/layout-bento-360.png" width="120" alt="Bento 360px"> | <img src="docs/screenshots/layout-bento-768.png" width="160" alt="Bento 768px"> | <img src="docs/screenshots/layout-bento-1280.png" width="240" alt="Bento 1280px"> |
 | **List / Lista** | <img src="docs/screenshots/layout-list-360.png" width="120" alt="List / Lista 360px"> | <img src="docs/screenshots/layout-list-768.png" width="160" alt="List / Lista 768px"> | <img src="docs/screenshots/layout-list-1280.png" width="240" alt="List / Lista 1280px"> |
 
+Student views / Vistas del alumno:
+
+| | 360 px | 768 px | 1280 px |
+|---|---|---|---|
+| **Section / Sección** | <img src="docs/screenshots/view-section-360.png" width="120" alt="Section / Sección 360px"> | <img src="docs/screenshots/view-section-768.png" width="160" alt="Section / Sección 768px"> | <img src="docs/screenshots/view-section-1280.png" width="240" alt="Section / Sección 1280px"> |
+| **Section, dark / Sección, oscuro** | <img src="docs/screenshots/view-section-dark-360.png" width="120" alt="Section, dark / Sección, oscuro 360px"> | <img src="docs/screenshots/view-section-dark-768.png" width="160" alt="Section, dark / Sección, oscuro 768px"> | <img src="docs/screenshots/view-section-dark-1280.png" width="240" alt="Section, dark / Sección, oscuro 1280px"> |
+| **Activity / Actividad** | <img src="docs/screenshots/view-activity-360.png" width="120" alt="Activity / Actividad 360px"> | <img src="docs/screenshots/view-activity-768.png" width="160" alt="Activity / Actividad 768px"> | <img src="docs/screenshots/view-activity-1280.png" width="240" alt="Activity / Actividad 1280px"> |
+
+Course map panel / Panel del mapa del curso: <img src="docs/screenshots/view-map-panel-360.png" width="120" alt="Course map panel 360px">
+
 Visual themes / Temas visuales:
 
 | | 360 px | 768 px | 1280 px |

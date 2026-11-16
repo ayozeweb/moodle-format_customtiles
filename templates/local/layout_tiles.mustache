@@ -34,7 +34,8 @@
 <ul class="fct-tiles{{#isbento}} fct-tiles--bento{{/isbento}}" data-for="ct_tiles">
     {{#tiles}}
         <li class="fct-tile fct-item fct-tile--{{state}}{{#iscurrent}} fct-tile--current{{/iscurrent}}" data-section-id="{{id}}">
-            <div class="fct-tile__cover{{#hascolor}} fct-has-color{{/hascolor}}" aria-hidden="true"{{#hascolor}} style="{{coverstyle}}"{{/hascolor}}>
+            <div class="fct-tile__cover{{#hascolor}} fct-has-color{{/hascolor}}" aria-hidden="true"
+                 style="--fct-vt: fct-cover-{{id}};{{#hascolor}}{{coverstyle}}{{/hascolor}}">
                 {{> format_customtiles/local/cover }}
             </div>
             <div class="fct-tile__body">

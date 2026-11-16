@@ -48,5 +48,10 @@ function xmldb_format_customtiles_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2026111400, 'format', 'customtiles');
     }
 
+    if ($oldversion < 2026111600) {
+        // 0.3.0: section and activity views; new course option with a default, nothing to migrate.
+        upgrade_plugin_savepoint(true, 2026111600, 'format', 'customtiles');
+    }
+
     return true;
 }

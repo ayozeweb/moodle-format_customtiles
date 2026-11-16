@@ -35,6 +35,8 @@ function xmldb_format_customtiles_uninstall() {
     foreach ($contextids as $contextid) {
         $fs->delete_area_files($contextid, 'format_customtiles');
     }
-    $DB->delete_records_select('user_preferences', $DB->sql_like('name', '?'), ['format\_customtiles\_last\_%']);
+    foreach (['last', 'seen'] as $kind) {
+        $DB->delete_records_select('user_preferences', $DB->sql_like('name', '?'), ['format\_customtiles\_' . $kind . '\_%']);
+    }
     return true;
 }

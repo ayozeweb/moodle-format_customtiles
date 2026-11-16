@@ -22,6 +22,8 @@
     Example context (json):
     {
         "title": "Example course",
+        "showtitle": true,
+        "contextid": 1,
         "summary": "A short description.",
         "mapurl": "#",
         "hasimage": true,
@@ -42,7 +44,7 @@
         {{#hasimage}}<img src="{{image}}" alt="" width="1200" height="675" decoding="async" fetchpriority="high">{{/hasimage}}
     </div>
     <div class="fct-hero__body">
-        <h2 class="fct-hero__title">{{{title}}}</h2>
+        {{#showtitle}}<h2 class="fct-hero__title">{{{title}}}</h2>{{/showtitle}}
         {{#summary}}<p class="fct-hero__summary">{{summary}}</p>{{/summary}}
         {{#haspills}}
             <ul class="fct-pills">
@@ -62,7 +64,7 @@
                     <span class="fct-ring__text" aria-hidden="true">{{percent}}%</span>
                 </div>
             {{/hasprogress}}
-            <a class="fct-btn fct-btn--secondary" href="{{mapurl}}">
+            <a class="fct-btn fct-btn--secondary" href="{{mapurl}}" data-action="fct-map" data-contextid="{{contextid}}">
                 <span class="fct-btn__label"><i class="fa-solid fa-sitemap" aria-hidden="true"></i> {{#str}} coursemap, format_customtiles {{/str}}</span>
             </a>
             {{#continue}}

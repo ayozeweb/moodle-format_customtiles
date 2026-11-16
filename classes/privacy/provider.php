@@ -45,6 +45,7 @@ class provider implements
      */
     public static function get_metadata(collection $collection): collection {
         $collection->add_user_preference('format_customtiles_last_', 'privacy:metadata:preference:last');
+        $collection->add_user_preference('format_customtiles_seen_', 'privacy:metadata:preference:seen');
         return $collection;
     }
 
@@ -56,15 +57,16 @@ class provider implements
     public static function export_user_preferences(int $userid) {
         $prefs = get_user_preferences(null, null, $userid);
         foreach ($prefs as $name => $value) {
-            if (strpos($name, 'format_customtiles_last_') !== 0) {
-                continue;
+            foreach (['last', 'seen'] as $kind) {
+                if (strpos($name, 'format_customtiles_' . $kind . '_') === 0) {
+                    writer::export_user_preference(
+                        'format_customtiles',
+                        $name,
+                        $value,
+                        get_string('privacy:metadata:preference:' . $kind, 'format_customtiles')
+                    );
+                }
             }
-            writer::export_user_preference(
-                'format_customtiles',
-                $name,
-                $value,
-                get_string('privacy:metadata:preference:last', 'format_customtiles')
-            );
         }
     }
 }

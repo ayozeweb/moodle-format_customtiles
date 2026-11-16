@@ -115,27 +115,27 @@ Es la mejora de mayor impacto visual (D1). Hoy la portada del curso está cuidad
 Antes de escribir código: leer los `UPGRADING.md` de 5.3 de `public/course/format`, `public/theme/boost` y `public/lib` (tarjetas de actividad, navegación lineal, pie fijo, API de componentes React).
 
 **1.1 Cabecera de sección**
-- [ ] Sustituir la cabecera estándar de la página de sección por una propia: portada o color de la sección, título, subtítulo, tiempo estimado, barra de progreso y estado. Reutilizar `section_style::export()` y `course_data`.
-- [ ] Añadir `view-transition-name` compartido entre el tile de la portada y esta cabecera, para que la transición sea «el tile se abre», no un fundido de página. Sin animación con `prefers-reduced-motion`.
+- [x] Sustituir la cabecera estándar de la página de sección por una propia: portada o color de la sección, título, subtítulo, tiempo estimado, barra de progreso y estado. Reutilizar `section_style::export()` y `course_data`.
+- [x] Añadir `view-transition-name` compartido entre el tile de la portada y esta cabecera, para que la transición sea «el tile se abre», no un fundido de página. Sin animación con `prefers-reduced-motion`.
 
 **1.2 Lista de actividades**
-- [ ] Rediseñar la tarjeta de actividad dentro de `.ct-root` solo con CSS sobre el marcado del core cuando sea posible. Si hace falta cambiar marcado, hacerlo sobrescribiendo las clases de salida (`content\cm`, `content\section\cmitem`), nunca copiando plantillas enteras del core.
-- [ ] Objetivo táctil: toda la tarjeta es pulsable, el botón de finalización mide ≥ 44 px, icono del módulo a la izquierda, nombre a dos líneas como máximo, insignia de categoría en la misma fila que el nombre (resolver aquí la limitación actual de `afterlink`).
-- [ ] Estado visible por actividad: hecha, pendiente, bloqueada con motivo, con fecha próxima.
-- [ ] Etiquetas (`mod_label`) y subsecciones con un tratamiento visual propio, como separadores de contenido y no como tarjetas.
+- [x] Rediseñar la tarjeta de actividad dentro de `.ct-root` solo con CSS sobre el marcado del core cuando sea posible. Si hace falta cambiar marcado, hacerlo sobrescribiendo las clases de salida (`content\cm`, `content\section\cmitem`), nunca copiando plantillas enteras del core.
+- [x] Objetivo táctil: toda la tarjeta es pulsable, el botón de finalización mide ≥ 44 px, icono del módulo a la izquierda, nombre a dos líneas como máximo, insignia de categoría en la misma fila que el nombre (resolver aquí la limitación actual de `afterlink`).
+- [~] (parcial: hecha/pendiente y bloqueo los da el core; «con fecha próxima» sin hacer) Estado visible por actividad: hecha, pendiente, bloqueada con motivo, con fecha próxima.
+- [x] Etiquetas (`mod_label`) y subsecciones con un tratamiento visual propio, como separadores de contenido y no como tarjetas.
 
 **1.3 Navegación entre secciones**
-- [ ] Integrar con la navegación lineal y el pie fijo de 5.3. Añadir solo lo que falte: gesto de deslizar entre secciones con alternativa por botones y teclado, respetando `env(safe-area-inset-*)`.
-- [ ] Mapa del curso como hoja inferior (`<dialog>` nativo) en móvil y panel lateral en escritorio, a un toque desde cualquier página del curso. Mantener `map.php` como alternativa sin JS e imprimible.
+- [x] Integrar con la navegación lineal y el pie fijo de 5.3. Añadir solo lo que falte: gesto de deslizar entre secciones con alternativa por botones y teclado, respetando `env(safe-area-inset-*)`.
+- [x] Mapa del curso como hoja inferior (`<dialog>` nativo) en móvil y panel lateral en escritorio, a un toque desde cualquier página del curso. Mantener `map.php` como alternativa sin JS e imprimible.
 
 **1.4 Página de actividad**
-- [ ] Mover la línea de contexto a una franja a todo el ancho bajo la cabecera de la actividad (D14). Investigar primero si `core\output\activity_header` o un hook de 5.3 lo permite sin tocar el tema.
-- [ ] Botón «Siguiente actividad» coherente con el «Continuar» del hero, sin duplicar el del pie fijo del core.
+- [x] Mover la línea de contexto a una franja a todo el ancho bajo la cabecera de la actividad (D14). Investigar primero si `core\output\activity_header` o un hook de 5.3 lo permite sin tocar el tema.
+- [x] (cubierto por el pie fijo del core, no se duplica) Botón «Siguiente actividad» coherente con el «Continuar» del hero, sin duplicar el del pie fijo del core.
 
 **1.5 Detalles de calidad percibida**
-- [ ] Opción de curso para ocultar el título del hero cuando el tema ya muestra el H1 (D13), activada por defecto.
-- [ ] Estados vacíos diseñados: curso sin secciones, sección sin actividades, curso sin seguimiento de finalización.
-- [ ] Sustituir la heurística de «nueva» por «contenido añadido desde tu última visita al curso» usando `user_lastaccess` (D18).
+- [x] Opción de curso para ocultar el título del hero cuando el tema ya muestra el H1 (D13), activada por defecto.
+- [~] (curso sin secciones y sección sin actividades hechos; curso sin seguimiento de finalización, sin tratamiento propio) Estados vacíos diseñados: curso sin secciones, sección sin actividades, curso sin seguimiento de finalización.
+- [x] Sustituir la heurística de «nueva» por «contenido añadido desde tu última visita al curso» usando `user_lastaccess` (D18).
 
 Criterios de aceptación:
 - Capturas a 360, 768 y 1280 px de portada, sección y actividad en los seis temas, en `docs/screenshots/`.

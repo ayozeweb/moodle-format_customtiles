@@ -75,8 +75,7 @@ jobs:
       - name: Compiled CSS is up to date with scss/
         if: ${{ !cancelled() }}
         run: |
-          dir=$(find moodle -type d -path '*course/format/customtiles' | head -1)
-          cd "$dir"
+          cd moodle/public/course/format/customtiles
           npm install --no-save --no-audit --no-fund sass@1.107.1
           ./build-css.sh
           cmp styles.css "$GITHUB_WORKSPACE/plugin/styles.css"

@@ -218,6 +218,7 @@ class format_customtiles extends core_courseformat\base {
                 'skin' => ['default' => skin::DEFAULT, 'type' => PARAM_ALPHANUMEXT],
                 'basecolor' => ['default' => '', 'type' => PARAM_RAW_TRIMMED],
                 'showlogos' => ['default' => 0, 'type' => PARAM_INT],
+                'showherotitle' => ['default' => 0, 'type' => PARAM_INT],
             ];
         }
         if ($foreditform && !isset($options['layout']['label'])) {
@@ -268,6 +269,12 @@ class format_customtiles extends core_courseformat\base {
                     'help_component' => 'format_customtiles',
                     'element_type' => 'text',
                     'element_attributes' => [['maxlength' => 7, 'size' => 8, 'placeholder' => '#1d4ed8']],
+                ],
+                'showherotitle' => [
+                    'label' => new lang_string('showherotitle', 'format_customtiles'),
+                    'help' => 'showherotitle',
+                    'help_component' => 'format_customtiles',
+                    'element_type' => 'advcheckbox',
                 ],
                 'showlogos' => [
                     'label' => new lang_string('showlogos', 'format_customtiles'),
@@ -605,5 +612,30 @@ function format_customtiles_extend_navigation_course(navigation_node $navigation
         null,
         'customtiles_categories',
         new pix_icon('i/tag', '')
+    );
+}
+
+/**
+ * Fragment: the course map, loaded on demand into the map panel.
+ *
+ * @param array $args must contain the course context
+ * @return string HTML
+ */
+function format_customtiles_output_fragment_map(array $args): string {
+    global $PAGE;
+    $context = $args['context'];
+    if ($context->contextlevel != CONTEXT_COURSE) {
+        throw new coding_exception('The course map needs a course context');
+    }
+    // Access was already checked: core_get_fragment validates the context (login and course access)
+    // before calling this function, and the map only lists what the user can see.
+    $course = get_course($context->instanceid);
+    $format = course_get_format($course);
+    if ($format->get_format() !== 'customtiles') {
+        return '';
+    }
+    return $PAGE->get_renderer('format_customtiles')->render_from_template(
+        'format_customtiles/local/map',
+        \format_customtiles\local\course_map::export($format, true)
     );
 }

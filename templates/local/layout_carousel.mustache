@@ -40,7 +40,8 @@
             <div class="fct-slide fct-item fct-slide--{{state}}{{#iscurrent}} fct-slide--current{{/iscurrent}}" data-section-id="{{id}}"
                 role="group" aria-roledescription="slide"
                 aria-label="{{#str}} slidex, format_customtiles, {"x": {{position}}, "n": {{tilecount}}} {{/str}}">
-                <div class="fct-slide__cover{{#hascolor}} fct-has-color{{/hascolor}}" aria-hidden="true"{{#hascolor}} style="{{coverstyle}}"{{/hascolor}}>
+                <div class="fct-slide__cover{{#hascolor}} fct-has-color{{/hascolor}}" aria-hidden="true"
+                 style="--fct-vt: fct-cover-{{id}};{{#hascolor}}{{coverstyle}}{{/hascolor}}">
                 {{> format_customtiles/local/cover }}
             </div>
                 <div class="fct-slide__body">

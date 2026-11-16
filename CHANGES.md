@@ -2,6 +2,27 @@
 
 Format based on [Keep a Changelog](https://keepachangelog.com/). Versions follow [Semantic Versioning](https://semver.org/).
 
+## [0.3.0] - 2026-11-16
+
+### Added
+- Section page with its own header (cover or colour, subtitle, time, progress and state), themed activity cards,
+  previous/next section links and swipe navigation on touch screens.
+- Course map as a panel (bottom sheet on phones, side panel on wider screens), loaded on demand; the printable
+  page remains the fallback without JavaScript.
+- One-line context bar with a "back" link on section and activity pages; on phones it replaces the breadcrumb.
+- Shared view transition between a section cover on the course page and on the section page.
+- Empty states for courses without sections and sections without activities.
+- Course option to repeat the course name in the header (off by default: the theme already shows it).
+
+### Changed
+- "New" now means content added since the user's previous visit to the course (stored as a user preference,
+  exported by the Privacy API), not content created in the last seven days.
+- The category badge sits on the title row of the activity.
+- Carousel controls show the destination at once instead of waiting for the smooth scroll to finish.
+
+### Fixed
+- The course map did not carry the visual theme of the course.
+
 ## [0.2.0] - 2026-11-14
 
 ### Changed

@@ -71,18 +71,12 @@ const setup = (root) => {
         return best;
     };
 
-    const goTo = (index) => {
-        const target = slides[Math.max(0, Math.min(slides.length - 1, index))];
-        track.scrollTo({
-            left: target.offsetLeft - track.offsetLeft,
-            behavior: reducedMotion() ? 'auto' : 'smooth',
-        });
-    };
+    // Index a button, dot or key just asked for; scroll events are ignored until the track gets there,
+    // so the controls show the destination at once instead of flickering during the smooth scroll.
+    let pending = null;
+    let pendingTimer = 0;
 
-    let frame = 0;
-    const update = () => {
-        frame = 0;
-        const index = current();
+    const setActive = (index) => {
         dotButtons.forEach((button, i) => {
             if (i === index) {
                 button.setAttribute('aria-current', 'true');
@@ -94,18 +88,49 @@ const setup = (root) => {
         next.disabled = index === slides.length - 1;
     };
 
+    const goTo = (index) => {
+        const target = Math.max(0, Math.min(slides.length - 1, index));
+        pending = target;
+        window.clearTimeout(pendingTimer);
+        pendingTimer = window.setTimeout(() => {
+            pending = null;
+            setActive(current());
+        }, 1000);
+        setActive(target);
+        track.scrollTo({
+            left: slides[target].offsetLeft - track.offsetLeft,
+            behavior: reducedMotion() ? 'auto' : 'smooth',
+        });
+    };
+
+    let frame = 0;
+    const update = () => {
+        frame = 0;
+        const index = current();
+        if (pending !== null) {
+            if (index !== pending) {
+                return;
+            }
+            pending = null;
+            window.clearTimeout(pendingTimer);
+        }
+        setActive(index);
+    };
+
+    const position = () => (pending !== null ? pending : current());
+
     track.addEventListener('scroll', () => {
         if (!frame) {
             frame = window.requestAnimationFrame(update);
         }
     }, {passive: true});
-    prev.addEventListener('click', () => goTo(current() - 1));
-    next.addEventListener('click', () => goTo(current() + 1));
+    prev.addEventListener('click', () => goTo(position() - 1));
+    next.addEventListener('click', () => goTo(position() + 1));
     track.addEventListener('keydown', (e) => {
         if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
             const rtl = document.dir === 'rtl';
             const forward = (e.key === 'ArrowRight') !== rtl;
-            goTo(current() + (forward ? 1 : -1));
+            goTo(position() + (forward ? 1 : -1));
             e.preventDefault();
         }
     });

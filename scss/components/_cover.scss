@@ -16,7 +16,11 @@
 // Section cover content (image, icon, number) and custom section colours.
 .fct-tile__cover,
 .fct-card__cover,
-.fct-slide__cover {
+.fct-slide__cover,
+.fct-sechead__cover {
+  // Shared name between a section cover on the course page and on the section page, so the
+  // browser morphs one into the other (cross-document view transition).
+  view-transition-name: var(--fct-vt, none);
   position: relative;
   overflow: hidden;
 }

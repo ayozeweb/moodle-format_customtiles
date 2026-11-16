@@ -240,6 +240,18 @@ class skin {
     }
 
     /**
+     * Skin id and inline CSS variables of a course, from its format options.
+     *
+     * @param \core_courseformat\base $format
+     * @return array ['skin' => string, 'tokens' => string]
+     */
+    public static function for_format(\core_courseformat\base $format): array {
+        $options = $format->get_format_options();
+        $id = self::exists((string)($options['skin'] ?? '')) ? $options['skin'] : self::DEFAULT;
+        return ['skin' => $id, 'tokens' => self::css_variables($id, (string)($options['basecolor'] ?? ''))];
+    }
+
+    /**
      * Pairs (foreground, background, minimum contrast) every skin has to satisfy; used by tests.
      *
      * @return array[]

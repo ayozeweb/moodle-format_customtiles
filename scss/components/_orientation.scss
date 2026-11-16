@@ -37,31 +37,81 @@
 
 .fct-ctxbar {
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
-  justify-content: space-between;
-  gap: var(--fct-space-2) var(--fct-space-3);
+  gap: var(--fct-space-2);
   margin-block: var(--fct-space-2) var(--fct-space-3);
-  padding: .5rem var(--fct-space-3);
+  padding: .125rem var(--fct-space-2);
   border-radius: var(--fct-radius);
   background: var(--fct-surface2);
   color: var(--fct-text);
   font-size: .9375rem;
 }
 
+// One line: the text truncates, the controls keep their 44 px.
 .fct-ctxbar__text {
+  flex: 1 1 auto;
+  min-inline-size: 0;
   margin: 0;
+  padding-inline-start: var(--fct-space-2);
+  display: flex;
+  align-items: center;
+  gap: .35rem;
   font-weight: 600;
-  overflow-wrap: anywhere;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+// Long section names shorten; the position ("Activity 3 of 9") is always shown in full.
+.fct-ctxbar__part {
+  min-inline-size: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fct-ctxbar__part--keep,
+.fct-ctxbar__sep {
+  flex: none;
+}
+
+.fct-ctxbar__back,
+.fct-ctxbar__map {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  gap: .4rem;
+  min-inline-size: var(--fct-touch);
+  min-block-size: var(--fct-touch);
+  border-radius: var(--fct-radius);
+  color: var(--fct-primary);
+  font-weight: 600;
+}
+
+.fct-ctxbar__back + .fct-ctxbar__text {
+  padding-inline-start: 0;
 }
 
 .fct-ctxbar__map {
-  display: inline-flex;
-  align-items: center;
-  gap: .4rem;
-  min-block-size: var(--fct-touch);
-  color: var(--fct-primary);
-  font-weight: 600;
+  padding-inline: var(--fct-space-2);
+}
+
+// Phones: the context bar already says where you are and takes you back, so the breadcrumb
+// (which repeats it) gives its room to the content.
+@media (max-width: 47.99rem) {
+  body.format-customtiles:not(.editing) #page-navbar {
+    display: none;
+  }
+}
+
+@media (max-width: 29.99rem) {
+  .fct-ctxbar__maplabel {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
 }
 
 .fct-btn--secondary {
@@ -88,6 +138,14 @@
 
 .fct-map {
   max-inline-size: 60rem;
+  padding: var(--fct-space-3);
+  border-radius: var(--fct-radius-l);
+  background: var(--fct-bg);
+  color: var(--fct-text);
+
+  a {
+    color: var(--fct-primary);
+  }
 }
 
 .fct-map__sections,

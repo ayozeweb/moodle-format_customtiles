@@ -65,9 +65,9 @@ class content extends content_base {
 
         $layout = $options['layout'] ?? layouts::DEFAULT;
         $data->layout = layouts::exists($layout) ? $layout : layouts::DEFAULT;
-        $skinid = skin::exists($options['skin'] ?? '') ? $options['skin'] : skin::DEFAULT;
-        $data->skin = $skinid;
-        $data->tokens = skin::css_variables($skinid, $options['basecolor'] ?? '');
+        $skin = skin::for_format($this->format);
+        $data->skin = $skin['skin'];
+        $data->tokens = $skin['tokens'];
         $data->isindex = empty($data->hasnavigation);
         $data->coursename = format_string($course->fullname, true, ['context' => \context_course::instance($course->id)]);
 
@@ -79,6 +79,11 @@ class content extends content_base {
         $data->haslegend = !empty($legend);
 
         $data->mapurl = (new \moodle_url('/course/format/customtiles/map.php', ['id' => $course->id]))->out(false);
+        $data->contextid = \context_course::instance($course->id)->id;
+        $editing = $this->format->show_editor();
+        if (!$data->isindex && !$editing && ($sectionid = $this->format->get_sectionid())) {
+            $this->export_section_view($data, (int)$sectionid);
+        }
         if (!$data->isindex && ($sectionid = $this->format->get_sectionid())) {
             $section = $this->format->get_modinfo()->get_section_info_by_id($sectionid);
             $parts = $section ? \format_customtiles\local\context_info::for_section($this->format, $section) : [];
@@ -89,24 +94,65 @@ class content extends content_base {
                 array_keys($parts)
             );
             $data->hasctx = !empty($parts);
+            $data->backurl = (new \moodle_url('/course/view.php', ['id' => $course->id]))->out(false);
+            $data->backlabel = get_string('backto', 'format_customtiles', $data->coursename);
         }
 
         $data->logos = !empty($options['showlogos']) ? $this->get_logos() : [];
         $data->haslogos = !empty($data->logos);
 
         if ($data->isindex) {
-            $editing = $this->format->show_editor();
+            if (!$editing) {
+                // Before reading the progress, so "new since your previous visit" is up to date.
+                course_data::register_visit((int)$course->id);
+            }
             $model = new course_data($this->format);
             $data->hero = $this->export_hero($model, $course, !$editing);
             $data->showtiles = !$editing;
             if ($data->showtiles) {
                 $data->tiles = $model->get_sections();
                 $data->hastiles = !empty($data->tiles);
+                $data->emptycourse = empty($data->tiles);
                 $data->tilecount = count($data->tiles);
                 $this->export_variants($data, $options);
             }
         }
         return $data;
+    }
+
+    /**
+     * Focused section page: header with the look and progress of the section, neighbours and empty state.
+     *
+     * @param \stdClass $data
+     * @param int $sectionid
+     */
+    protected function export_section_view(\stdClass $data, int $sectionid): void {
+        $sections = (new course_data($this->format))->get_sections();
+        $data->sectionview = true;
+        foreach ($sections as $index => $section) {
+            if ($section['id'] !== $sectionid) {
+                continue;
+            }
+            $data->sechead = $section;
+            $data->emptysection = $section['activities'] === 0;
+            // Neighbours the user can open (locked sections are skipped).
+            $open = array_values(array_filter($sections, fn($s) => !$s['locked']));
+            $position = array_search($sectionid, array_column($open, 'id'));
+            if ($position !== false) {
+                $previous = $open[$position - 1] ?? null;
+                $next = $open[$position + 1] ?? null;
+                $data->secnav = [
+                    'hasprevious' => (bool)$previous,
+                    'previousurl' => $previous['url'] ?? '',
+                    'previousname' => $previous['name'] ?? '',
+                    'hasnext' => (bool)$next,
+                    'nexturl' => $next['url'] ?? '',
+                    'nextname' => $next['name'] ?? '',
+                ];
+                $data->hassecnav = $previous || $next;
+            }
+            break;
+        }
     }
 
     /**
@@ -170,6 +216,8 @@ class content extends content_base {
         $context = \context_course::instance($course->id);
         $hero = new \stdClass();
         $hero->title = format_string($course->fullname, true, ['context' => $context]);
+        // The theme already prints the course name as the page heading, so the hero repeats it only on request.
+        $hero->showtitle = !empty($this->format->get_format_options()['showherotitle']);
         $summary = '';
         if (trim((string)$course->summary) !== '') {
             $text = file_rewrite_pluginfile_urls($course->summary, 'pluginfile.php', $context->id, 'course', 'summary', null);

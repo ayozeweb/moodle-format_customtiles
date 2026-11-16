@@ -24,11 +24,11 @@ Feature: Custom tiles course page
 
   Scenario: A student sees the hero, the tiles and the start button
     When I am on the "C1" "course" page logged in as "student1"
-    Then I should see "Secure coding" in the ".fct-hero" "css_element"
-    And I should see "Learn the basics" in the ".fct-hero" "css_element"
+    Then I should see "Learn the basics" in the ".fct-hero" "css_element"
+    And I should not see "Secure coding" in the ".fct-hero" "css_element"
     And I should see "Start the course" in the ".fct-hero" "css_element"
     And I should see "2 activities" in the ".fct-tile:nth-child(2)" "css_element"
-    And I should see "New" in the ".fct-tile:nth-child(2)" "css_element"
+    And I should see "Not started" in the ".fct-tile:nth-child(2)" "css_element"
     And ".fct-tiles" "css_element" should exist
 
   @javascript
@@ -45,7 +45,7 @@ Feature: Custom tiles course page
     And I follow "Course map"
     Then I should see "Page A"
     And I should see "Page C"
-    And I should see "New"
+    And I should see "Not started"
 
   Scenario: The skip link and the context line are present for students
     When I am on the "Page A" "page activity" page logged in as "student1"
@@ -58,3 +58,35 @@ Feature: Custom tiles course page
     Then I should see "Add content"
     And ".fct-hero" "css_element" should exist
     And ".fct-tiles" "css_element" should not exist
+
+  Scenario: Opening a section shows its header, its activities and the way to the next one
+    Given I am on the "C1" "course" page logged in as "student1"
+    When I click on "New section" "link" in the ".fct-tile:nth-child(2)" "css_element"
+    Then I should see "Section 1 of 3" in the ".fct-ctxbar" "css_element"
+    And I should see "2 activities" in the ".fct-sechead" "css_element"
+    And I should see "Page A"
+    And I should see "Next section" in the ".fct-secnav" "css_element"
+    And I should see "General" in the ".fct-secnav" "css_element"
+    And I click on "Next section" "link"
+    And I should see "Section 2 of 3" in the ".fct-ctxbar" "css_element"
+    And I should see "Page C"
+
+  Scenario: An empty section says so
+    Given I am on the "C1" "course" page logged in as "student1"
+    When I click on "New section" "link" in the ".fct-tile:nth-child(4)" "css_element"
+    Then I should see "This section has no activities yet."
+
+  Scenario: The course name can be repeated in the header when the theme hides it
+    Given I am on the "C1" "course editing" page logged in as "teacher1"
+    And I set the field "Repeat the course name in the header" to "1"
+    And I press "Save and display"
+    Then I should see "Secure coding" in the ".fct-hero" "css_element"
+
+  @javascript
+  Scenario: The course map opens as a panel without leaving the page
+    Given I am on the "C1" "course" page logged in as "student1"
+    When I click on "Course map" "link"
+    Then "dialog.fct-sheet" "css_element" should be visible
+    And I should see "Page C" in the "dialog.fct-sheet" "css_element"
+    And I click on "Close the course map" "button"
+    And "dialog.fct-sheet" "css_element" should not be visible

@@ -58,7 +58,7 @@ final class orientation_test extends \advanced_testcase {
         $this->assertSame('Activity 2 of 3', $parts[1]);
 
         $section = get_fast_modinfo($course->id)->get_section_info(1);
-        $this->assertSame('3 activities', context_info::for_section($format, $section)[1]);
+        $this->assertSame(['Section 1 of 1'], context_info::for_section($format, $section));
     }
 
     /**
@@ -141,5 +141,81 @@ final class orientation_test extends \advanced_testcase {
         $this->assertSame('3 activities', \format_customtiles\local\plural::activities(3));
         $this->assertSame('1 section', \format_customtiles\local\plural::sections(1));
         $this->assertSame('6 sections', \format_customtiles\local\plural::sections(6));
+    }
+
+    /**
+     * The focused section page exports its header, neighbours and empty state; locked sections are skipped.
+     */
+    public function test_section_view_export(): void {
+        global $DB, $PAGE;
+        $this->resetAfterTest();
+        $gen = $this->getDataGenerator();
+        $course = $gen->create_course(['format' => 'customtiles', 'numsections' => 3], ['createsections' => true]);
+        $user = $gen->create_and_enrol($course, 'student');
+        $gen->create_module('page', ['course' => $course->id, 'section' => 1]);
+        $restriction = json_encode(['op' => '&', 'c' => [['type' => 'date', 'd' => '>=', 't' => time() + YEARSECS]],
+            'showc' => [true]]);
+        $DB->set_field('course_sections', 'availability', $restriction, ['course' => $course->id, 'section' => 2]);
+        rebuild_course_cache($course->id, true);
+        $this->setUser($user);
+        $PAGE->set_url('/course/section.php');
+
+        $export = function (int $num) use ($course, $PAGE) {
+            $format = course_get_format($course->id);
+            $format->set_sectionnum($num);
+            $content = new \format_customtiles\output\courseformat\content($format);
+            return $content->export_for_template($PAGE->get_renderer('format_customtiles'));
+        };
+
+        $data = $export(1);
+        $this->assertTrue($data->sectionview);
+        $this->assertSame('1 activity', $data->sechead['activitieslabel']);
+        $this->assertFalse($data->emptysection);
+        // Section 2 is locked, so the next one is section 3; the previous one is the general section.
+        $this->assertTrue($data->secnav['hasnext']);
+        $this->assertStringContainsString('section.php', $data->secnav['nexturl']);
+        $modinfo = get_fast_modinfo($course->id);
+        $this->assertStringContainsString('id=' . $modinfo->get_section_info(3)->id, $data->secnav['nexturl']);
+        $this->assertSame(['Section 1 of 3'], array_column($data->parts, 'text'));
+
+        $data = $export(3);
+        $this->assertTrue($data->emptysection);
+        $this->assertFalse($data->secnav['hasnext']);
+    }
+
+    /**
+     * The hero repeats the course name only when the course asks for it.
+     */
+    public function test_hero_title_option(): void {
+        global $PAGE;
+        $this->resetAfterTest();
+        $this->setAdminUser();
+        $course = $this->getDataGenerator()->create_course(['format' => 'customtiles']);
+        $PAGE->set_url('/course/view.php', ['id' => $course->id]);
+        $export = function () use ($course, $PAGE) {
+            $content = new \format_customtiles\output\courseformat\content(course_get_format($course->id));
+            return $content->export_for_template($PAGE->get_renderer('format_customtiles'));
+        };
+        $this->assertFalse($export()->hero->showtitle);
+        course_get_format($course->id)->update_course_format_options(['showherotitle' => 1]);
+        $this->assertTrue($export()->hero->showtitle);
+    }
+
+    /**
+     * The map fragment renders the embedded map for an enrolled user.
+     */
+    public function test_map_fragment(): void {
+        global $CFG;
+        $this->resetAfterTest();
+        require_once($CFG->dirroot . '/course/format/customtiles/lib.php');
+        $gen = $this->getDataGenerator();
+        $course = $gen->create_course(['format' => 'customtiles', 'numsections' => 1], ['createsections' => true]);
+        $user = $gen->create_and_enrol($course, 'student');
+        $gen->create_module('page', ['course' => $course->id, 'section' => 1, 'name' => 'Mapped page']);
+        $this->setUser($user);
+        $html = format_customtiles_output_fragment_map(['context' => \context_course::instance($course->id)]);
+        $this->assertStringContainsString('Mapped page', $html);
+        $this->assertStringContainsString('--fct-primary', $html);
+        $this->assertStringNotContainsString('Back to the course', $html);
     }
 }

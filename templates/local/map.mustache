@@ -22,6 +22,9 @@
     Example context (json):
     {
         "title": "Example course",
+        "skin": "light",
+        "tokens": "--fct-primary:#1d4ed8",
+        "embedded": false,
         "courseurl": "#",
         "hasoverall": true,
         "overalllabel": "2 of 5 completed",
@@ -36,8 +39,8 @@
         ]
     }
 }}
-<div class="fct-root fct-map">
-    <p><a href="{{courseurl}}">{{#str}} backtocourse, format_customtiles {{/str}}</a></p>
+<div class="fct-root fct-map" data-fct-skin="{{skin}}" style="{{tokens}}">
+    {{^embedded}}<p><a href="{{courseurl}}">{{#str}} backtocourse, format_customtiles {{/str}}</a></p>{{/embedded}}
     <h2 class="fct-map__title">{{#str}} coursemap, format_customtiles {{/str}}</h2>
     {{#hasoverall}}<p>{{#str}} overallprogress, format_customtiles {{/str}}: {{overall.percent}}% ({{overalllabel}})</p>{{/hasoverall}}
     <ol class="fct-map__sections">

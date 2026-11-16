@@ -71,10 +71,15 @@ class hook_callbacks {
         $cminfo = get_fast_modinfo($PAGE->course)->get_cm($PAGE->cm->id);
         $parts = context_info::for_cm($format, $cminfo);
         $last = count($parts) - 1;
-        $data = [
+        $data = \format_customtiles\local\skin::for_format($format) + [
+            'wrapped' => true,
+            'backurl' => (new \moodle_url('/course/section.php', ['id' => $cminfo->get_section_info()->id]))->out(false),
+            'backlabel' => get_string('backto', 'format_customtiles', $format->get_section_name($cminfo->get_section_info())),
+            'contextid' => \context_course::instance($PAGE->course->id)->id,
             'parts' => array_map(fn($text, $i) => ['text' => $text, 'last' => $i === $last], $parts, array_keys($parts)),
             'mapurl' => (new \moodle_url('/course/format/customtiles/map.php', ['id' => $PAGE->course->id]))->out(false),
         ];
+        $PAGE->requires->js_call_amd('format_customtiles/mapsheet', 'init');
         $PAGE->add_header_action($PAGE->get_renderer('format_customtiles')->render_from_template(
             'format_customtiles/local/ctxbar',
             $data

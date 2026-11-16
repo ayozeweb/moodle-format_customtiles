@@ -47,11 +47,11 @@ class course_data {
     public const STATE_INPROGRESS = 'inprogress';
     /** @var string State: everything done. */
     public const STATE_COMPLETED = 'completed';
-    /** @var string State: recently added content. */
+    /** @var string State: content added since the user's previous visit. */
     public const STATE_NEW = 'new';
 
-    /** @var int Seconds an activity counts as "new". */
-    private const NEW_WINDOW = 7 * DAYSECS;
+    /** @var int Seconds without activity after which a course view counts as a new visit. */
+    private const VISIT_GAP = 30 * MINSECS;
 
     /** @var string[] State => icon (Font Awesome) used together with a text label. */
     private const STATE_ICONS = [
@@ -112,6 +112,51 @@ class course_data {
     }
 
     /**
+     * Name of the user preference holding the previous and current visit times ("previous,current").
+     *
+     * @param int $courseid
+     * @return string
+     */
+    public static function visit_preference_name(int $courseid): string {
+        return 'format_customtiles_seen_' . $courseid;
+    }
+
+    /**
+     * Time of the visit before the current one (0 on the first visit). Content added after it is "new".
+     *
+     * @param int $courseid
+     * @param int $userid
+     * @return int
+     */
+    public static function get_previous_visit(int $courseid, int $userid): int {
+        $value = (string)get_user_preferences(self::visit_preference_name($courseid), '', $userid);
+        return (int)(explode(',', $value)[0] ?? 0);
+    }
+
+    /**
+     * Record that the current user is looking at the course page. A view more than VISIT_GAP after the
+     * last one starts a new visit: the old "current" time becomes the "previous" one.
+     *
+     * @param int $courseid
+     * @param int|null $now for tests
+     */
+    public static function register_visit(int $courseid, ?int $now = null): void {
+        global $USER;
+        if (!isloggedin() || isguestuser()) {
+            return;
+        }
+        $now ??= time();
+        $name = self::visit_preference_name($courseid);
+        [$previous, $current] = array_map('intval', explode(',', (string)get_user_preferences($name, '0,0')) + [0, 0]);
+        if ($current === 0) {
+            set_user_preference($name, '0,' . $now);
+        } else if ($now - $current > self::VISIT_GAP) {
+            set_user_preference($name, $current . ',' . $now);
+            self::invalidate((int)$USER->id, $courseid);
+        }
+    }
+
+    /**
      * Name of the user preference holding the last visited activity.
      *
      * @param int $courseid
@@ -161,7 +206,7 @@ class course_data {
     private function compute_progress(): array {
         $completion = new \completion_info($this->course);
         $tracking = $this->has_tracking();
-        $now = time();
+        $previousvisit = self::get_previous_visit((int)$this->course->id, $this->userid);
         $result = [
             'rev' => (int)$this->course->cacherev,
             'sections' => [],
@@ -179,7 +224,7 @@ class course_data {
                 }
                 $row['activities']++;
                 $result['all'][] = $cm->id;
-                if (!empty($cm->added) && ($now - $cm->added) < self::NEW_WINDOW) {
+                if ($previousvisit > 0 && !empty($cm->added) && $cm->added > $previousvisit) {
                     $row['new'] = true;
                 }
                 if (!$tracking || !$completion->is_enabled($cm)) {

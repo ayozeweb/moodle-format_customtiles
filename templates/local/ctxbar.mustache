@@ -17,17 +17,29 @@
 {{!
     @template format_customtiles/local/ctxbar
 
-    Always visible context line and quick access to the course map.
+    Always visible context line and quick access to the course map. On activity pages (outside the
+    course content) it is wrapped so it carries the visual theme of the course.
 
     Example context (json):
     {
+        "wrapped": true,
+        "skin": "light",
+        "tokens": "--fct-primary:#1d4ed8",
+        "contextid": 1,
+        "backurl": "#",
+        "backlabel": "Back to Module 2",
         "parts": [{"text": "Module 2", "last": false}, {"text": "Activity 4 of 9", "last": true}],
         "mapurl": "#"
     }
 }}
+{{#wrapped}}<div class="fct-root fct-root--bar" data-fct-skin="{{skin}}" style="{{tokens}}">{{/wrapped}}
 <nav class="fct-ctxbar" aria-label="{{#str}} contextinfo, format_customtiles {{/str}}">
+    {{#backurl}}
+        <a class="fct-ctxbar__back" href="{{backurl}}" aria-label="{{backlabel}}" title="{{backlabel}}"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i></a>
+    {{/backurl}}
     <p class="fct-ctxbar__text">
-        {{#parts}}<span class="fct-ctxbar__part">{{text}}</span>{{^last}} <span aria-hidden="true">·</span> {{/last}}{{/parts}}
+        {{#parts}}<span class="fct-ctxbar__part{{#last}} fct-ctxbar__part--keep{{/last}}">{{text}}</span>{{^last}} <span class="fct-ctxbar__sep" aria-hidden="true">·</span> {{/last}}{{/parts}}
     </p>
-    <a class="fct-ctxbar__map" href="{{mapurl}}"><i class="fa-solid fa-sitemap" aria-hidden="true"></i> {{#str}} coursemap, format_customtiles {{/str}}</a>
+    <a class="fct-ctxbar__map" href="{{mapurl}}" data-action="fct-map" data-contextid="{{contextid}}"><i class="fa-solid fa-sitemap" aria-hidden="true"></i> <span class="fct-ctxbar__maplabel">{{#str}} coursemap, format_customtiles {{/str}}</span></a>
 </nav>
+{{#wrapped}}</div>{{/wrapped}}

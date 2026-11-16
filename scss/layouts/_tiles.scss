@@ -64,7 +64,6 @@
   aspect-ratio: 16 / 10;
   background: linear-gradient(135deg, var(--fct-primary), color-mix(in srgb, var(--fct-primary) 40%, var(--fct-accent)));
   color: var(--fct-onprimary);
-  view-transition-name: none;
 
   .fct-tile:nth-child(4n + 2) & {
     background: linear-gradient(135deg, color-mix(in srgb, var(--fct-primary) 70%, var(--fct-accent)), var(--fct-accent));

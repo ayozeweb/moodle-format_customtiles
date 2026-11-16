@@ -26,6 +26,7 @@
         "tokens": "--fct-primary:#1d4ed8",
         "layout": "tiles",
         "isindex": true,
+        "contextid": 1,
         "mapurl": "#",
         "hasctx": true,
         "parts": [{"text": "Section", "last": true}],
@@ -59,10 +60,15 @@
         ]
     }
 }}
-<div class="fct-root{{#showtiles}} fct-root--page{{/showtiles}}" data-fct-skin="{{skin}}" data-fct-layout="{{layout}}" style="{{tokens}}">
+<div class="fct-root{{#showtiles}} fct-root--page{{/showtiles}}{{#sectionview}} fct-root--page fct-root--section{{/sectionview}}" data-fct-skin="{{skin}}" data-fct-layout="{{layout}}" style="{{tokens}}">
     {{#hasctx}}
         {{> format_customtiles/local/ctxbar }}
     {{/hasctx}}
+    {{#sechead}}
+        <div class="fct-main">
+            {{> format_customtiles/local/section_header }}
+        </div>
+    {{/sechead}}
     {{#isindex}}
         {{#hero}}
             {{> format_customtiles/local/hero }}
@@ -95,9 +101,45 @@
             {{/hascarousel}}
         {{/js}}
     {{/showtiles}}
+    {{#emptycourse}}
+        <p class="fct-empty"><i class="fa-regular fa-folder-open" aria-hidden="true"></i> {{#str}} emptycourse, format_customtiles {{/str}}</p>
+    {{/emptycourse}}
     {{^showtiles}}
         {{> core_courseformat/local/content }}
     {{/showtiles}}
+    {{#emptysection}}
+        <p class="fct-empty"><i class="fa-regular fa-folder-open" aria-hidden="true"></i> {{#str}} emptysection, format_customtiles {{/str}}</p>
+    {{/emptysection}}
+    {{#hassecnav}}
+        {{#secnav}}
+            <nav class="fct-secnav" aria-label="{{#str}} sectionnavigation, format_customtiles {{/str}}" data-region="fct-secnav">
+                {{#hasprevious}}
+                    <a class="fct-secnav__link fct-secnav__link--prev" href="{{previousurl}}" rel="prev" data-action="fct-prev">
+                        <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+                        <span><span class="fct-secnav__hint">{{#str}} prevslide, format_customtiles {{/str}}</span>
+                        <span class="fct-secnav__name">{{{previousname}}}</span></span>
+                    </a>
+                {{/hasprevious}}
+                {{#hasnext}}
+                    <a class="fct-secnav__link fct-secnav__link--next" href="{{nexturl}}" rel="next" data-action="fct-next">
+                        <span><span class="fct-secnav__hint">{{#str}} nextslide, format_customtiles {{/str}}</span>
+                        <span class="fct-secnav__name">{{{nextname}}}</span></span>
+                        <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+                    </a>
+                {{/hasnext}}
+            </nav>
+        {{/secnav}}
+    {{/hassecnav}}
+    {{#js}}
+        require(['format_customtiles/mapsheet'], function(mapsheet) {
+            mapsheet.init();
+        });
+        {{#hassecnav}}
+        require(['format_customtiles/swipenav'], function(swipenav) {
+            swipenav.init();
+        });
+        {{/hassecnav}}
+    {{/js}}
     {{#haslogos}}
         <div class="fct-strip" role="group" aria-label="{{#str}} logosaria, format_customtiles {{/str}}">
             {{#logos}}<img src="{{src}}" alt="{{alt}}" height="48" loading="lazy">{{/logos}}

@@ -138,4 +138,35 @@ final class course_data_test extends \advanced_testcase {
         $prefs = $writer->get_user_preferences('format_customtiles');
         $this->assertSame('12', (string)$prefs->format_customtiles_last_5->value);
     }
+
+    /**
+     * "New" means added since the user's previous visit, not "recently created".
+     */
+    public function test_new_since_previous_visit(): void {
+        global $DB;
+        $this->resetAfterTest();
+        [$course, $user, $cms] = $this->setup_course();
+        $this->setUser($user);
+        $now = time();
+
+        // First visit: nothing is new.
+        course_data::register_visit((int)$course->id, $now - DAYSECS);
+        $this->assertSame('pending', (new course_data(course_get_format($course->id)))->get_sections()[1]['state']);
+        $this->assertSame(0, course_data::get_previous_visit((int)$course->id, (int)$user->id));
+
+        // A view shortly after belongs to the same visit.
+        course_data::register_visit((int)$course->id, $now - DAYSECS + 60);
+        $this->assertSame(0, course_data::get_previous_visit((int)$course->id, (int)$user->id));
+
+        // Content is added to section 2 and the user comes back the next day.
+        $DB->set_field('course_modules', 'added', $now - HOURSECS, ['id' => $cms[2]->cmid]);
+        $DB->set_field('course_modules', 'added', $now - WEEKSECS, ['id' => $cms[0]->cmid]);
+        $DB->set_field('course_modules', 'added', $now - WEEKSECS, ['id' => $cms[1]->cmid]);
+        rebuild_course_cache($course->id, true);
+        course_data::register_visit((int)$course->id, $now);
+        $this->assertSame($now - DAYSECS + 0, course_data::get_previous_visit((int)$course->id, (int)$user->id));
+        $sections = (new course_data(course_get_format($course->id)))->get_sections();
+        $this->assertSame('pending', $sections[1]['state']);
+        $this->assertSame('new', $sections[2]['state']);
+    }
 }

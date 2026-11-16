@@ -34,7 +34,8 @@
 <ul class="fct-cards" data-for="ct_cards">
     {{#tiles}}
         <li class="fct-card fct-item fct-card--{{state}}{{#iscurrent}} fct-card--current{{/iscurrent}}" data-section-id="{{id}}">
-            <div class="fct-card__cover{{#hascolor}} fct-has-color{{/hascolor}}" aria-hidden="true"{{#hascolor}} style="{{coverstyle}}"{{/hascolor}}>
+            <div class="fct-card__cover{{#hascolor}} fct-has-color{{/hascolor}}" aria-hidden="true"
+                 style="--fct-vt: fct-cover-{{id}};{{#hascolor}}{{coverstyle}}{{/hascolor}}">
                 {{> format_customtiles/local/cover }}
             </div>
             <div class="fct-card__body">

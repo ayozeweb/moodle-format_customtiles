@@ -59,10 +59,19 @@ class context_info {
      * @return string[]
      */
     public static function for_section(\core_courseformat\base $format, \section_info $section): array {
-        $parts = self::section_trail($format, $section);
-        $count = count(self::activities_of($format, $section));
-        if ($count) {
-            $parts[] = plural::activities($count);
+        // The section name is the page heading, so the line says where it sits: parent (if any) and position.
+        $parts = array_slice(self::section_trail($format, $section), 0, -1);
+        $numbers = [];
+        foreach ($format->get_modinfo()->get_listed_section_info_all() as $num => $info) {
+            if ($num > 0 && $format->is_section_visible($info)) {
+                $numbers[] = (int)$info->id;
+            }
+        }
+        $position = array_search((int)$section->id, $numbers, true);
+        if ($position !== false) {
+            $parts[] = get_string('sectionxofy', 'format_customtiles', ['x' => $position + 1, 'y' => count($numbers)]);
+        } else {
+            $parts[] = $format->get_section_name($section);
         }
         return $parts;
     }

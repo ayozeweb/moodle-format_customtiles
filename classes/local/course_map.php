@@ -38,9 +38,10 @@ class course_map {
      * Template data.
      *
      * @param format_base $format
+     * @param bool $embedded true when shown inside the map panel (no page chrome around it)
      * @return array
      */
-    public static function export(format_base $format): array {
+    public static function export(format_base $format, bool $embedded = false): array {
         $model = new course_data($format);
         $modinfo = $format->get_modinfo();
         $completion = new \completion_info($format->get_course());
@@ -76,7 +77,8 @@ class course_map {
             $sections[] = $tile;
         }
         $overall = $model->get_overall();
-        return [
+        return skin::for_format($format) + [
+            'embedded' => $embedded,
             'title' => format_string($format->get_course()->fullname),
             'courseurl' => (new \moodle_url('/course/view.php', ['id' => $format->get_courseid()]))->out(false),
             'sections' => $sections,
