@@ -90,3 +90,15 @@ Feature: Custom tiles course page
     And I should see "Page C" in the "dialog.fct-sheet" "css_element"
     And I click on "Close the course map" "button"
     And "dialog.fct-sheet" "css_element" should not be visible
+
+  Scenario: Activities with a close date say when they are due
+    Given the following "activities" exist:
+      | activity | name       | course | section | duedate        |
+      | assign   | Essay      | C1     | 2       | ##+3 days##    |
+      | assign   | Late essay | C1     | 2       | ##2 days ago## |
+      | assign   | Far essay  | C1     | 2       | ##+60 days##   |
+    And I am on the "C1" "course" page logged in as "student1"
+    When I click on "New section" "link" in the ".fct-tile:nth-child(3)" "css_element"
+    Then I should see "Due in 3 days" in the "Essay" "activity"
+    And I should not see "Due in" in the "Far essay" "activity"
+    And I should not see "Overdue" in the "Far essay" "activity"

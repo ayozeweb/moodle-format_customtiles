@@ -18,7 +18,7 @@
  * Without JavaScript the track still scrolls natively and the controls stay hidden.
  *
  * @module     format_customtiles/carousel
- * @copyright  2026 ayozeweb (https://github.com/ayozeweb)
+ * @copyright  2026 Ayoze M de Paz Paz
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 

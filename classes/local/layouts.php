@@ -18,7 +18,7 @@
  * Registry of course layouts.
  *
  * @package    format_customtiles
- * @copyright  2026 ayozeweb (https://github.com/ayozeweb)
+ * @copyright  2026 Ayoze M de Paz Paz
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -28,7 +28,7 @@ namespace format_customtiles\local;
  * Available layouts. All share data and tokens; only the composition changes.
  *
  * @package    format_customtiles
- * @copyright  2026 ayozeweb (https://github.com/ayozeweb)
+ * @copyright  2026 Ayoze M de Paz Paz
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class layouts {

@@ -17,7 +17,7 @@
  * Without JavaScript (or without <dialog>) the link opens the full, printable map page.
  *
  * @module     format_customtiles/mapsheet
- * @copyright  2026 ayozeweb (https://github.com/ayozeweb)
+ * @copyright  2026 Ayoze M de Paz Paz
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 

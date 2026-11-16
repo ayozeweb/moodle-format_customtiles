@@ -68,7 +68,7 @@ Regla práctica: **Opus para decidir, Sonnet para ejecutar**. Si una sesión con
 | D13 | El título del hero duplica el H1 del tema. | Bajo |
 | D14 | La línea de contexto en actividades va como acción de cabecera, no a todo el ancho. | Bajo |
 | D15 | Sin probar: RTL, tema Classic, temas hijos, modo oscuro experimental de 5.3, MariaDB/MySQL, PHP 8.4, PostgreSQL 17 (se probó con 16). | Medio |
-| D16 | Copyright con el usuario `ayozeweb` como marcador. | Bajo |
+| D16 | ~~Copyright con marcador~~ resuelto en 0.3.1. | — |
 | D17 | Prefijo CSS `ct-`, corto y con riesgo de colisión. | Bajo |
 | D18 | El estado «nueva» es una heurística (actividad añadida en los últimos 7 días), no «no visto por este usuario». | Bajo |
 | D19 | Sin WebP/AVIF. | Bajo |
@@ -101,7 +101,7 @@ Objetivo: dejar el repositorio en condiciones de publicar una 0.2.0 sin cambiar 
 - [x] Sustituir la caché estática de `cm.php` por una caché de petición (`cache::make_from_params(cache_store::MODE_REQUEST, ...)`) y quitar `reset_cache()` (D12).
 - [x] Test de actualización: instalar el esquema de 0.1.0 y pasar `db/upgrade.php`.
 - [x] Limpieza al desinstalar: borrar el área de archivos `logos` del contexto de sistema (`db/uninstall.php`).
-- [~] **[DECISIÓN]** Prefijo renombrado a `fct-` (hecho). Copyright: sigue pendiente del nombre legal.
+- [x] **[DECISIÓN]** Prefijo renombrado a `fct-` y copyright a nombre de Ayoze M de Paz Paz.
 - [ ] ~~Copyright definitivo~~ ver línea anterior. Texto original: Copyright definitivo (D16) y prefijo CSS (D17). Si se renombra el prefijo, hacerlo aquí y de una vez (SCSS, plantillas, JS, Behat), con las capturas regeneradas.
 
 Criterio de aceptación: CI completa en verde en GitHub (no solo en local), incluido Behat con JS. Esta fase es la primera vez que la CI real se ejecuta: **arreglar lo que falle allí es parte de la fase** (D3).
@@ -121,7 +121,7 @@ Antes de escribir código: leer los `UPGRADING.md` de 5.3 de `public/course/form
 **1.2 Lista de actividades**
 - [x] Rediseñar la tarjeta de actividad dentro de `.ct-root` solo con CSS sobre el marcado del core cuando sea posible. Si hace falta cambiar marcado, hacerlo sobrescribiendo las clases de salida (`content\cm`, `content\section\cmitem`), nunca copiando plantillas enteras del core.
 - [x] Objetivo táctil: toda la tarjeta es pulsable, el botón de finalización mide ≥ 44 px, icono del módulo a la izquierda, nombre a dos líneas como máximo, insignia de categoría en la misma fila que el nombre (resolver aquí la limitación actual de `afterlink`).
-- [~] (parcial: hecha/pendiente y bloqueo los da el core; «con fecha próxima» sin hacer) Estado visible por actividad: hecha, pendiente, bloqueada con motivo, con fecha próxima.
+- [x] (hecha/pendiente y bloqueo los da el core; aviso de plazo propio en 0.3.1) Estado visible por actividad: hecha, pendiente, bloqueada con motivo, con fecha próxima.
 - [x] Etiquetas (`mod_label`) y subsecciones con un tratamiento visual propio, como separadores de contenido y no como tarjetas.
 
 **1.3 Navegación entre secciones**

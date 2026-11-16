@@ -18,7 +18,7 @@
  * Activity output class adding the category badge.
  *
  * @package    format_customtiles
- * @copyright  2026 ayozeweb (https://github.com/ayozeweb)
+ * @copyright  2026 Ayoze M de Paz Paz
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -26,6 +26,7 @@ namespace format_customtiles\output\courseformat\content;
 
 use core_courseformat\output\local\content\cm as cm_base;
 use format_customtiles\api;
+use format_customtiles\local\due;
 use renderer_base;
 use stdClass;
 
@@ -33,7 +34,7 @@ use stdClass;
  * Course module (activity) with an optional category badge.
  *
  * @package    format_customtiles
- * @copyright  2026 ayozeweb (https://github.com/ayozeweb)
+ * @copyright  2026 Ayoze M de Paz Paz
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class cm extends cm_base {
@@ -57,6 +58,30 @@ class cm extends cm_base {
             $data->afterlink = $output->render_from_template('format_customtiles/local/catbadge', $badge) .
                 ($data->afterlink ?? '');
         }
+        $due = $this->export_due();
+        if ($due) {
+            $data->afterlink = $output->render_from_template('format_customtiles/local/duechip', $due) .
+                ($data->afterlink ?? '');
+        }
         return $data;
+    }
+
+    /**
+     * Deadline chip ("due in 3 days", "overdue") for the current user, when the activity has a close date.
+     *
+     * @return array|null
+     */
+    protected function export_due(): ?array {
+        global $USER;
+        if (!isloggedin() || isguestuser()) {
+            return null;
+        }
+        $completed = null;
+        $completion = new \completion_info($this->format->get_course());
+        if ($completion->is_enabled($this->mod)) {
+            $state = (int)$completion->get_data($this->mod, true)->completionstate;
+            $completed = in_array($state, [COMPLETION_COMPLETE, COMPLETION_COMPLETE_PASS]);
+        }
+        return due::for_cm($this->mod, (int)$USER->id, $completed);
     }
 }

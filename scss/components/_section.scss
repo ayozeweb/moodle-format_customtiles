@@ -54,6 +54,21 @@
     color: var(--fct-text);
   }
 
+  // The core separator above the chips row follows the theme instead of staying white on dark skins.
+  .activity-item .activity-afterlink {
+    border-color: color-mix(in srgb, var(--fct-border) 35%, transparent);
+  }
+
+  // Dates printed by the core ("Due: ...") must stay readable on dark skins.
+  .activity-item .activity-dates,
+  .activity-item .activity-dates * {
+    color: var(--fct-muted);
+  }
+
+  .activity-item .activity-dates strong {
+    color: var(--fct-text);
+  }
+
   .activity-item .text-muted,
   .activity-item .dimmed_text,
   .section .summarytext,
@@ -62,7 +77,8 @@
   }
 
   // The category badge sits on the title row instead of a row of its own.
-  .activity-afterlink:has(> .fct-catbadge) {
+  // With a deadline chip the chips keep a row of their own, so the title is not squeezed on phones.
+  .activity-afterlink:has(> .fct-catbadge):not(:has(> .fct-due)) {
     grid-area: actions;
     align-self: start;
     justify-self: end;

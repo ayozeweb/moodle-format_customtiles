@@ -17,7 +17,7 @@
  * The same navigation is always available as links (mouse, keyboard, assistive technology).
  *
  * @module     format_customtiles/swipenav
- * @copyright  2026 ayozeweb (https://github.com/ayozeweb)
+ * @copyright  2026 Ayoze M de Paz Paz
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 

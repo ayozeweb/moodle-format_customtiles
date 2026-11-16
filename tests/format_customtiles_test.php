@@ -18,7 +18,7 @@
  * Tests for the format class and its options.
  *
  * @package    format_customtiles
- * @copyright  2026 ayozeweb (https://github.com/ayozeweb)
+ * @copyright  2026 Ayoze M de Paz Paz
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -28,7 +28,7 @@ namespace format_customtiles;
  * Format tests.
  *
  * @package    format_customtiles
- * @copyright  2026 ayozeweb (https://github.com/ayozeweb)
+ * @copyright  2026 Ayoze M de Paz Paz
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @covers     \format_customtiles
  */
@@ -96,7 +96,7 @@ final class format_customtiles_test extends \advanced_testcase {
         $this->assertTrue(xmldb_format_customtiles_upgrade(2026110400));
         $this->assertTrue($DB->get_manager()->table_exists('format_customtiles_cat'));
         $this->assertTrue($DB->get_manager()->table_exists('format_customtiles_cmcat'));
-        $this->assertEquals(2026111600, get_config('format_customtiles', 'version'));
+        $this->assertEquals(2026111601, get_config('format_customtiles', 'version'));
     }
 
     /**

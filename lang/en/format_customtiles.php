@@ -18,7 +18,7 @@
  * English strings for format_customtiles.
  *
  * @package    format_customtiles
- * @copyright  2026 ayozeweb (https://github.com/ayozeweb)
+ * @copyright  2026 Ayoze M de Paz Paz
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -55,6 +55,9 @@ $string['coursemap'] = 'Course map';
 $string['customskins'] = 'Additional visual themes';
 $string['customskins_desc'] = 'One theme per line: <code>id|Name|base preset|#colour</code>, for example <code>ocean|Ocean|light|#0e7490</code>. The accent colour is adjusted automatically to keep WCAG AA contrast. Base presets: light, dark, corporate, vibrant, minimal, highcontrast.';
 $string['customskinsbadline'] = 'Line {$a} is not valid (expected id|Name|base preset|#colour, unique id of 2-20 lowercase letters, digits or underscores).';
+$string['dueindays'] = 'Due in {$a} days';
+$string['duetoday'] = 'Due today';
+$string['duetomorrow'] = 'Due tomorrow';
 $string['duration'] = 'Duration: {$a}';
 $string['editcategory'] = 'Edit category';
 $string['emptycourse'] = 'This course has no sections yet.';
@@ -102,6 +105,8 @@ $string['logos'] = 'Institutional strip logos';
 $string['logos_desc'] = 'Logos (for example funding bodies) shown below the course sections when the teacher enables the strip. Upload your own files; the plugin ships none. The alternative text is the file name without extension.';
 $string['logosaria'] = 'Institutional logos';
 $string['minutesshort'] = '{$a} min';
+$string['mobilebreadcrumb'] = 'Keep the breadcrumb on phones';
+$string['mobilebreadcrumb_help'] = 'On small screens the context bar (position in the course, way back and course map) replaces the breadcrumb to leave more room for content. Enable this to show both. It does not affect activity logs or completion tracking, which are recorded by the server on every page view.';
 $string['nactivities'] = '{$a} activities';
 $string['newsection'] = 'New section';
 $string['nextslide'] = 'Next section';
@@ -112,6 +117,7 @@ $string['nsections'] = '{$a} sections';
 $string['oneactivity'] = '1 activity';
 $string['onesection'] = '1 section';
 $string['overallprogress'] = 'Course progress';
+$string['overdue'] = 'Overdue';
 $string['page-course-view-customtiles'] = 'Any course main page in Custom tiles format';
 $string['page-course-view-customtiles-x'] = 'Any course page in Custom tiles format';
 $string['plugin_description'] = 'A visual, mobile-first course format with tiles, themes and built-in accessibility.';

@@ -18,15 +18,15 @@
  * Version details for format_customtiles.
  *
  * @package    format_customtiles
- * @copyright  2026 ayozeweb (https://github.com/ayozeweb)
+ * @copyright  2026 Ayoze M de Paz Paz
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'format_customtiles';
-$plugin->version = 2026111600;
+$plugin->version = 2026111601;
 $plugin->requires = 2026100200; // Moodle 5.3.
 $plugin->maturity = MATURITY_ALPHA;
 $plugin->supported = [503, 503];
-$plugin->release = '0.3.0';
+$plugin->release = '0.3.1';

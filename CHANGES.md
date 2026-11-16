@@ -2,6 +2,15 @@
 
 Format based on [Keep a Changelog](https://keepachangelog.com/). Versions follow [Semantic Versioning](https://semver.org/).
 
+## [0.3.1] - 2026-11-16
+
+### Added
+- Deadline chip on activities with a close date: due today, tomorrow, in N days (up to seven) or overdue.
+- Course option to keep the breadcrumb on phones (by default the context bar replaces it).
+
+### Changed
+- Copyright holder set to Ayoze M de Paz Paz.
+
 ## [0.3.0] - 2026-11-16
 
 ### Added

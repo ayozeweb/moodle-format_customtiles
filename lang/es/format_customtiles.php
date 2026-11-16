@@ -18,7 +18,7 @@
  * Spanish strings for format_customtiles.
  *
  * @package    format_customtiles
- * @copyright  2026 ayozeweb (https://github.com/ayozeweb)
+ * @copyright  2026 Ayoze M de Paz Paz
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -55,6 +55,9 @@ $string['coursemap'] = 'Mapa del curso';
 $string['customskins'] = 'Temas visuales adicionales';
 $string['customskins_desc'] = 'Un tema por línea: <code>id|Nombre|preset base|#color</code>, por ejemplo <code>ocean|Océano|light|#0e7490</code>. El color de acento se ajusta automáticamente para mantener el contraste WCAG AA. Presets base: light, dark, corporate, vibrant, minimal, highcontrast.';
 $string['customskinsbadline'] = 'La línea {$a} no es válida (se espera id|Nombre|preset base|#color, con un id único de 2-20 minúsculas, dígitos o guion bajo).';
+$string['dueindays'] = 'Vence en {$a} días';
+$string['duetoday'] = 'Vence hoy';
+$string['duetomorrow'] = 'Vence mañana';
 $string['duration'] = 'Duración: {$a}';
 $string['editcategory'] = 'Editar categoría';
 $string['emptycourse'] = 'Este curso todavía no tiene secciones.';
@@ -102,6 +105,8 @@ $string['logos'] = 'Logotipos de la franja institucional';
 $string['logos_desc'] = 'Logotipos (por ejemplo, entidades financiadoras) que se muestran bajo las secciones del curso cuando el docente activa la franja. Sube tus propios archivos; el plugin no incluye ninguno. El texto alternativo es el nombre del archivo sin extensión.';
 $string['logosaria'] = 'Logotipos institucionales';
 $string['minutesshort'] = '{$a} min';
+$string['mobilebreadcrumb'] = 'Mantener la miga de pan en móviles';
+$string['mobilebreadcrumb_help'] = 'En pantallas pequeñas la barra de contexto (posición en el curso, enlace de vuelta y mapa del curso) sustituye a la miga de pan para dejar más espacio al contenido. Actívalo para mostrar ambas. No afecta a los registros de actividad ni al seguimiento de finalización, que el servidor guarda en cada página vista.';
 $string['nactivities'] = '{$a} actividades';
 $string['newsection'] = 'Nueva sección';
 $string['nextslide'] = 'Sección siguiente';
@@ -112,6 +117,7 @@ $string['nsections'] = '{$a} secciones';
 $string['oneactivity'] = '1 actividad';
 $string['onesection'] = '1 sección';
 $string['overallprogress'] = 'Progreso del curso';
+$string['overdue'] = 'Fuera de plazo';
 $string['page-course-view-customtiles'] = 'Cualquier página principal de curso en formato Custom tiles';
 $string['page-course-view-customtiles-x'] = 'Cualquier página de curso en formato Custom tiles';
 $string['plugin_description'] = 'Un formato de curso visual, pensado primero para móvil y con accesibilidad de serie.';

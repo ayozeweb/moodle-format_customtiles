@@ -18,7 +18,7 @@
  * Course format class for format_customtiles.
  *
  * @package    format_customtiles
- * @copyright  2026 ayozeweb (https://github.com/ayozeweb)
+ * @copyright  2026 Ayoze M de Paz Paz
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -35,7 +35,7 @@ use format_customtiles\local\skin;
  * Custom tiles course format: visual, mobile-first layouts and skins.
  *
  * @package    format_customtiles
- * @copyright  2026 ayozeweb (https://github.com/ayozeweb)
+ * @copyright  2026 Ayoze M de Paz Paz
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class format_customtiles extends core_courseformat\base {
@@ -219,6 +219,7 @@ class format_customtiles extends core_courseformat\base {
                 'basecolor' => ['default' => '', 'type' => PARAM_RAW_TRIMMED],
                 'showlogos' => ['default' => 0, 'type' => PARAM_INT],
                 'showherotitle' => ['default' => 0, 'type' => PARAM_INT],
+                'mobilebreadcrumb' => ['default' => 0, 'type' => PARAM_INT],
             ];
         }
         if ($foreditform && !isset($options['layout']['label'])) {
@@ -273,6 +274,12 @@ class format_customtiles extends core_courseformat\base {
                 'showherotitle' => [
                     'label' => new lang_string('showherotitle', 'format_customtiles'),
                     'help' => 'showherotitle',
+                    'help_component' => 'format_customtiles',
+                    'element_type' => 'advcheckbox',
+                ],
+                'mobilebreadcrumb' => [
+                    'label' => new lang_string('mobilebreadcrumb', 'format_customtiles'),
+                    'help' => 'mobilebreadcrumb',
                     'help_component' => 'format_customtiles',
                     'element_type' => 'advcheckbox',
                 ],

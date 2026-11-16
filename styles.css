@@ -1027,6 +1027,30 @@
     object-fit: contain;
 }
 
+.fct-due {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.125rem 0.6rem;
+    border-radius: 999px;
+    border: 1px solid currentcolor;
+    background: var(--fct-surface, #fff);
+    color: var(--fct-warning, #92400e);
+    font-size: 0.875rem;
+    font-weight: 700;
+    line-height: 1.5;
+    white-space: nowrap;
+}
+
+.fct-due--overdue {
+    color: var(--fct-danger, #b91c1c);
+}
+
+.activity-afterlink:has(> .fct-due) {
+    flex-wrap: wrap;
+    gap: 0.4rem;
+}
+
 .fct-skip {
     position: fixed;
     inset-block-start: 0.5rem;
@@ -1106,7 +1130,7 @@
 }
 
 @media (max-width: 47.99rem) {
-    body.format-customtiles:not(.editing) #page-navbar {
+    body.format-customtiles:not(.editing, .fct-keepcrumb) #page-navbar {
         display: none;
     }
 }
@@ -1289,13 +1313,23 @@
     background: var(--fct-surface2);
     color: var(--fct-text);
 }
+.fct-root--section .activity-item .activity-afterlink {
+    border-color: color-mix(in srgb, var(--fct-border) 35%, transparent);
+}
+.fct-root--section .activity-item .activity-dates,
+.fct-root--section .activity-item .activity-dates * {
+    color: var(--fct-muted);
+}
+.fct-root--section .activity-item .activity-dates strong {
+    color: var(--fct-text);
+}
 .fct-root--section .activity-item .text-muted,
 .fct-root--section .activity-item .dimmed_text,
 .fct-root--section .section .summarytext,
 .fct-root--section .section .description {
     color: var(--fct-muted);
 }
-.fct-root--section .activity-afterlink:has(> .fct-catbadge) {
+.fct-root--section .activity-afterlink:has(> .fct-catbadge):not(:has(> .fct-due)) {
     grid-area: actions;
     align-self: start;
     justify-self: end;

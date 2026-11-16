@@ -100,6 +100,8 @@ Student views / Vistas del alumno:
 | **Section, dark / Sección, oscuro** | <img src="docs/screenshots/view-section-dark-360.png" width="120" alt="Section, dark / Sección, oscuro 360px"> | <img src="docs/screenshots/view-section-dark-768.png" width="160" alt="Section, dark / Sección, oscuro 768px"> | <img src="docs/screenshots/view-section-dark-1280.png" width="240" alt="Section, dark / Sección, oscuro 1280px"> |
 | **Activity / Actividad** | <img src="docs/screenshots/view-activity-360.png" width="120" alt="Activity / Actividad 360px"> | <img src="docs/screenshots/view-activity-768.png" width="160" alt="Activity / Actividad 768px"> | <img src="docs/screenshots/view-activity-1280.png" width="240" alt="Activity / Actividad 1280px"> |
 
+Deadlines / Plazos: <img src="docs/screenshots/view-due-360.png" width="120" alt="Deadline chips 360px">
+
 Course map panel / Panel del mapa del curso: <img src="docs/screenshots/view-map-panel-360.png" width="120" alt="Course map panel 360px">
 
 Visual themes / Temas visuales:

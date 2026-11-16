@@ -18,7 +18,7 @@
  * Tests for the orientation features (context line, course map, skip link, logos).
  *
  * @package    format_customtiles
- * @copyright  2026 ayozeweb (https://github.com/ayozeweb)
+ * @copyright  2026 Ayoze M de Paz Paz
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -31,7 +31,7 @@ use format_customtiles\local\course_map;
  * Orientation tests.
  *
  * @package    format_customtiles
- * @copyright  2026 ayozeweb (https://github.com/ayozeweb)
+ * @copyright  2026 Ayoze M de Paz Paz
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @covers     \format_customtiles\local\context_info
  * @covers     \format_customtiles\local\course_map
@@ -217,5 +217,50 @@ final class orientation_test extends \advanced_testcase {
         $this->assertStringContainsString('Mapped page', $html);
         $this->assertStringContainsString('--fct-primary', $html);
         $this->assertStringNotContainsString('Back to the course', $html);
+    }
+
+    /**
+     * Deadline chip: due today, tomorrow, in N days, overdue, and silence when far away or completed.
+     */
+    public function test_due_states(): void {
+        $this->resetAfterTest();
+        $gen = $this->getDataGenerator();
+        $course = $gen->create_course(['format' => 'customtiles', 'enablecompletion' => 1]);
+        $user = $gen->create_and_enrol($course, 'student');
+        $this->setUser($user);
+        $now = usergetmidnight(time()) + 10 * HOURSECS;
+        $make = function (int $duedate) use ($gen, $course) {
+            $assign = $gen->create_module('assign', ['course' => $course->id, 'duedate' => $duedate]);
+            return get_fast_modinfo($course->id)->get_cm($assign->cmid);
+        };
+        $due = fn(\cm_info $cm, ?bool $completed) => \format_customtiles\local\due::for_cm($cm, (int)$user->id, $completed, $now);
+
+        $this->assertSame('Due today', $due($make($now + 2 * HOURSECS), null)['label']);
+        $this->assertSame('Due tomorrow', $due($make($now + DAYSECS), null)['label']);
+        $soon = $due($make($now + 3 * DAYSECS), false);
+        $this->assertSame('Due in 3 days', $soon['label']);
+        $this->assertSame('soon', $soon['state']);
+        // Far away: nothing to say.
+        $this->assertNull($due($make($now + 30 * DAYSECS), false));
+        // Past deadline: overdue only when we know it is still pending.
+        $past = $make($now - 2 * DAYSECS);
+        $this->assertSame('overdue', $due($past, false)['state']);
+        $this->assertNull($due($past, null));
+        // Completed activities never show a deadline.
+        $this->assertNull($due($make($now + DAYSECS), true));
+        // Activities without dates.
+        $page = $gen->create_module('page', ['course' => $course->id]);
+        $this->assertNull($due(get_fast_modinfo($course->id)->get_cm($page->cmid), false));
+    }
+
+    /**
+     * The breadcrumb stays on phones only when the course asks for it.
+     */
+    public function test_mobile_breadcrumb_option(): void {
+        $this->resetAfterTest();
+        $course = $this->getDataGenerator()->create_course(['format' => 'customtiles']);
+        $this->assertSame(0, (int)course_get_format($course->id)->get_format_options()['mobilebreadcrumb']);
+        course_get_format($course->id)->update_course_format_options(['mobilebreadcrumb' => 1]);
+        $this->assertSame(1, (int)course_get_format($course->id)->get_format_options()['mobilebreadcrumb']);
     }
 }

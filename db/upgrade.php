@@ -18,7 +18,7 @@
  * Upgrade steps for format_customtiles.
  *
  * @package    format_customtiles
- * @copyright  2026 ayozeweb (https://github.com/ayozeweb)
+ * @copyright  2026 Ayoze M de Paz Paz
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -51,6 +51,11 @@ function xmldb_format_customtiles_upgrade($oldversion) {
     if ($oldversion < 2026111600) {
         // 0.3.0: section and activity views; new course option with a default, nothing to migrate.
         upgrade_plugin_savepoint(true, 2026111600, 'format', 'customtiles');
+    }
+
+    if ($oldversion < 2026111601) {
+        // 0.3.1: new hook callback and course option; nothing to migrate.
+        upgrade_plugin_savepoint(true, 2026111601, 'format', 'customtiles');
     }
 
     return true;

@@ -18,7 +18,7 @@
  * Hook callbacks for format_customtiles.
  *
  * @package    format_customtiles
- * @copyright  2026 ayozeweb (https://github.com/ayozeweb)
+ * @copyright  2026 Ayoze M de Paz Paz
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -32,6 +32,10 @@ $callbacks = [
     [
         'hook' => \core\hook\output\before_http_headers::class,
         'callback' => [\format_customtiles\hook_callbacks::class, 'add_activity_context'],
+    ],
+    [
+        'hook' => \core\hook\output\before_http_headers::class,
+        'callback' => [\format_customtiles\hook_callbacks::class, 'add_body_classes'],
     ],
     [
         'hook' => \core\hook\output\before_standard_top_of_body_html_generation::class,

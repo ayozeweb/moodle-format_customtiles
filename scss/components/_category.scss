@@ -73,3 +73,29 @@
     object-fit: contain;
   }
 }
+
+// Deadline chip of an activity: icon + text + colour.
+.fct-due {
+  display: inline-flex;
+  align-items: center;
+  gap: .3rem;
+  padding: .125rem .6rem;
+  border-radius: 999px;
+  border: 1px solid currentcolor;
+  background: var(--fct-surface, #fff);
+  color: var(--fct-warning, #92400e);
+  font-size: .875rem;
+  font-weight: 700;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+
+.fct-due--overdue {
+  color: var(--fct-danger, #b91c1c);
+}
+
+// Chips share a row under the activity title.
+.activity-afterlink:has(> .fct-due) {
+  flex-wrap: wrap;
+  gap: .4rem;
+}

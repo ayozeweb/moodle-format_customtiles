@@ -18,7 +18,7 @@
  * Hook callbacks.
  *
  * @package    format_customtiles
- * @copyright  2026 ayozeweb (https://github.com/ayozeweb)
+ * @copyright  2026 Ayoze M de Paz Paz
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -32,7 +32,7 @@ use format_customtiles\local\context_info;
  * Hook callbacks.
  *
  * @package    format_customtiles
- * @copyright  2026 ayozeweb (https://github.com/ayozeweb)
+ * @copyright  2026 Ayoze M de Paz Paz
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class hook_callbacks {
@@ -101,5 +101,27 @@ class hook_callbacks {
             get_string('skiptocontent', 'format_customtiles'),
             ['class' => 'fct-skip']
         ));
+    }
+
+    /**
+     * Pages of a Custom tiles course: tell the stylesheet whether the breadcrumb stays on phones.
+     *
+     * By default the one-line context bar replaces it on small screens (it shows the same position and
+     * a way back, and leaves more room for content). A course can ask to keep the breadcrumb.
+     *
+     * @param before_http_headers $hook
+     */
+    public static function add_body_classes(before_http_headers $hook): void {
+        global $PAGE;
+        if (
+            CLI_SCRIPT || AJAX_SCRIPT || !$PAGE->course || $PAGE->course->id == SITEID
+                || $PAGE->course->format !== 'customtiles'
+        ) {
+            return;
+        }
+        $options = course_get_format($PAGE->course)->get_format_options();
+        if (!empty($options['mobilebreadcrumb'])) {
+            $PAGE->add_body_class('fct-keepcrumb');
+        }
     }
 }

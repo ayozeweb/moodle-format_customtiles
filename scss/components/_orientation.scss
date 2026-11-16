@@ -96,9 +96,9 @@
 }
 
 // Phones: the context bar already says where you are and takes you back, so the breadcrumb
-// (which repeats it) gives its room to the content.
+// (which repeats it) gives its room to the content, unless the course asks to keep it.
 @media (max-width: 47.99rem) {
-  body.format-customtiles:not(.editing) #page-navbar {
+  body.format-customtiles:not(.editing, .fct-keepcrumb) #page-navbar {
     display: none;
   }
 }
