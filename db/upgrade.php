@@ -70,5 +70,10 @@ function xmldb_format_customtiles_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2026111701, 'format', 'customtiles');
     }
 
+    if ($oldversion < 2026111702) {
+        // 0.6.0: design view; new section option (focal point) with a default, nothing to migrate.
+        upgrade_plugin_savepoint(true, 2026111702, 'format', 'customtiles');
+    }
+
     return true;
 }

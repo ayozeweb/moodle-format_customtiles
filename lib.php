@@ -309,6 +309,7 @@ class format_customtiles extends core_courseformat\base {
             'ct_color2' => ['default' => '', 'type' => PARAM_RAW_TRIMMED, 'cache' => true],
             'ct_subtitle' => ['default' => '', 'type' => PARAM_TEXT, 'cache' => true],
             'ct_minutes' => ['default' => 0, 'type' => PARAM_INT, 'cache' => true],
+            'ct_focus' => ['default' => '', 'type' => PARAM_RAW_TRIMMED, 'cache' => true],
         ];
         if ($foreditform) {
             $options['ct_icon'] += [
@@ -321,12 +322,12 @@ class format_customtiles extends core_courseformat\base {
                 'help' => 'sectioncolor',
                 'help_component' => 'format_customtiles',
                 'element_type' => 'text',
-                'element_attributes' => [['maxlength' => 7, 'size' => 8, 'placeholder' => '#1d4ed8']],
+                'element_attributes' => [['maxlength' => 7, 'size' => 8, 'placeholder' => '#1d4ed8', 'data-fct-colour' => '1']],
             ];
             $options['ct_color2'] += [
                 'label' => new lang_string('sectioncolor2', 'format_customtiles'),
                 'element_type' => 'text',
-                'element_attributes' => [['maxlength' => 7, 'size' => 8, 'placeholder' => '#0f766e']],
+                'element_attributes' => [['maxlength' => 7, 'size' => 8, 'placeholder' => '#0f766e', 'data-fct-colour' => '1']],
             ];
             $options['ct_subtitle'] += [
                 'label' => new lang_string('sectionsubtitle', 'format_customtiles'),
@@ -342,6 +343,8 @@ class format_customtiles extends core_courseformat\base {
             ];
             // The cover is edited with a file manager (added separately); the stored name is a hidden field.
             $options['ct_cover'] += ['label' => '', 'element_type' => 'hidden'];
+            // The focal point is set in the design view; the classic form keeps it untouched.
+            $options['ct_focus'] += ['label' => '', 'element_type' => 'hidden'];
         }
         return $options;
     }
@@ -380,6 +383,10 @@ class format_customtiles extends core_courseformat\base {
             if (isset($data[$key])) {
                 $data[$key] = \format_customtiles\local\color::normalise((string)$data[$key]) ?? '';
             }
+        }
+        if (isset($data['ct_focus'])) {
+            $focus = section_style::parse_focus((string)$data['ct_focus']);
+            $data['ct_focus'] = $focus ? implode(',', $focus) : '';
         }
         if (isset($data['ct_minutes'])) {
             $data['ct_minutes'] = max(0, min(99999, (int)$data['ct_minutes']));
@@ -435,13 +442,14 @@ class format_customtiles extends core_courseformat\base {
             'ct_preview',
             get_string('sectionpreview', 'format_customtiles'),
             '<div class="fct-root fct-sectionpreview" data-region="fct-sectionpreview" aria-live="polite">' .
-            '<div class="fct-tile fct-item"><div class="fct-tile__cover" aria-hidden="true">' .
-            '<i class="fa-solid fct-tile__icon" data-region="icon"></i></div>' .
+            '<div class="fct-tile fct-item"><div class="fct-tile__cover" data-region="cover" aria-hidden="true">' .
+            '<i class="fa-solid fct-cover__icon" data-region="icon"></i></div>' .
             '<div class="fct-tile__body"><p class="fct-item__title" data-region="title"></p>' .
             '<p class="fct-item__meta" data-region="subtitle"></p>' .
-            '<p class="fct-item__meta" data-region="time"></p></div></div></div>'
+            '<p class="fct-item__meta" data-region="time"></p></div></div>' .
+            '<p class="fct-sectionpreview__contrast" data-region="contrast"></p></div>'
         );
-        $PAGE->requires->strings_for_js(['minutesshort'], 'format_customtiles');
+        $PAGE->requires->strings_for_js(['minutesshort', 'contrastok', 'contrastlow'], 'format_customtiles');
         $PAGE->requires->js_call_amd('format_customtiles/sectionpreview', 'init');
         return $elements;
     }
@@ -645,4 +653,50 @@ function format_customtiles_output_fragment_map(array $args): string {
         'format_customtiles/local/map',
         \format_customtiles\local\course_map::export($format, true)
     );
+}
+
+/**
+ * User preferences this plugin lets the user change from JavaScript.
+ *
+ * @return array[]
+ */
+function format_customtiles_user_preferences(): array {
+    return [
+        // Design view of the course page in edit mode: 1 = design, 0 = structure (core list).
+        'format_customtiles_designview' => [
+            'type' => PARAM_BOOL,
+            'null' => NULL_NOT_ALLOWED,
+            'default' => 0,
+            'permissioncallback' => [core_user::class, 'is_current_user'],
+        ],
+    ];
+}
+
+/**
+ * Fragment: one tile of the design view, re-rendered after its appearance is saved.
+ *
+ * @param array $args course context and 'sectionid'
+ * @return string HTML
+ */
+function format_customtiles_output_fragment_designtile(array $args): string {
+    global $PAGE;
+    $context = $args['context'];
+    if ($context->contextlevel != CONTEXT_COURSE) {
+        throw new coding_exception('A design tile needs a course context');
+    }
+    require_capability('moodle/course:update', $context);
+    $format = course_get_format($context->instanceid);
+    if ($format->get_format() !== 'customtiles') {
+        return '';
+    }
+    $sectionid = clean_param($args['sectionid'] ?? 0, PARAM_INT);
+    foreach ((new \format_customtiles\local\course_data($format))->get_sections() as $section) {
+        if ($section['id'] === $sectionid) {
+            return $PAGE->get_renderer('format_customtiles')->render_from_template(
+                'format_customtiles/local/design_tile',
+                $section + ['contextid' => $context->id]
+            );
+        }
+    }
+    return '';
 }

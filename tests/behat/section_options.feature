@@ -40,3 +40,19 @@ Feature: Personalise the sections of a Custom tiles course
       | Accent colour | #ffff00 |
     And I press "Save and display"
     Then I should see "The colour was adjusted to reach AA contrast."
+
+  @javascript
+  Scenario: The teacher changes the appearance of a section from the design view
+    Given I am on the "C1" "course" page logged in as "teacher1"
+    And I turn editing mode on
+    When I click on "Design" "button"
+    Then I should see "Change how each section looks"
+    And I click on "Edit appearance" "button" in the ".fct-designtile:nth-child(2)" "css_element"
+    And I set the following fields to these values:
+      | Subtitle                 | From the design view |
+      | Estimated time (minutes) | 25                   |
+    And I click on "Save changes" "button" in the ".modal-dialog" "css_element"
+    And I should see "From the design view" in the ".fct-designtile:nth-child(2)" "css_element"
+    And I should see "25 min" in the ".fct-designtile:nth-child(2)" "css_element"
+    And I click on "Structure" "button"
+    And I should not see "Change how each section looks"

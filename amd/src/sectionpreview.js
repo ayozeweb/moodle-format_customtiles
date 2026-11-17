@@ -12,9 +12,9 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
-
 /**
- * Live preview of a section tile in the section edit form.
+ * Live preview of a section in its edit forms (the classic section form and the design view modal):
+ * icon, colours and their text contrast, subtitle, time, and the focal point of the cover image.
  *
  * @module     format_customtiles/sectionpreview
  * @copyright  2026 Ayoze M de Paz Paz
@@ -24,6 +24,7 @@
 import {getString} from 'core/str';
 
 const HEX = /^#?([0-9a-f]{3}|[0-9a-f]{6})$/i;
+const DARK = '#111827';
 
 /**
  * Normalise a hex colour to #rrggbb or return null.
@@ -32,7 +33,7 @@ const HEX = /^#?([0-9a-f]{3}|[0-9a-f]{6})$/i;
  * @returns {string|null}
  */
 const normalise = (value) => {
-    const m = HEX.exec(value.trim());
+    const m = HEX.exec((value || '').trim());
     if (!m) {
         return null;
     }
@@ -44,40 +45,129 @@ const normalise = (value) => {
 };
 
 /**
- * Relative luminance of a #rrggbb colour.
+ * [r, g, b] of a #rrggbb colour.
+ *
+ * @param {string} hex
+ * @returns {number[]}
+ */
+const rgb = (hex) => [1, 3, 5].map((i) => parseInt(hex.substr(i, 2), 16));
+
+/**
+ * Relative luminance of a #rrggbb colour (WCAG).
  *
  * @param {string} hex
  * @returns {number}
  */
 const luminance = (hex) => {
-    const channels = [1, 3, 5].map((i) => {
-        const c = parseInt(hex.substr(i, 2), 16) / 255;
-        return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+    const c = rgb(hex).map((v) => {
+        v /= 255;
+        return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
     });
-    return 0.2126 * channels[0] + 0.7152 * channels[1] + 0.0722 * channels[2];
+    return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2];
 };
 
 /**
- * Initialise the preview.
+ * Contrast ratio between two colours (WCAG).
+ *
+ * @param {string} a
+ * @param {string} b
+ * @returns {number}
  */
-export const init = () => {
-    const preview = document.querySelector('[data-region="fct-sectionpreview"]');
-    const form = preview ? preview.closest('form') : null;
+const contrast = (a, b) => {
+    const la = luminance(a);
+    const lb = luminance(b);
+    return (Math.max(la, lb) + 0.05) / (Math.min(la, lb) + 0.05);
+};
+
+/**
+ * Mix two colours (weight of b from 0 to 1), as the server does.
+ *
+ * @param {string} a
+ * @param {string} b
+ * @param {number} weight
+ * @returns {string}
+ */
+const mix = (a, b, weight) => {
+    const ca = rgb(a);
+    const cb = rgb(b);
+    return '#' + ca.map((v, i) => Math.round(v * (1 - weight) + cb[i] * weight).toString(16).padStart(2, '0')).join('');
+};
+
+/**
+ * Set up one preview.
+ *
+ * @param {HTMLElement} root
+ */
+const setup = (root) => {
+    root.dataset.fctReady = '1';
+    const form = root.closest('form');
     if (!form) {
         return;
     }
     const field = (name) => form.querySelector('[name="' + name + '"]');
-    const cover = preview.querySelector('.fct-tile__cover');
-    const icon = preview.querySelector('[data-region="icon"]');
-    const title = preview.querySelector('[data-region="title"]');
-    const subtitle = preview.querySelector('[data-region="subtitle"]');
-    const time = preview.querySelector('[data-region="time"]');
+    const region = (name) => root.querySelector('[data-region="' + name + '"]');
+    const cover = region('cover');
+    const icon = region('icon');
+    const image = region('coverimg');
+    const mark = region('focusmark');
 
-    const update = () => {
+    // A native colour picker next to each colour field, kept in sync with the text.
+    form.querySelectorAll('[data-fct-colour]').forEach((input) => {
+        if (input.nextElementSibling && input.nextElementSibling.dataset.fctPicker) {
+            return;
+        }
+        const picker = document.createElement('input');
+        picker.type = 'color';
+        picker.className = 'fct-colourpicker';
+        picker.dataset.fctPicker = '1';
+        const label = form.querySelector('label[for="' + input.id + '"]');
+        picker.setAttribute('aria-label', label ? label.textContent.trim() : input.name);
+        picker.value = normalise(input.value) || '#1d4ed8';
+        picker.addEventListener('input', () => {
+            input.value = picker.value;
+            input.dispatchEvent(new Event('input', {bubbles: true}));
+        });
+        input.addEventListener('input', () => {
+            const hex = normalise(input.value);
+            if (hex) {
+                picker.value = hex;
+            }
+        });
+        input.after(picker);
+    });
+
+    const updateFocus = () => {
+        const x = Math.max(0, Math.min(100, parseInt((field('focusx') || {}).value, 10) || 50));
+        const y = Math.max(0, Math.min(100, parseInt((field('focusy') || {}).value, 10) || 50));
+        if (image) {
+            image.style.objectPosition = x + '% ' + y + '%';
+        }
+        if (mark) {
+            mark.style.insetInlineStart = x + '%';
+            mark.style.insetBlockStart = y + '%';
+        }
+        return [x, y];
+    };
+
+    const setFocus = (x, y) => {
+        if (field('focusx') && field('focusy')) {
+            field('focusx').value = Math.round(Math.max(0, Math.min(100, x)));
+            field('focusy').value = Math.round(Math.max(0, Math.min(100, y)));
+            updateFocus();
+        }
+    };
+
+    const updateText = () => {
+        const title = region('title');
         const name = field('name');
-        title.textContent = (name && name.value) || (name && name.placeholder) || '';
-        subtitle.textContent = field('ct_subtitle').value;
-        const minutes = parseInt(field('ct_minutes').value, 10);
+        if (title && name) {
+            title.textContent = name.value || name.placeholder || '';
+        } else if (title && !title.textContent) {
+            title.textContent = root.dataset.name || '';
+        }
+        region('subtitle').textContent = field('ct_subtitle') ? field('ct_subtitle').value : '';
+        const minutes = field('ct_minutes') ? parseInt(field('ct_minutes').value, 10) : 0;
+        const time = region('time');
         if (minutes > 0) {
             getString('minutesshort', 'format_customtiles', minutes).then((text) => {
                 time.textContent = '~' + text;
@@ -88,20 +178,111 @@ export const init = () => {
         } else {
             time.textContent = '';
         }
-        const iconName = field('ct_icon').value;
-        icon.className = 'fa-solid fct-tile__icon' + (iconName ? ' fa-' + iconName : '');
-        const c1 = normalise(field('ct_color').value);
-        let c2 = normalise(field('ct_color2').value);
-        if (c1) {
-            c2 = c2 || c1;
-            const mid = luminance(c1) + luminance(c2);
-            cover.style.background = 'linear-gradient(135deg, ' + c1 + ', ' + c2 + ')';
-            cover.style.color = mid / 2 > 0.18 ? '#111827' : '#ffffff';
-        } else {
+        const iconName = field('ct_icon') ? field('ct_icon').value : '';
+        icon.className = 'fa-solid fct-cover__icon' + (iconName ? ' fa-' + iconName : '');
+    };
+
+    // Messages are fetched asynchronously: only the answer to the latest change may be shown.
+    let contrastRequest = 0;
+
+    const updateColours = () => {
+        const request = ++contrastRequest;
+        const c1 = normalise(field('ct_color') ? field('ct_color').value : '');
+        const note = region('contrast');
+        if (!c1) {
             cover.style.background = '';
             cover.style.color = '';
+            if (note) {
+                note.textContent = '';
+                delete note.dataset.state;
+            }
+            return;
         }
+        const c2 = normalise(field('ct_color2') ? field('ct_color2').value : '') || mix(c1, '#000000', 0.35);
+        const mid = mix(c1, c2, 0.5);
+        const fg = contrast('#ffffff', mid) >= contrast(DARK, mid) ? '#ffffff' : DARK;
+        cover.style.background = 'linear-gradient(135deg, ' + c1 + ', ' + c2 + ')';
+        cover.style.color = fg;
+        if (!note) {
+            return;
+        }
+        const ratio = Math.min(contrast(fg, c1), contrast(fg, c2));
+        const shown = (Math.floor(ratio * 10) / 10).toLocaleString(document.documentElement.lang || undefined);
+        getString(ratio >= 4.5 ? 'contrastok' : 'contrastlow', 'format_customtiles', shown).then((text) => {
+            if (request !== contrastRequest) {
+                return text;
+            }
+            note.textContent = text;
+            note.dataset.state = ratio >= 4.5 ? 'ok' : 'low';
+            return text;
+        }).catch(() => null);
     };
+
+    const update = () => {
+        updateText();
+        updateColours();
+    };
+
+    // The cover the teacher picks in the file manager, shown before saving.
+    const watchFiles = () => {
+        const manager = form.querySelector('.filemanager');
+        if (!manager || !image) {
+            return;
+        }
+        const sync = () => {
+            const thumb = manager.querySelector('.fp-file img, .fp-thumbnail img');
+            if (thumb && thumb.src) {
+                const url = new URL(thumb.src, window.location.href);
+                url.searchParams.delete('preview');
+                url.searchParams.delete('oid');
+                if (image.src !== url.href) {
+                    image.src = url.href;
+                }
+                image.hidden = false;
+            } else if (manager.querySelector('.fp-content') && !manager.querySelector('.fp-file')) {
+                image.hidden = true;
+            }
+            const hint = region('focushint');
+            if (mark) {
+                mark.hidden = image.hidden;
+            }
+            if (hint) {
+                hint.hidden = image.hidden;
+            }
+        };
+        new MutationObserver(sync).observe(manager, {childList: true, subtree: true, attributes: true,
+            attributeFilter: ['src']});
+        sync();
+    };
+
+    // Pick the focal point on the preview with a pointer or the arrow keys.
+    if (image && field('focusx')) {
+        cover.tabIndex = 0;
+        cover.removeAttribute('aria-hidden');
+        cover.setAttribute('role', 'group');
+        getString('focuspoint', 'format_customtiles').then((text) => cover.setAttribute('aria-label', text)).catch(() => null);
+        cover.addEventListener('click', (e) => {
+            if (image.hidden) {
+                return;
+            }
+            const box = cover.getBoundingClientRect();
+            setFocus(100 * (e.clientX - box.left) / box.width, 100 * (e.clientY - box.top) / box.height);
+        });
+        cover.addEventListener('keydown', (e) => {
+            const moves = {ArrowLeft: [-5, 0], ArrowRight: [5, 0], ArrowUp: [0, -5], ArrowDown: [0, 5]};
+            if (!moves[e.key] || image.hidden) {
+                return;
+            }
+            e.preventDefault();
+            const [x, y] = updateFocus();
+            setFocus(x + moves[e.key][0], y + moves[e.key][1]);
+        });
+        ['focusx', 'focusy'].forEach((name) => field(name).addEventListener('input', updateFocus));
+        updateFocus();
+        if (mark) {
+            mark.hidden = image.hidden;
+        }
+    }
 
     ['name', 'ct_subtitle', 'ct_minutes', 'ct_icon', 'ct_color', 'ct_color2'].forEach((name) => {
         const el = field(name);
@@ -110,5 +291,13 @@ export const init = () => {
             el.addEventListener('change', update);
         }
     });
+    watchFiles();
     update();
+};
+
+/**
+ * Initialise every preview not set up yet (the modal form adds a new one each time it opens).
+ */
+export const init = () => {
+    document.querySelectorAll('[data-region="fct-sectionpreview"]:not([data-fct-ready])').forEach(setup);
 };

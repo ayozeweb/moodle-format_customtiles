@@ -69,6 +69,9 @@
             {{> format_customtiles/local/section_header }}
         </div>
     {{/sechead}}
+    {{#candesign}}
+        {{> format_customtiles/local/design_toolbar }}
+    {{/candesign}}
     {{#isindex}}
         {{#hero}}
             {{> format_customtiles/local/hero }}
@@ -101,11 +104,24 @@
             {{/hascarousel}}
         {{/js}}
     {{/showtiles}}
+    {{#showdesign}}
+        <div class="fct-main">
+            {{> format_customtiles/local/design_grid }}
+        </div>
+        {{#js}}
+            {{! The course index and the reactive course editor need the core content component. }}
+            require(['core_courseformat/local/content'], function(component) {
+                component.init('#page', {}, null, null);
+            });
+        {{/js}}
+    {{/showdesign}}
     {{#emptycourse}}
         <p class="fct-empty"><i class="fa-regular fa-folder-open" aria-hidden="true"></i> {{#str}} emptycourse, format_customtiles {{/str}}</p>
     {{/emptycourse}}
     {{^showtiles}}
-        {{> core_courseformat/local/content }}
+        {{^showdesign}}
+            {{> core_courseformat/local/content }}
+        {{/showdesign}}
     {{/showtiles}}
     {{#emptysection}}
         <p class="fct-empty"><i class="fa-regular fa-folder-open" aria-hidden="true"></i> {{#str}} emptysection, format_customtiles {{/str}}</p>

@@ -96,6 +96,7 @@ class section_style {
             'hascolor' => $c1 !== null,
             'coverstyle' => '',
             'hascover' => false,
+            'focus' => self::focus_css((string)($section->ct_focus ?? '')),
         ];
         if ($c1 !== null) {
             $c2 ??= color::mix($c1, '#000000', 0.35);
@@ -109,6 +110,30 @@ class section_style {
             $out['hascover'] = true;
         }
         return $out;
+    }
+
+    /**
+     * Normalise a focal point "x,y" (percentages) or return null when invalid.
+     *
+     * @param string $value
+     * @return int[]|null [x, y]
+     */
+    public static function parse_focus(string $value): ?array {
+        if (!preg_match('/^\s*(\d{1,3})\s*,\s*(\d{1,3})\s*$/', $value, $m)) {
+            return null;
+        }
+        return [min(100, (int)$m[1]), min(100, (int)$m[2])];
+    }
+
+    /**
+     * CSS object-position of a focal point (centre when not set).
+     *
+     * @param string $value "x,y"
+     * @return string
+     */
+    public static function focus_css(string $value): string {
+        [$x, $y] = self::parse_focus($value) ?? [50, 50];
+        return $x . '% ' . $y . '%';
     }
 
     /**

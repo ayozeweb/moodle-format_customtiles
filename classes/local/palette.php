@@ -67,4 +67,29 @@ class palette {
             'strong' => color::ensure_contrast($base, $soft, 4.5),
         ];
     }
+
+    /**
+     * Distinct colours for a series of sections, starting from a base colour.
+     *
+     * Hues are spread around the colour wheel from the base hue, with a saturation and lightness that
+     * look good on covers; every colour is darkened if needed so white text on it reaches 4.5:1.
+     *
+     * @param string $base hex colour
+     * @param int $count number of colours
+     * @return array[] each ['color' => first gradient colour, 'color2' => second one]
+     */
+    public static function series(string $base, int $count): array {
+        $base = color::normalise($base) ?? '#1d4ed8';
+        [$h, $s, $l] = color::to_hsl($base);
+        $s = max(0.45, min(0.8, $s));
+        $l = max(0.32, min(0.45, $l));
+        $step = $count > 0 ? 360 / max($count, 6) : 0;
+        $out = [];
+        for ($i = 0; $i < $count; $i++) {
+            $c1 = color::ensure_contrast(color::from_hsl($h + $i * $step, $s, $l), '#ffffff', 4.5);
+            $c2 = color::ensure_contrast(color::from_hsl($h + $i * $step + 18, $s, max(0.22, $l - 0.1)), '#ffffff', 4.5);
+            $out[] = ['color' => $c1, 'color2' => $c2];
+        }
+        return $out;
+    }
 }

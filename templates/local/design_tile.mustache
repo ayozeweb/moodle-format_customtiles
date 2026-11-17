@@ -1,0 +1,59 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template format_customtiles/local/design_tile
+
+    Content of one section in the design view (the list item is drawn by design_grid): how it looks,
+    and a button to change it (and its units).
+
+    Example context (json):
+    {
+        "id": 4, "num": 2, "displaynum": "2", "name": "Section", "visible": true, "subtitle": "First steps",
+        "activitieslabel": "3 activities", "timelabel": "1 h", "hascolor": true,
+        "coverstyle": "--fct-c1:#0e7490;--fct-c2:#155e75;--fct-fg:#ffffff", "hasicon": true, "icon": "flask",
+        "hasunits": true, "unitslabel": "1 unit",
+        "units": [{"id": 9, "name": "Unit 1", "hascolor": true, "coverstyle": "--fct-c1:#7c3aed;--fct-c2:#5b21b6;--fct-fg:#ffffff"}]
+    }
+}}
+<div class="fct-designtile__inner">
+    <div class="fct-tile__cover{{#hascolor}} fct-has-color{{/hascolor}}" aria-hidden="true"{{#hascolor}} style="{{coverstyle}}"{{/hascolor}}>
+        {{> format_customtiles/local/cover }}
+    </div>
+    <div class="fct-tile__body">
+        <h3 class="fct-item__title" data-region="name">{{{name}}}</h3>
+        {{#subtitle}}<p class="fct-item__subtitle">{{subtitle}}</p>{{/subtitle}}
+        <p class="fct-item__meta">{{#hasunits}}{{unitslabel}} · {{/hasunits}}{{activitieslabel}}{{#timelabel}} · {{timelabel}}{{/timelabel}}</p>
+        {{^visible}}<p class="fct-state fct-state--hidden"><i class="fa-solid fa-eye-slash" aria-hidden="true"></i> {{#str}} state_hidden, format_customtiles {{/str}}</p>{{/visible}}
+        <button type="button" class="fct-designtile__edit" data-action="fct-editstyle" data-sectionid="{{id}}">
+            <i class="fa-solid fa-pen" aria-hidden="true"></i> {{#str}} editappearance, format_customtiles {{/str}}<span class="visually-hidden">: {{{name}}}</span>
+        </button>
+        {{#hasunits}}
+            <ul class="fct-designunits" aria-label="{{unitslabel}}">
+                {{#units}}
+                    <li class="fct-designunits__item">
+                        <span class="fct-designunits__swatch{{#hascolor}} fct-has-color{{/hascolor}}" aria-hidden="true"{{#hascolor}} style="{{coverstyle}}"{{/hascolor}}></span>
+                        <span class="fct-designunits__name" data-region="name">{{{name}}}</span>
+                        <button type="button" class="fct-iconbtn" data-action="fct-editstyle" data-sectionid="{{id}}">
+                            <i class="fa-solid fa-pen" aria-hidden="true"></i>
+                            <span class="visually-hidden">{{#str}} editappearance, format_customtiles {{/str}}: {{{name}}}</span>
+                        </button>
+                    </li>
+                {{/units}}
+            </ul>
+        {{/hasunits}}
+    </div>
+</div>

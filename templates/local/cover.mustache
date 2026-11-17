@@ -24,13 +24,14 @@
         "num": 2,
         "displaynum": "2",
         "hascover": false,
+        "focus": "50% 50%",
         "hasicon": true,
         "icon": "flask"
     }
 }}
 {{#hascover}}
     <img class="fct-cover__img" src="{{coversrc}}" srcset="{{coversrcset}}" sizes="(min-width: 48rem) 480px, 50vw"
-         alt="" width="480" height="300" loading="lazy" decoding="async">
+         alt="" width="480" height="300" loading="lazy" decoding="async" style="object-position: {{focus}}">
     <span class="fct-cover__badge">{{displaynum}}</span>
 {{/hascover}}
 {{^hascover}}

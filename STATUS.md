@@ -29,7 +29,14 @@ Hitos 1–6 cerrados. Extras: layouts Bento y Lista compacta hechos (axe limpio)
 
 - **0.5.0 — jerarquía módulo → unidad**: las subsecciones del core (`mod_subsection`) son unidades de la sección que las contiene. La sección agrega progreso, actividades y tiempo de sus unidades; cada unidad tiene estado, progreso, página propia, numeración «5.2» y «Unidad x de y». Se muestran en tarjetas, itinerario, carrusel, cabecera de sección y mapa. 50 tests PHPUnit, 15 escenarios Behat sin JS.
 
+- **Plan de mejora, Fase 2 (0.6.0) — editor visual**: conmutador Estructura/Diseño en modo edición; vista de diseño con un tile por sección y unidad y botón «Editar aspecto»; formulario modal (`core_form\dynamic_form`) con portada, punto focal, icono, colores con selector nativo y contraste en vivo, subtítulo, tiempo y «aplicar también a»; colores automáticos para todo el curso; guardar refresca solo ese tile (fragmento) y devuelve el foco. 59 tests PHPUnit; escenario Behat con JS para la CI. axe sin violaciones propias en la vista de diseño (360 y 1280 px).
+
 ## Decisiones
+- **Punto focal en vez de recortador**: se guarda «x,y» en % y se aplica con `object-position`; no destruye el original, sirve para todos los layouts y se puede fijar con ratón, flechas o números.
+- **La vista de diseño no reemplaza a la de estructura**: mover, añadir y borrar siguen en la lista del core (estado reactivo y arrastrar y soltar intactos). La elección se guarda como preferencia de usuario.
+- **En la vista de diseño no se exporta la lista del core**: exportarla registraba JavaScript de desplegables que no se pintan (errores en consola).
+- **Formularios dinámicos**: el JavaScript añadido al definirlos no llega al navegador, así que la vista previa del modal se inicializa desde `designer.js` con un observador.
+- **Pendiente de la Fase 2**: selector de layout y tema con miniaturas en los ajustes del curso, plantillas de curso y buscador de iconos. En el modal, axe señala dos cosas del core: la lista vacía del selector múltiple y los botones pequeños del gestor de archivos.
 - **Error que había**: el progreso de una sección ignoraba lo que hubiera dentro de sus subsecciones (en el curso de prueba, 3 de 10 actividades), y «Continuar» mandaba esas actividades al final del curso. Corregido al agregar en el orden de la página.
 - **Tiempo estimado**: si la sección tiene tiempo propio, manda; si no, es la suma de sus unidades.
 - **Nombre neutro «unidad»** en la interfaz (no «UF»), porque el formato no es solo para SEPE; el nombre real lo pone el docente en cada subsección.

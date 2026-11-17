@@ -2,6 +2,23 @@
 
 Format based on [Keep a Changelog](https://keepachangelog.com/). Versions follow [Semantic Versioning](https://semver.org/).
 
+## [0.6.0] - 2026-11-17
+
+### Added
+- Design view for teachers in edit mode: a "Structure / Design" switch above the course page. The design view
+  shows every section (and unit) as a tile with an "Edit appearance" button; the core structure view keeps
+  moving, adding and deleting sections and activities.
+- Appearance form in a modal: cover image, focal point (click on the preview, arrow keys, or numbers), icon,
+  colours with a native colour picker and the live text contrast (WCAG AA), subtitle and time, and "also apply
+  colours and icon to" other sections or units. Saving refreshes only that tile, without reloading the page.
+- Automatic colours: distinct colours for every section (and unit) from a base colour, each one readable with
+  white text (4.5:1), for sections without a colour or for all of them.
+- Focal point of cover images, applied with `object-position` in every layout.
+
+### Fixed
+- The course index stayed empty in the design view; JavaScript errors from core dropdowns that were exported but
+  not printed.
+
 ## [0.5.0] - 2026-11-17
 
 ### Added

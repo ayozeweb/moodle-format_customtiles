@@ -59,7 +59,20 @@ class content extends content_base {
      * @return \stdClass
      */
     public function export_for_template(renderer_base $output) {
-        $data = parent::export_for_template($output);
+        if ($this->is_design_view()) {
+            // The design view does not print the core list of sections and activities, so it is not
+            // exported either: exporting it would also register JavaScript for elements that are not
+            // on the page (the completion dropdowns, for instance).
+            $data = (object)[
+                'title' => $this->format->page_title(),
+                'format' => $this->format->get_format(),
+                'sectionreturn' => 'null',
+                'pagesectionid' => 'null',
+                'sections' => [],
+            ];
+        } else {
+            $data = parent::export_for_template($output);
+        }
         $options = $this->format->get_format_options();
         $course = $this->format->get_course();
 
@@ -111,6 +124,16 @@ class content extends content_base {
             $model = new course_data($this->format);
             $data->hero = $this->export_hero($model, $course, !$editing);
             $data->showtiles = !$editing;
+            if ($editing && has_capability('moodle/course:update', \context_course::instance($course->id))) {
+                // Edit mode: the teacher switches between the core structure view and the design view.
+                $data->candesign = true;
+                $data->courseid = (int)$course->id;
+                $data->designview = (bool)get_user_preferences('format_customtiles_designview', 0);
+                if ($data->designview) {
+                    $data->showdesign = true;
+                    $data->designtiles = $model->get_sections();
+                }
+            }
             if ($data->showtiles) {
                 $data->tiles = $model->get_sections();
                 $data->hastiles = !empty($data->tiles);
@@ -120,6 +143,18 @@ class content extends content_base {
             }
         }
         return $data;
+    }
+
+    /**
+     * Whether the teacher is looking at the design view of the course page.
+     *
+     * @return bool
+     */
+    protected function is_design_view(): bool {
+        return $this->format->get_sectionid() === null
+            && $this->format->show_editor()
+            && get_user_preferences('format_customtiles_designview', 0)
+            && has_capability('moodle/course:update', \context_course::instance($this->format->get_courseid()));
     }
 
     /**

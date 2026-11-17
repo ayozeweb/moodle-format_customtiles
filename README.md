@@ -102,6 +102,8 @@ Student views / Vistas del alumno:
 
 Units / Unidades: <img src="docs/screenshots/view-units-card-360.png" width="120" alt="Units: card 360px"> <img src="docs/screenshots/view-units-module-360.png" width="120" alt="Units: module 360px"> <img src="docs/screenshots/view-units-unit-360.png" width="120" alt="Units: unit 360px">
 
+Teacher design view / Vista de diseño del docente: <img src="docs/screenshots/edit-design-360.png" width="120" alt="edit-design-360"> <img src="docs/screenshots/edit-appearance-360.png" width="120" alt="edit-appearance-360"> <img src="docs/screenshots/edit-design-1280.png" width="240" alt="edit-design-1280"> <img src="docs/screenshots/edit-appearance-1280.png" width="240" alt="edit-appearance-1280"> <img src="docs/screenshots/edit-palette-1280.png" width="240" alt="edit-palette-1280">
+
 Deadlines / Plazos: <img src="docs/screenshots/view-due-360.png" width="120" alt="Deadline chips 360px">
 
 Course map panel / Panel del mapa del curso: <img src="docs/screenshots/view-map-panel-360.png" width="120" alt="Course map panel 360px">

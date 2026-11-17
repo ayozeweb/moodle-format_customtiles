@@ -1,0 +1,53 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template format_customtiles/local/design_toolbar
+
+    Edit mode: switch between the core structure view (move, add, delete) and the design view (appearance).
+
+    Example context (json):
+    {
+        "designview": true,
+        "courseid": 2
+    }
+}}
+<div class="fct-designbar" data-region="fct-designbar">
+    <div class="fct-designbar__views" role="group" aria-label="{{#str}} viewmode, format_customtiles {{/str}}">
+        <button type="button" class="fct-designbar__view" data-action="fct-view" data-value="0"
+                aria-pressed="{{#designview}}false{{/designview}}{{^designview}}true{{/designview}}">
+            <i class="fa-solid fa-list-ul" aria-hidden="true"></i> {{#str}} viewstructure, format_customtiles {{/str}}
+        </button>
+        <button type="button" class="fct-designbar__view" data-action="fct-view" data-value="1"
+                aria-pressed="{{#designview}}true{{/designview}}{{^designview}}false{{/designview}}">
+            <i class="fa-solid fa-palette" aria-hidden="true"></i> {{#str}} viewdesign, format_customtiles {{/str}}
+        </button>
+    </div>
+    {{#designview}}
+        <button type="button" class="fct-designbar__action" data-action="fct-palette" data-courseid="{{courseid}}">
+            <i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i> {{#str}} palette_title, format_customtiles {{/str}}
+        </button>
+    {{/designview}}
+    <p class="fct-designbar__hint">
+        {{#designview}}{{#str}} designhint, format_customtiles {{/str}}{{/designview}}
+        {{^designview}}{{#str}} structurehint, format_customtiles {{/str}}{{/designview}}
+    </p>
+</div>
+{{#js}}
+require(['format_customtiles/designer'], function(designer) {
+    designer.init();
+});
+{{/js}}
