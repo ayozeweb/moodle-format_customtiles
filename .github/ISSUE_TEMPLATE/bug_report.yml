@@ -1,0 +1,62 @@
+name: Bug report / Error
+description: Something does not work or looks wrong. / Algo no funciona o se ve mal.
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Security problems: please do not open an issue, see SECURITY.md.
+        Problemas de seguridad: no abras una incidencia, consulta SECURITY.md.
+  - type: input
+    id: versions
+    attributes:
+      label: Versions / Versiones
+      description: Plugin version (Site administration > Plugins), Moodle version, theme, PHP and database.
+      placeholder: "format_customtiles 0.8.0, Moodle 5.3.1 (Build ...), Boost, PHP 8.3, PostgreSQL 17"
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Where / Dónde
+      multiple: true
+      options:
+        - Course page / Portada del curso
+        - Section page / Página de sección
+        - Activity page / Página de actividad
+        - Course map / Mapa del curso
+        - Edit mode, design view / Edición, vista de diseño
+        - Settings, categories, logos / Ajustes, categorías, logotipos
+        - Backup and restore / Copia y restauración
+        - Other / Otro
+  - type: input
+    id: settings
+    attributes:
+      label: Course settings / Ajustes del curso
+      description: Layout (and mobile layout), skin, and whether the site uses dark mode.
+      placeholder: "Tiles, carousel on mobile, Light skin"
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce / Pasos para reproducirlo
+      placeholder: |
+        1. As a student, open the course...
+        2. ...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected and actual result / Resultado esperado y obtenido
+    validations:
+      required: true
+  - type: input
+    id: device
+    attributes:
+      label: Device and browser / Dispositivo y navegador
+      placeholder: "Android 15, Chrome 140, 360 px wide"
+  - type: textarea
+    id: extra
+    attributes:
+      label: Screenshots, errors in the browser console, debugging output / Capturas y errores
+      description: Remove any personal data (names, emails) before attaching. / Quita los datos personales antes de adjuntar.

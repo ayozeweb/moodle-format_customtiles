@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security vulnerability / Vulnerabilidad de seguridad
+    url: https://github.com/ayozeweb/moodle-format_customtiles/security/advisories/new
+    about: Report it privately, please. / Por favor, comunícala de forma privada.
+  - name: General Moodle questions / Dudas generales de Moodle
+    url: https://moodle.org/mod/forum/index.php?id=5
+    about: Moodle community forums. / Foros de la comunidad de Moodle.

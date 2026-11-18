@@ -18,6 +18,7 @@ Thanks for helping. This is an independent course format for Moodle 5.3+; it doe
 | JavaScript build and lint | `npx grunt amd --root=public/course/format/customtiles` |
 | CSS | `./build-css.sh` in the plugin (compiles `scss/` and formats `styles.css`) |
 | Templates | `moodle-plugin-ci mustache` |
+| JavaScript unit tests | `npm run test:js` in the plugin |
 
 Rules of the project:
 
@@ -29,3 +30,5 @@ Rules of the project:
 - Add or update tests with every change, and an entry in `CHANGES.md`.
 
 Security issues: see `SECURITY.md`; please do not open a public issue for them.
+
+By taking part you agree to the [code of conduct](CODE_OF_CONDUCT.md). Releases follow `docs/publicacion.md`.

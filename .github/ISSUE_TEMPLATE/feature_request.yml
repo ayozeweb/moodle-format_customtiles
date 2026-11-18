@@ -1,0 +1,22 @@
+name: Feature request / Propuesta
+description: An idea to improve the format. / Una idea para mejorar el formato.
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem does it solve? / ¿Qué problema resuelve?
+      description: Who meets it (student, teacher, administrator) and when.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal / Propuesta
+    validations:
+      required: true
+  - type: textarea
+    id: requirements
+    attributes:
+      label: Accessibility or SEPE/SCE requirements involved / Requisitos de accesibilidad o del SEPE/SCE
+      description: If it comes from WCAG or from Orden TMS/369/2019 (Anexo IV), quote the requirement.
