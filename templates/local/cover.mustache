@@ -24,14 +24,21 @@
         "num": 2,
         "displaynum": "2",
         "hascover": false,
+        "haswebp": false,
+        "eager": false,
+        "priority": false,
         "focus": "50% 50%",
         "hasicon": true,
         "icon": "flask"
     }
 }}
 {{#hascover}}
-    <img class="fct-cover__img" src="{{coversrc}}" srcset="{{coversrcset}}" sizes="(min-width: 48rem) 480px, 50vw"
-         alt="" width="480" height="300" loading="lazy" decoding="async" style="object-position: {{focus}}">
+    <picture>
+        {{#haswebp}}<source type="image/webp" srcset="{{coverwebpsrcset}}" sizes="(min-width: 48rem) 480px, 50vw">{{/haswebp}}
+        <img class="fct-cover__img" src="{{coversrc}}" srcset="{{coversrcset}}" sizes="(min-width: 48rem) 480px, 50vw"
+             alt="" width="480" height="300" loading="{{#eager}}eager{{/eager}}{{^eager}}lazy{{/eager}}"{{#priority}} fetchpriority="high"{{/priority}}
+             decoding="async" style="object-position: {{focus}}">
+    </picture>
     <span class="fct-cover__badge">{{displaynum}}</span>
 {{/hascover}}
 {{^hascover}}

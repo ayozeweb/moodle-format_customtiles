@@ -341,6 +341,8 @@ class course_data {
             }
             $row = $progress['sections'][$num] ?? self::EMPTY_ROW;
             $item = $this->export_section($section, $row, ++$position);
+            // The first row of a grid is on screen at once: its covers are not lazy.
+            $item['eager'] = $position <= 4;
             $units = [];
             foreach ($row['units'] ?? [] as $index => $unitnum) {
                 $unit = $this->modinfo->get_section_info($unitnum);

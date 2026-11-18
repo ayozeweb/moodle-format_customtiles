@@ -6,6 +6,7 @@
 /docs               export-ignore
 /scss               export-ignore
 /tests              export-ignore
+/cli                export-ignore
 /build-css.sh       export-ignore
 /package.json       export-ignore
 /CLAUDE.md          export-ignore

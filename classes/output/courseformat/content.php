@@ -169,7 +169,7 @@ class content extends content_base {
         if (!$view) {
             return;
         }
-        $data->sechead = $view['item'];
+        $data->sechead = $view['item'] + ['eager' => true, 'priority' => true];
         $data->emptysection = $view['item']['activities'] === 0 && !$view['item']['hasunits'];
         $previous = $view['previous'];
         $next = $view['next'];

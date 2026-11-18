@@ -310,6 +310,7 @@ class format_customtiles extends core_courseformat\base {
             'ct_subtitle' => ['default' => '', 'type' => PARAM_TEXT, 'cache' => true],
             'ct_minutes' => ['default' => 0, 'type' => PARAM_INT, 'cache' => true],
             'ct_focus' => ['default' => '', 'type' => PARAM_RAW_TRIMMED, 'cache' => true],
+            'ct_coverwebp' => ['default' => 0, 'type' => PARAM_INT, 'cache' => true],
         ];
         if ($foreditform) {
             $options['ct_icon'] += [
@@ -345,6 +346,7 @@ class format_customtiles extends core_courseformat\base {
             $options['ct_cover'] += ['label' => '', 'element_type' => 'hidden'];
             // The focal point is set in the design view; the classic form keeps it untouched.
             $options['ct_focus'] += ['label' => '', 'element_type' => 'hidden'];
+            $options['ct_coverwebp'] += ['label' => '', 'element_type' => 'hidden'];
         }
         return $options;
     }
@@ -378,6 +380,13 @@ class format_customtiles extends core_courseformat\base {
                 (int)$data['id']
             );
             unset($data['ct_cover_filemanager']);
+            $data['ct_coverwebp'] = $data['ct_cover'] !== '' && get_file_storage()->file_exists(
+                context_course::instance($this->courseid)->id, 'format_customtiles', section_style::FILEAREA,
+                (int)$data['id'], '/w' . max(section_style::WIDTHS) . '/', section_style::webp_name($data['ct_cover'])
+            ) ? 1 : 0;
+        } else {
+            // The flag only follows the files: it is never taken from a submitted form.
+            unset($data['ct_coverwebp']);
         }
         foreach (['ct_color', 'ct_color2'] as $key) {
             if (isset($data[$key])) {

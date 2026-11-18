@@ -75,5 +75,11 @@ function xmldb_format_customtiles_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2026111702, 'format', 'customtiles');
     }
 
+    if ($oldversion < 2026111800) {
+        // 0.7.0: WebP copies of the section covers, created in the background.
+        \core\task\manager::queue_adhoc_task(new \format_customtiles\task\webp_covers(), true);
+        upgrade_plugin_savepoint(true, 2026111800, 'format', 'customtiles');
+    }
+
     return true;
 }

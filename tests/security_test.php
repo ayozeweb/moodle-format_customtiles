@@ -179,6 +179,14 @@ final class security_test extends \advanced_testcase {
         $fs = get_file_storage();
         $context = \context_course::instance($course->id);
         $files = $fs->get_area_files($context->id, 'format_customtiles', section_style::FILEAREA, $section->id, 'id', false);
+        // WebP copies of the responsive variants, when GD can write WebP.
+        $webp = array_filter($files, fn($f) => $f->get_mimetype() === 'image/webp');
+        $this->assertCount(function_exists('imagewebp') ? 2 : 0, $webp);
+        foreach ($webp as $file) {
+            $this->assertSame('cover.png.webp', $file->get_filename());
+            $this->assertSame(64, $file->get_imageinfo()['width']);
+        }
+        $files = array_filter($files, fn($f) => $f->get_mimetype() !== 'image/webp');
         $this->assertCount(3, $files);
         $paths = [];
         foreach ($files as $file) {
@@ -201,7 +209,14 @@ final class security_test extends \advanced_testcase {
             $section->id,
             section_style::filemanager_options()
         );
-        $before = array_map(fn($f) => $f->get_id(), $files);
+        $before = array_map(fn($f) => $f->get_id(), $fs->get_area_files(
+            $context->id,
+            'format_customtiles',
+            section_style::FILEAREA,
+            $section->id,
+            'id',
+            false
+        ));
         $this->assertSame('cover.png', section_style::save_cover($draftid, (int)$course->id, (int)$section->id));
         $after = $fs->get_area_files($context->id, 'format_customtiles', section_style::FILEAREA, $section->id, 'id', false);
         $this->assertSame(array_values($before), array_values(array_map(fn($f) => $f->get_id(), $after)));

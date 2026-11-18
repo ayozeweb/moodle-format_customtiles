@@ -108,6 +108,11 @@ class section_style {
             $ctx = \context_course::instance($courseid);
             $out += self::cover_urls($ctx->id, (int)$section->id, $cover);
             $out['hascover'] = true;
+            if (!empty($section->ct_coverwebp)) {
+                $webp = self::cover_urls($ctx->id, (int)$section->id, self::webp_name($cover));
+                $out['haswebp'] = true;
+                $out['coverwebpsrcset'] = $webp['coversrcset'];
+            }
         }
         return $out;
     }
@@ -206,6 +211,8 @@ class section_style {
             $current && $current->get_contenthash() === $draft->get_contenthash()
                 && $current->get_filename() === $draft->get_filename()
         ) {
+            // Covers saved before 0.7.0 get their WebP copies the next time they are saved.
+            self::add_webp_variants($ctx->id, $sectionid, $current->get_filename());
             return $current->get_filename();
         }
 
@@ -236,6 +243,9 @@ class section_style {
                 }
             }
         }
+        if ($created === count(self::WIDTHS) + 1) {
+            self::add_webp_variants($ctx->id, $sectionid, $filename);
+        }
         if ($created !== count(self::WIDTHS) + 1) {
             $fs->delete_area_files(...$area);
             if (!CLI_SCRIPT) {
@@ -244,6 +254,62 @@ class section_style {
             return '';
         }
         return $filename;
+    }
+
+    /**
+     * Name of the WebP variant of a cover.
+     *
+     * @param string $filename
+     * @return string
+     */
+    public static function webp_name(string $filename): string {
+        return $filename . '.webp';
+    }
+
+    /**
+     * Create WebP copies of the responsive variants of a cover (when GD supports WebP and the cover is not WebP).
+     *
+     * @param int $contextid
+     * @param int $sectionid
+     * @param string $filename
+     * @return bool true when every width has a WebP copy
+     */
+    public static function add_webp_variants(int $contextid, int $sectionid, string $filename): bool {
+        if (!function_exists('imagewebp') || preg_match('/\.webp$/i', $filename)) {
+            return false;
+        }
+        $fs = get_file_storage();
+        $created = 0;
+        foreach (self::WIDTHS as $w) {
+            $path = '/w' . $w . '/';
+            $variant = $fs->get_file($contextid, 'format_customtiles', self::FILEAREA, $sectionid, $path, $filename);
+            if (!$variant) {
+                continue;
+            }
+            if ($fs->file_exists($contextid, 'format_customtiles', self::FILEAREA, $sectionid, $path,
+                    self::webp_name($filename))) {
+                $created++;
+                continue;
+            }
+            $image = @imagecreatefromstring($variant->get_content());
+            if (!$image) {
+                continue;
+            }
+            imagepalettetotruecolor($image);
+            imagealphablending($image, true);
+            imagesavealpha($image, true);
+            ob_start();
+            $ok = imagewebp($image, null, 75);
+            $content = ob_get_clean();
+            if (!$ok || $content === '') {
+                continue;
+            }
+            $fs->create_file_from_string(['contextid' => $contextid, 'component' => 'format_customtiles',
+                'filearea' => self::FILEAREA, 'itemid' => $sectionid, 'filepath' => $path,
+                'filename' => self::webp_name($filename), 'mimetype' => 'image/webp'], $content);
+            $created++;
+        }
+        return $created === count(self::WIDTHS);
     }
 
     /**
