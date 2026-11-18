@@ -1,0 +1,104 @@
+# Weekly watch on Moodle core, to see breakages coming before users do.
+#
+# - MOODLE_503_STABLE: the supported branch moves every week (point releases). Any failure here is a real bug.
+# - main: the next Moodle version. version.php declares `supported = [503, 503]`, so Moodle would refuse to
+#   install the plugin there; this job removes that line in its own checkout only. Failures are expected now
+#   and then and do not mark the run as failed: they are the to-do list for the next Moodle version
+#   (see docs/publicacion.md, "Nueva versión de Moodle").
+#
+# Scheduled workflows run on the default branch only; it can also be started by hand (Actions > Run workflow),
+# and it runs when this file changes.
+name: Core watch
+
+on:
+  schedule:
+    - cron: '17 3 * * 1'
+  workflow_dispatch:
+  # Also when this file changes, to try it out on any branch.
+  push:
+    paths:
+      - '.github/workflows/core-watch.yml'
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    continue-on-error: ${{ matrix.experimental }}
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: 'postgres'
+          POSTGRES_HOST_AUTH_METHOD: 'trust'
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - moodle-branch: 'MOODLE_503_STABLE'
+            php: '8.3'
+            experimental: false
+          - moodle-branch: 'main'
+            php: '8.4'
+            experimental: true
+    name: Moodle ${{ matrix.moodle-branch }} · PHP ${{ matrix.php }}
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v5
+        with:
+          path: plugin
+
+      - name: Accept any Moodle version (main only, this checkout only)
+        if: ${{ matrix.moodle-branch == 'main' }}
+        run: sed -i '/^\$plugin->supported/d' plugin/version.php
+
+      - name: Setup PHP ${{ matrix.php }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: sodium
+          ini-values: max_input_vars=5000
+          coverage: none
+
+      - name: Initialise moodle-plugin-ci
+        run: |
+          composer create-project -n --no-dev --prefer-dist moodlehq/moodle-plugin-ci ci ^4
+          echo $(cd ci/bin; pwd) >> $GITHUB_PATH
+          echo $(cd ci/vendor/bin; pwd) >> $GITHUB_PATH
+          sudo locale-gen en_AU.UTF-8
+          echo "NVM_DIR=$HOME/.nvm" >> $GITHUB_ENV
+
+      - name: Install moodle-plugin-ci
+        run: moodle-plugin-ci install --plugin ./plugin --db-host=127.0.0.1
+        env:
+          DB: pgsql
+          MOODLE_BRANCH: ${{ matrix.moodle-branch }}
+
+      - name: Validate plugin
+        if: ${{ !cancelled() }}
+        run: moodle-plugin-ci validate
+
+      - name: Mustache Lint
+        if: ${{ !cancelled() }}
+        run: moodle-plugin-ci mustache
+
+      - name: PHP Code Sniffer (rules of this Moodle branch)
+        if: ${{ !cancelled() }}
+        run: moodle-plugin-ci phpcs --max-warnings 0
+
+      - name: Grunt (AMD build and lint rules of this Moodle branch)
+        if: ${{ !cancelled() }}
+        run: moodle-plugin-ci grunt --max-lint-warnings 0
+
+      - name: PHPUnit tests
+        if: ${{ !cancelled() }}
+        run: moodle-plugin-ci phpunit --fail-on-warning
+
+      - name: Behat features
+        if: ${{ !cancelled() }}
+        run: moodle-plugin-ci behat --profile chrome
