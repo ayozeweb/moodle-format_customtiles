@@ -131,12 +131,20 @@ final class course_data_test extends \advanced_testcase {
         $user = $this->getDataGenerator()->create_user();
         $this->setUser($user);
         set_user_preference('format_customtiles_last_5', 12, $user);
+        set_user_preference('format_customtiles_designview', 1, $user);
         $provider = new \ReflectionClass(\format_customtiles\privacy\provider::class);
         $this->assertTrue($provider->implementsInterface(\core_privacy\local\request\user_preference_provider::class));
         \format_customtiles\privacy\provider::export_user_preferences($user->id);
         $writer = \core_privacy\local\request\writer::with_context(\context_system::instance());
         $prefs = $writer->get_user_preferences('format_customtiles');
         $this->assertSame('12', (string)$prefs->format_customtiles_last_5->value);
+        $this->assertSame(get_string('yes'), $prefs->format_customtiles_designview->value);
+        $names = array_map(
+            fn($item) => $item->get_name(),
+            \format_customtiles\privacy\provider::get_metadata(new \core_privacy\local\metadata\collection('format_customtiles'))
+            ->get_collection()
+        );
+        $this->assertContains('format_customtiles_designview', $names);
     }
 
     /**

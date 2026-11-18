@@ -24,7 +24,7 @@
 
 /**
  * Remove every file owned by the plugin (institutional logos and section covers) and the
- * "last visited activity" user preferences. Tables and settings are removed by the core.
+ * user preferences (last visited activity, previous visit, design view). Tables and settings are removed by the core.
  *
  * @return bool
  */
@@ -35,8 +35,7 @@ function xmldb_format_customtiles_uninstall() {
     foreach ($contextids as $contextid) {
         $fs->delete_area_files($contextid, 'format_customtiles');
     }
-    foreach (['last', 'seen'] as $kind) {
-        $DB->delete_records_select('user_preferences', $DB->sql_like('name', '?'), ['format\_customtiles\_' . $kind . '\_%']);
-    }
+    // Every user preference of the plugin starts with its component name.
+    $DB->delete_records_select('user_preferences', $DB->sql_like('name', '?'), ['format\_customtiles\_%']);
     return true;
 }

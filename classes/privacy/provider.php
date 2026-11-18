@@ -28,7 +28,8 @@ use core_privacy\local\metadata\collection;
 use core_privacy\local\request\writer;
 
 /**
- * The only personal data is a user preference: the last activity opened in each course.
+ * The only personal data are user preferences: the last activity opened in each course, the date of the
+ * previous visit to each course, and whether a teacher prefers the design view in edit mode.
  *
  * @package    format_customtiles
  * @copyright  2026 Ayoze M de Paz Paz
@@ -46,6 +47,7 @@ class provider implements
     public static function get_metadata(collection $collection): collection {
         $collection->add_user_preference('format_customtiles_last_', 'privacy:metadata:preference:last');
         $collection->add_user_preference('format_customtiles_seen_', 'privacy:metadata:preference:seen');
+        $collection->add_user_preference('format_customtiles_designview', 'privacy:metadata:preference:designview');
         return $collection;
     }
 
@@ -57,6 +59,15 @@ class provider implements
     public static function export_user_preferences(int $userid) {
         $prefs = get_user_preferences(null, null, $userid);
         foreach ($prefs as $name => $value) {
+            if ($name === 'format_customtiles_designview') {
+                writer::export_user_preference(
+                    'format_customtiles',
+                    $name,
+                    $value ? get_string('yes') : get_string('no'),
+                    get_string('privacy:metadata:preference:designview', 'format_customtiles')
+                );
+                continue;
+            }
             foreach (['last', 'seen'] as $kind) {
                 if (strpos($name, 'format_customtiles_' . $kind . '_') === 0) {
                     writer::export_user_preference(

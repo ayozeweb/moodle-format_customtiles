@@ -15,6 +15,16 @@ Spanish public employment services (SEPE/SCE, Orden TMS/369/2019, Annex IV) with
 
 Requirements: Moodle 5.3 (MOODLE_503_STABLE), PHP 8.3/8.4.
 
+## Documentation / Documentación
+
+| | English | Español |
+|---|---|---|
+| Teachers / Docentes | [Teacher guide](docs/teacher_guide.md) | [Guía docente](docs/guia_docente.md) |
+| Administrators / Administración | [Admin guide](docs/admin_guide.md) | [Guía de administración](docs/guia_admin.md) |
+| Performance and compatibility / Rendimiento y compatibilidad | — | [rendimiento.md](docs/rendimiento.md) |
+| Releases / Publicación | — | [publicacion.md](docs/publicacion.md) |
+| Security / Seguridad | [SECURITY.md](SECURITY.md) | [Modelo de amenazas](docs/modelo_amenazas.md) |
+
 ## Install
 
 Copy this repository to `public/course/format/customtiles` and run the upgrade.

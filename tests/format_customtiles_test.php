@@ -108,6 +108,7 @@ final class format_customtiles_test extends \advanced_testcase {
         require_once($CFG->dirroot . '/course/format/customtiles/db/uninstall.php');
         $user = $this->getDataGenerator()->create_user();
         set_user_preference('format_customtiles_last_7', 3, $user);
+        set_user_preference('format_customtiles_designview', 1, $user);
         set_user_preference('other_preference', 1, $user);
         $context = \context_system::instance();
         get_file_storage()->create_file_from_string(['contextid' => $context->id, 'component' => 'format_customtiles',
@@ -116,6 +117,7 @@ final class format_customtiles_test extends \advanced_testcase {
         $this->assertTrue(xmldb_format_customtiles_uninstall());
         $this->assertFalse($DB->record_exists('files', ['component' => 'format_customtiles']));
         $this->assertFalse($DB->record_exists('user_preferences', ['name' => 'format_customtiles_last_7']));
+        $this->assertFalse($DB->record_exists('user_preferences', ['name' => 'format_customtiles_designview']));
         $this->assertTrue($DB->record_exists('user_preferences', ['name' => 'other_preference']));
     }
 }

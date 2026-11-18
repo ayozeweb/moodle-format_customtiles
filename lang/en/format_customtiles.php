@@ -151,6 +151,7 @@ $string['palettedone'] = 'Colours applied to {$a} sections.';
 $string['plugin_description'] = 'A visual, mobile-first course format with tiles, themes and built-in accessibility.';
 $string['pluginname'] = 'Custom tiles';
 $string['prevslide'] = 'Previous section';
+$string['privacy:metadata:preference:designview'] = 'Whether the user prefers the design view of the course page in edit mode.';
 $string['privacy:metadata:preference:last'] = 'The last activity the user opened in a course, used by the "Continue where you left off" button.';
 $string['privacy:metadata:preference:seen'] = 'When the user last visited each course, used to mark content added since the previous visit as new.';
 $string['reviewcourse'] = 'Review the course';
