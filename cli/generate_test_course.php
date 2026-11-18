@@ -80,8 +80,12 @@ function format_customtiles_test_cover(int $seed): string {
     $image = imagecreatetruecolor($w, $h);
     for ($y = 0; $y < $h; $y += 2) {
         for ($x = 0; $x < $w; $x += 2) {
-            $c = imagecolorallocate($image, ($x / 10 + mt_rand(0, 90)) % 256, ($y / 7 + mt_rand(0, 90)) % 256,
-                ($seed * 40 + mt_rand(0, 90)) % 256);
+            $c = imagecolorallocate(
+                $image,
+                ($x / 10 + mt_rand(0, 90)) % 256,
+                ($y / 7 + mt_rand(0, 90)) % 256,
+                ($seed * 40 + mt_rand(0, 90)) % 256
+            );
             imagefilledrectangle($image, $x, $y, $x + 1, $y + 1, $c);
         }
     }

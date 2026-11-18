@@ -46,8 +46,10 @@ final class performance_test extends \advanced_testcase {
     private function make_course(int $sections, \stdClass $student): \stdClass {
         global $DB;
         $gen = $this->getDataGenerator();
-        $course = $gen->create_course(['format' => 'customtiles', 'numsections' => $sections, 'enablecompletion' => 1],
-            ['createsections' => true]);
+        $course = $gen->create_course(
+            ['format' => 'customtiles', 'numsections' => $sections, 'enablecompletion' => 1],
+            ['createsections' => true]
+        );
         $gen->enrol_user($student->id, $course->id, 'student');
         $format = course_get_format($course);
         $af = (int)api::get_category_by_code('AF')->id;
@@ -117,10 +119,16 @@ final class performance_test extends \advanced_testcase {
         $largesection = $this->reads_to_render($large, 2);
 
         // A few reads of slack for things that legitimately vary (session, context preloading).
-        $this->assertLessThanOrEqual($smallindex + 3, $largeindex,
-            "Course page: $smallindex reads with 5 sections, $largeindex with 40");
-        $this->assertLessThanOrEqual($smallsection + 3, $largesection,
-            "Section page: $smallsection reads with 5 sections, $largesection with 40");
+        $this->assertLessThanOrEqual(
+            $smallindex + 3,
+            $largeindex,
+            "Course page: $smallindex reads with 5 sections, $largeindex with 40"
+        );
+        $this->assertLessThanOrEqual(
+            $smallsection + 3,
+            $largesection,
+            "Section page: $smallsection reads with 5 sections, $largesection with 40"
+        );
     }
 
     /**
@@ -134,8 +142,10 @@ final class performance_test extends \advanced_testcase {
         }
         $this->resetAfterTest();
         $this->setAdminUser();
-        $course = $this->getDataGenerator()->create_course(['format' => 'customtiles', 'numsections' => 6],
-            ['createsections' => true]);
+        $course = $this->getDataGenerator()->create_course(
+            ['format' => 'customtiles', 'numsections' => 6],
+            ['createsections' => true]
+        );
         $format = course_get_format($course);
         $section = get_fast_modinfo($course)->get_section_info(1);
         $image = imagecreatetruecolor(800, 500);

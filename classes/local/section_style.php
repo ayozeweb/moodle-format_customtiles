@@ -286,8 +286,16 @@ class section_style {
             if (!$variant) {
                 continue;
             }
-            if ($fs->file_exists($contextid, 'format_customtiles', self::FILEAREA, $sectionid, $path,
-                    self::webp_name($filename))) {
+            if (
+                $fs->file_exists(
+                    $contextid,
+                    'format_customtiles',
+                    self::FILEAREA,
+                    $sectionid,
+                    $path,
+                    self::webp_name($filename)
+                )
+            ) {
                 $created++;
                 continue;
             }

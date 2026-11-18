@@ -248,7 +248,28 @@ class skin {
     public static function for_format(\core_courseformat\base $format): array {
         $options = $format->get_format_options();
         $id = self::exists((string)($options['skin'] ?? '')) ? $options['skin'] : self::DEFAULT;
+        if ($id === 'light' && self::site_mode_is_dark()) {
+            // The default light skin follows the dark colour mode of Boost; skins chosen on purpose
+            // (corporate, high contrast...) are kept as they are.
+            $id = 'dark';
+        }
         return ['skin' => $id, 'tokens' => self::css_variables($id, (string)($options['basecolor'] ?? ''))];
+    }
+
+    /**
+     * Whether the page is shown in the dark colour mode of Boost (experimental in 5.3, off unless the
+     * site enables it). "Auto" follows the device and is not known on the server, so it counts as light.
+     *
+     * @return bool
+     */
+    public static function site_mode_is_dark(): bool {
+        if (
+            !class_exists(\theme_boost\colour_mode::class) || !\theme_boost\colour_mode::is_enabled()
+                || !\theme_boost\colour_mode::is_boost_theme()
+        ) {
+            return false;
+        }
+        return \theme_boost\colour_mode::get_current_mode() === \theme_boost\colour_mode::DARK;
     }
 
     /**

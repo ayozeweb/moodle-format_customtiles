@@ -381,8 +381,12 @@ class format_customtiles extends core_courseformat\base {
             );
             unset($data['ct_cover_filemanager']);
             $data['ct_coverwebp'] = $data['ct_cover'] !== '' && get_file_storage()->file_exists(
-                context_course::instance($this->courseid)->id, 'format_customtiles', section_style::FILEAREA,
-                (int)$data['id'], '/w' . max(section_style::WIDTHS) . '/', section_style::webp_name($data['ct_cover'])
+                context_course::instance($this->courseid)->id,
+                'format_customtiles',
+                section_style::FILEAREA,
+                (int)$data['id'],
+                '/w' . max(section_style::WIDTHS) . '/',
+                section_style::webp_name($data['ct_cover'])
             ) ? 1 : 0;
         } else {
             // The flag only follows the files: it is never taken from a submitted form.

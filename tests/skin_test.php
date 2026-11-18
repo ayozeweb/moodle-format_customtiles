@@ -148,4 +148,27 @@ final class skin_test extends \advanced_testcase {
         $css = skin::css_variables('light');
         $this->assertStringContainsString('--fct-primary:#1d4ed8', $css);
     }
+
+    /**
+     * The default light skin follows the dark colour mode of Boost; other skins are kept.
+     *
+     * @covers \format_customtiles\local\skin::for_format
+     */
+    public function test_follows_site_dark_mode(): void {
+        $this->resetAfterTest();
+        $course = $this->getDataGenerator()->create_course(['format' => 'customtiles', 'skin' => 'light']);
+        $user = $this->getDataGenerator()->create_user();
+        $this->setUser($user);
+        set_user_preference('theme_boost_colourmode', 'dark');
+        $this->assertSame('light', skin::for_format(course_get_format($course))['skin'], 'Colour modes off.');
+
+        set_config('enablecolourmodes', 1, 'theme_boost');
+        $this->assertSame('dark', skin::for_format(course_get_format($course))['skin']);
+        set_user_preference('theme_boost_colourmode', 'auto');
+        $this->assertSame('light', skin::for_format(course_get_format($course))['skin']);
+
+        set_user_preference('theme_boost_colourmode', 'dark');
+        $other = $this->getDataGenerator()->create_course(['format' => 'customtiles', 'skin' => 'highcontrast']);
+        $this->assertSame('highcontrast', skin::for_format(course_get_format($other))['skin']);
+    }
 }
