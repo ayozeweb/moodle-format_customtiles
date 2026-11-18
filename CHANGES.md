@@ -2,6 +2,18 @@
 
 Format based on [Keep a Changelog](https://keepachangelog.com/). Versions follow [Semantic Versioning](https://semver.org/).
 
+## [0.7.1] - 2026-11-18
+
+### Fixed
+- Privacy: the "design view" preference of teachers (0.6.0) is declared, exported through the Privacy API and
+  removed on uninstall, as the other preferences already were.
+
+### Added
+- Weekly "Core watch" workflow against `MOODLE_503_STABLE` and Moodle `main` (the latter allowed to fail).
+- Issue forms, pull request template and code of conduct.
+- Teacher and administrator guides in Spanish and English (`docs/`), and the release and maintenance process
+  (`docs/publicacion.md`) with `release.sh`, which checks the version numbers and builds the zip with `git archive`.
+
 ## [0.7.0] - 2026-11-18
 
 ### Added

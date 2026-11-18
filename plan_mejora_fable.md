@@ -248,12 +248,12 @@ Objetivo (D10): que el curso no se degrade al formato por defecto dentro de la a
 
 ### Fase 7 — Mantenimiento y publicación (S, Sonnet, y luego recurrente)
 
-- [ ] Versionado semántico y política de ramas: `main` estable, una rama por versión mayor de Moodle cuando haga falta (`MOODLE_503_STABLE`, …).
-- [ ] **Vigilancia del core.** Trabajo de CI semanal contra la rama de desarrollo de Moodle, y una lista de comprobación por cada versión nueva: leer los `UPGRADING.md` de `course/format`, `theme/boost` y `lib`, ejecutar la suite completa, regenerar capturas y comparar.
-- [ ] Plantillas de incidencias y de pull request, y `CODE_OF_CONDUCT.md`.
-- [ ] Documentación de uso para docentes y administradores, en español e inglés, con capturas: `docs/guia_docente.md`, `docs/guia_admin.md`.
-- [ ] Preparar el envío al directorio de plugins de Moodle: capturas, descripción, política de soporte y revisión previa con la lista de comprobación oficial. Traducciones por AMOS una vez publicado.
-- [ ] Lista de comprobación de release: tests, capturas, `CHANGES.md`, versión, etiqueta de git, zip generado con `git archive` e instalación limpia y actualización desde la versión anterior.
+- [x] Versionado semántico y política de ramas: `main` estable, una rama por versión mayor de Moodle cuando haga falta (`MOODLE_503_STABLE`, …).
+- [x] **Vigilancia del core.** Trabajo de CI semanal contra la rama de desarrollo de Moodle, y una lista de comprobación por cada versión nueva: leer los `UPGRADING.md` de `course/format`, `theme/boost` y `lib`, ejecutar la suite completa, regenerar capturas y comparar.
+- [x] Plantillas de incidencias y de pull request, y `CODE_OF_CONDUCT.md`.
+- [x] Documentación de uso para docentes y administradores, en español e inglés, con capturas: `docs/guia_docente.md`, `docs/guia_admin.md`.
+- [x] Preparar el envío al directorio de plugins de Moodle (ficha y revisión en `docs/publicacion.md`; el envío lo hace el propietario): capturas, descripción, política de soporte y revisión previa con la lista de comprobación oficial. Traducciones por AMOS una vez publicado.
+- [x] Lista de comprobación de release: tests, capturas, `CHANGES.md`, versión, etiqueta de git, zip generado con `git archive` e instalación limpia y actualización desde la versión anterior.
 
 ---
 

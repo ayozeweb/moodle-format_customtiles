@@ -1,7 +1,7 @@
 # STATUS
 
 ## Hito actual
-Plan de mejora: fases 0, 1, 2, 4 y 5 hechas (0.7.0) más la jerarquía módulo → unidad. Quedan la 3 (Anexo IV), la 6 (app móvil) y la 7 (publicación).
+Plan de mejora: fases 0, 1, 2, 4, 5 y 7 hechas (0.7.1) más la jerarquía módulo → unidad. Quedan la 3 (Anexo IV) y la 6 (app móvil).
 
 ## Hecho
 - Plugin `format_customtiles` 0.1.0 ALPHA (Moodle 5.3, `requires 2026100200`), instala sin errores.
@@ -33,7 +33,12 @@ Plan de mejora: fases 0, 1, 2, 4 y 5 hechas (0.7.0) más la jerarquía módulo �
 
 - **Plan de mejora, Fase 5 (0.7.0) — calidad, rendimiento y compatibilidad**: portadas WebP con `<picture>` (y tarea ad hoc para las antiguas), primera fila sin carga diferida y portada de sección con `fetchpriority="high"`; test de presupuesto de consultas (4 lecturas la portada, 3 la sección, con 5 o con 40 secciones); generador de curso grande; módulo de color compartido con tests `node:test` y tabla de paridad PHP/JS; CI con PHP 8.4 + MariaDB 11.4 y MySQL 8.4; RTL (flechas invertidas, carrusel correcto); el tema «Claro» sigue el modo oscuro de Boost. Medido a 360 px con CPU ×4 y 4G lenta: LCP 0,44–0,66 s, CLS 0. Reflujo a 320 px y zoom 200 % sin scroll horizontal en todos los layouts. Detalle en `docs/rendimiento.md`. 63 tests PHPUnit.
 
+- **Plan de mejora, Fase 7 (0.7.1) — mantenimiento y publicación**: flujo semanal «Core watch» contra `MOODLE_503_STABLE` y `main` de Moodle (ambos en verde en su primera ejecución); formularios de incidencia, plantilla de pull request y código de conducta; guías de docente y de administración en español e inglés con capturas; `docs/publicacion.md` (versionado, ramas, lista de comprobación, nueva versión de Moodle, ficha para el directorio de plugins); `release.sh`. Comprobado con los zips: instalación limpia de la 0.7.0, actualización desde la 0.6.0 con datos (WebP creadas por la tarea, categorías conservadas, página sin errores) y desinstalación sin restos. Al revisar la privacidad para la guía apareció un hueco real: la preferencia de la vista de diseño no estaba declarada en la Privacy API ni se borraba al desinstalar; corregido con test.
+
 ## Decisiones
+- **Fase 7, sin etiquetas en el remoto**: las etiquetas `vX.Y.Z` y la «release» de GitHub las crea el propietario al fusionar en `main` (comandos en `docs/publicacion.md`); desde esta sesión solo se sube la rama de trabajo.
+- **Madurez**: sigue en ALPHA; se recomienda BETA tras un piloto real antes de enviarlo al directorio de plugins.
+- **«Core watch» contra `main` de Moodle** quita `$plugin->supported` solo en su copia para poder instalar; sus fallos no rompen la ejecución.
 - **Sin Lighthouse en la CI**: cifras inestables en runners compartidos; en la CI va el presupuesto de consultas y las mediciones de laboratorio se repiten antes de cada versión.
 - **Sin trabajo contra la rama de desarrollo de Moodle**: con `supported = [503, 503]` fallaría siempre; se añade en la fase 7 con la rama de 5.4.
 - **Tests de JS con `node:test`**: el arnés Jest del core solo cubre `esm/`; la lógica pura se aísla en `amd/src/local/colour.js`.
@@ -91,7 +96,7 @@ Plan de mejora: fases 0, 1, 2, 4 y 5 hechas (0.7.0) más la jerarquía módulo �
 - Fase 3 (Anexo IV): falta la sección de requisitos de la plataforma.
 
 ## Siguiente paso
-Fase 3 en cuanto llegue el Anexo IV; fase 7 (mantenimiento y publicación) y fase 6 (app móvil). Pendiente del propietario: recorrido con lector de pantalla y decisión sobre logotipos públicos.
+Fase 3 en cuanto llegue el Anexo IV y fase 6 (app móvil). Pendiente del propietario: recorrido con lector de pantalla, decisión sobre logotipos públicos, fusionar en `main` con la etiqueta v0.7.1 y, tras un piloto, pasar a BETA y enviarlo al directorio de plugins.
 
 ## Siguiente paso (histórico)
 Hito 2: hero con «Continuar», rejilla Tiles responsive, estados y progreso por sección (con MUC).

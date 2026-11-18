@@ -81,5 +81,10 @@ function xmldb_format_customtiles_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2026111800, 'format', 'customtiles');
     }
 
+    if ($oldversion < 2026111801) {
+        // 0.7.1: the design view preference is declared to the Privacy API; nothing to migrate.
+        upgrade_plugin_savepoint(true, 2026111801, 'format', 'customtiles');
+    }
+
     return true;
 }
