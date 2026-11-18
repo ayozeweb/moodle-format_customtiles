@@ -57,6 +57,29 @@ final class design_test extends \advanced_testcase {
     }
 
     /**
+     * The server colour maths match the shared parity table (the live preview is checked against
+     * the same table in tests/js/colour.test.mjs).
+     */
+    public function test_colour_parity_table(): void {
+        $table = json_decode(file_get_contents(__DIR__ . '/fixtures/colour_parity.json'), true);
+        foreach ($table['normalise'] as [$input, $expected]) {
+            $this->assertSame($expected, color::normalise($input), json_encode($input));
+        }
+        foreach ($table['luminance'] as [$hex, $expected]) {
+            $this->assertEqualsWithDelta($expected, color::luminance($hex), 1e-6, $hex);
+        }
+        foreach ($table['contrast'] as [$a, $b, $expected]) {
+            $this->assertEqualsWithDelta($expected, color::contrast($a, $b), 1e-4, "$a / $b");
+        }
+        foreach ($table['mix'] as [$a, $b, $weight, $expected]) {
+            $this->assertSame($expected, color::mix($a, $b, (float)$weight), "$a + $b @ $weight");
+        }
+        foreach ($table['readable'] as [$bg, $expected]) {
+            $this->assertSame($expected, color::readable_on($bg), $bg);
+        }
+    }
+
+    /**
      * The automatic palette gives distinct colours, all readable with white text, from any base.
      */
     public function test_palette_series(): void {

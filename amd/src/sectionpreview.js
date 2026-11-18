@@ -22,76 +22,7 @@
  */
 
 import {getString} from 'core/str';
-
-const HEX = /^#?([0-9a-f]{3}|[0-9a-f]{6})$/i;
-const DARK = '#111827';
-
-/**
- * Normalise a hex colour to #rrggbb or return null.
- *
- * @param {string} value
- * @returns {string|null}
- */
-const normalise = (value) => {
-    const m = HEX.exec((value || '').trim());
-    if (!m) {
-        return null;
-    }
-    let hex = m[1].toLowerCase();
-    if (hex.length === 3) {
-        hex = hex.split('').map((c) => c + c).join('');
-    }
-    return '#' + hex;
-};
-
-/**
- * [r, g, b] of a #rrggbb colour.
- *
- * @param {string} hex
- * @returns {number[]}
- */
-const rgb = (hex) => [1, 3, 5].map((i) => parseInt(hex.substr(i, 2), 16));
-
-/**
- * Relative luminance of a #rrggbb colour (WCAG).
- *
- * @param {string} hex
- * @returns {number}
- */
-const luminance = (hex) => {
-    const c = rgb(hex).map((v) => {
-        v /= 255;
-        return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
-    });
-    return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2];
-};
-
-/**
- * Contrast ratio between two colours (WCAG).
- *
- * @param {string} a
- * @param {string} b
- * @returns {number}
- */
-const contrast = (a, b) => {
-    const la = luminance(a);
-    const lb = luminance(b);
-    return (Math.max(la, lb) + 0.05) / (Math.min(la, lb) + 0.05);
-};
-
-/**
- * Mix two colours (weight of b from 0 to 1), as the server does.
- *
- * @param {string} a
- * @param {string} b
- * @param {number} weight
- * @returns {string}
- */
-const mix = (a, b, weight) => {
-    const ca = rgb(a);
-    const cb = rgb(b);
-    return '#' + ca.map((v, i) => Math.round(v * (1 - weight) + cb[i] * weight).toString(16).padStart(2, '0')).join('');
-};
+import {normalise, contrast, mix, readableOn} from 'format_customtiles/local/colour';
 
 /**
  * Set up one preview.
@@ -200,7 +131,7 @@ const setup = (root) => {
         }
         const c2 = normalise(field('ct_color2') ? field('ct_color2').value : '') || mix(c1, '#000000', 0.35);
         const mid = mix(c1, c2, 0.5);
-        const fg = contrast('#ffffff', mid) >= contrast(DARK, mid) ? '#ffffff' : DARK;
+        const fg = readableOn(mid);
         cover.style.background = 'linear-gradient(135deg, ' + c1 + ', ' + c2 + ')';
         cover.style.color = fg;
         if (!note) {
