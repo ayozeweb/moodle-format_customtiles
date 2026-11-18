@@ -114,6 +114,10 @@
         padding-inline: var(--fct-space-4);
     }
 }
+[dir=rtl] :is(.fct-root, .fct-secnav) :is(.fa-arrow-left, .fa-arrow-right, .fa-chevron-left, .fa-chevron-right) {
+    transform: scaleX(-1);
+}
+
 .fct-herowrap {
     container: fct-hero/inline-size;
 }

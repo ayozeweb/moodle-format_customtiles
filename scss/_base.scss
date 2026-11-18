@@ -49,3 +49,9 @@
     padding-inline: var(--fct-space-4);
   }
 }
+
+// Right-to-left languages: arrows and chevrons point the way the reading goes (the layouts already use
+// logical properties, so only the direction of these icons changes).
+[dir="rtl"] :is(.fct-root, .fct-secnav) :is(.fa-arrow-left, .fa-arrow-right, .fa-chevron-left, .fa-chevron-right) {
+  transform: scaleX(-1);
+}
