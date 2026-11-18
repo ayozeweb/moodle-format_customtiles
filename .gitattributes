@@ -18,3 +18,4 @@
 
 *.woff2 binary
 *.png   binary
+/release.sh         export-ignore
