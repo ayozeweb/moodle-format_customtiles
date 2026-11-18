@@ -221,18 +221,18 @@ Criterio de aceptación: cada control del modelo de amenazas tiene un test o un 
 
 ### Fase 5 — Calidad, rendimiento y compatibilidad (M, Sonnet)
 
-- [ ] **Tests de JS** (D3): Jest para `carousel.js`, `sectionpreview.js` y los módulos nuevos, con el arnés de Jest del core (`jest.config.js`). Escenarios Behat con JS ejecutándose en la CI.
-- [ ] **Matriz de CI** (D15): PHP 8.3 y 8.4 con PostgreSQL 17, MariaDB 11.4 y MySQL 8.4. Añadir la rama de desarrollo de Moodle como trabajo permitido-fallar, para ver venir las roturas.
-- [ ] **Presupuesto de rendimiento** (D9):
-  - [ ] Generador de un curso grande (60 secciones, 600 actividades, portadas reales de 1 a 2 MB) como script de test.
-  - [ ] Test PHPUnit que cuente consultas al pintar la portada y falle si crece con el número de secciones.
-  - [ ] Lighthouse en la CI con perfil de móvil de gama media y red 4G lenta. Objetivos: LCP < 2,5 s, CLS < 0,05, sin bloqueos largos. Las cifras actuales (LCP ≈ 0,2 s) son de localhost y no sirven como referencia.
-  - [ ] Primera fila de tiles sin `loading="lazy"` y con `fetchpriority` adecuado; el resto, perezoso.
-  - [ ] Peso del CSS: revisar los 1.200 renglones de `styles.css` y cargar los estilos de cada layout solo cuando se usa, si la medición lo justifica.
-- [ ] **WebP** (D19): generar variante WebP cuando GD lo soporte, con `<picture>` y el original como respaldo.
-- [ ] **Compatibilidad visual**: RTL (usar propiedades lógicas ya presentes y probar con un idioma RTL), tema Classic, un tema hijo de Boost con colores propios y el modo oscuro experimental de 5.3. Decidir y documentar cómo se combinan el modo oscuro del sitio y el tema «Oscuro» del curso.
-- [ ] **Accesibilidad más allá de axe**: recorrido manual con teclado y con lector de pantalla (NVDA o VoiceOver) de portada, sección, actividad y editor. Documentar el resultado. axe detecta solo una parte de los problemas reales.
-- [ ] Zoom al 200 % y reflujo a 320 px (WCAG 1.4.4 y 1.4.10) comprobados con Playwright.
+- [x] **Tests de JS** (D3) — hecho con `node:test` para la lógica pura (el arnés Jest del core no cubre AMD) y Behat para el DOM; ver `docs/rendimiento.md`: Jest para `carousel.js`, `sectionpreview.js` y los módulos nuevos, con el arnés de Jest del core (`jest.config.js`). Escenarios Behat con JS ejecutándose en la CI.
+- [x] **Matriz de CI** (D15) — hecho salvo la rama de desarrollo (imposible con `supported = [503, 503]`; pasa a la fase 7): PHP 8.3 y 8.4 con PostgreSQL 17, MariaDB 11.4 y MySQL 8.4. Añadir la rama de desarrollo de Moodle como trabajo permitido-fallar, para ver venir las roturas.
+- [x] **Presupuesto de rendimiento** (D9):
+  - [x] Generador de un curso grande (60 secciones, 600 actividades, portadas reales de 1 a 2 MB) como script de test.
+  - [x] Test PHPUnit que cuente consultas al pintar la portada y falle si crece con el número de secciones.
+  - [x] ~~Lighthouse en la CI~~ — descartado: medición de laboratorio a mano con perfil de gama media y 4G lenta (LCP 0,44–0,66 s), ver `docs/rendimiento.md`. con perfil de móvil de gama media y red 4G lenta. Objetivos: LCP < 2,5 s, CLS < 0,05, sin bloqueos largos. Las cifras actuales (LCP ≈ 0,2 s) son de localhost y no sirven como referencia.
+  - [x] Primera fila de tiles sin `loading="lazy"` y con `fetchpriority` adecuado; el resto, perezoso.
+  - [x] Peso del CSS (7,5 KB comprimido: no compensa dividirlo): revisar los 1.200 renglones de `styles.css` y cargar los estilos de cada layout solo cuando se usa, si la medición lo justifica.
+- [x] **WebP** (D19): generar variante WebP cuando GD lo soporte, con `<picture>` y el original como respaldo.
+- [x] **Compatibilidad visual** (Classic no existe en 5.3; modo oscuro: el tema «Claro» lo sigue): RTL (usar propiedades lógicas ya presentes y probar con un idioma RTL), tema Classic, un tema hijo de Boost con colores propios y el modo oscuro experimental de 5.3. Decidir y documentar cómo se combinan el modo oscuro del sitio y el tema «Oscuro» del curso.
+- [ ] **Accesibilidad más allá de axe** (teclado hecho; lector de pantalla pendiente del propietario): recorrido manual con teclado y con lector de pantalla (NVDA o VoiceOver) de portada, sección, actividad y editor. Documentar el resultado. axe detecta solo una parte de los problemas reales.
+- [x] Zoom al 200 % y reflujo a 320 px (WCAG 1.4.4 y 1.4.10) comprobados con Playwright.
 
 ---
 

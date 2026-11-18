@@ -1,7 +1,7 @@
 # STATUS
 
 ## Hito actual
-Hitos 1–6 cerrados. Extras: layouts Bento y Lista compacta hechos (axe limpio); app móvil sin empezar.
+Plan de mejora: fases 0, 1, 2, 4 y 5 hechas (0.7.0) más la jerarquía módulo → unidad. Quedan la 3 (Anexo IV), la 6 (app móvil) y la 7 (publicación).
 
 ## Hecho
 - Plugin `format_customtiles` 0.1.0 ALPHA (Moodle 5.3, `requires 2026100200`), instala sin errores.
@@ -31,7 +31,13 @@ Hitos 1–6 cerrados. Extras: layouts Bento y Lista compacta hechos (axe limpio)
 
 - **Plan de mejora, Fase 2 (0.6.0) — editor visual**: conmutador Estructura/Diseño en modo edición; vista de diseño con un tile por sección y unidad y botón «Editar aspecto»; formulario modal (`core_form\dynamic_form`) con portada, punto focal, icono, colores con selector nativo y contraste en vivo, subtítulo, tiempo y «aplicar también a»; colores automáticos para todo el curso; guardar refresca solo ese tile (fragmento) y devuelve el foco. 59 tests PHPUnit; escenario Behat con JS para la CI. axe sin violaciones propias en la vista de diseño (360 y 1280 px).
 
+- **Plan de mejora, Fase 5 (0.7.0) — calidad, rendimiento y compatibilidad**: portadas WebP con `<picture>` (y tarea ad hoc para las antiguas), primera fila sin carga diferida y portada de sección con `fetchpriority="high"`; test de presupuesto de consultas (4 lecturas la portada, 3 la sección, con 5 o con 40 secciones); generador de curso grande; módulo de color compartido con tests `node:test` y tabla de paridad PHP/JS; CI con PHP 8.4 + MariaDB 11.4 y MySQL 8.4; RTL (flechas invertidas, carrusel correcto); el tema «Claro» sigue el modo oscuro de Boost. Medido a 360 px con CPU ×4 y 4G lenta: LCP 0,44–0,66 s, CLS 0. Reflujo a 320 px y zoom 200 % sin scroll horizontal en todos los layouts. Detalle en `docs/rendimiento.md`. 63 tests PHPUnit.
+
 ## Decisiones
+- **Sin Lighthouse en la CI**: cifras inestables en runners compartidos; en la CI va el presupuesto de consultas y las mediciones de laboratorio se repiten antes de cada versión.
+- **Sin trabajo contra la rama de desarrollo de Moodle**: con `supported = [503, 503]` fallaría siempre; se añade en la fase 7 con la rama de 5.4.
+- **Tests de JS con `node:test`**: el arnés Jest del core solo cubre `esm/`; la lógica pura se aísla en `amd/src/local/colour.js`.
+- **Modo oscuro de Boost**: solo el tema «Claro» (predeterminado) lo sigue; el modo «automático» cuenta como claro porque el servidor no conoce la preferencia del dispositivo.
 - **Punto focal en vez de recortador**: se guarda «x,y» en % y se aplica con `object-position`; no destruye el original, sirve para todos los layouts y se puede fijar con ratón, flechas o números.
 - **La vista de diseño no reemplaza a la de estructura**: mover, añadir y borrar siguen en la lista del core (estado reactivo y arrastrar y soltar intactos). La elección se guarda como preferencia de usuario.
 - **En la vista de diseño no se exporta la lista del core**: exportarla registraba JavaScript de desplegables que no se pintan (errores en consola).
@@ -81,10 +87,11 @@ Hitos 1–6 cerrados. Extras: layouts Bento y Lista compacta hechos (axe limpio)
 - PHPUnit: `php vendor/bin/phpunit --testsuite format_customtiles_testsuite`.
 
 ## Bloqueos
-- Ninguno por ahora. Sin red para descargar `composer.phar`/otros (se usa un wrapper local).
+- Lector de pantalla (NVDA/VoiceOver) no disponible en el entorno: el recorrido lo tiene que hacer el propietario.
+- Fase 3 (Anexo IV): falta la sección de requisitos de la plataforma.
 
-## Siguiente paso (extras)
-Soporte de la app móvil (`classes/output/mobile.php`). Regenerar `amd/build` con `grunt amd` en un entorno con red.
+## Siguiente paso
+Fase 3 en cuanto llegue el Anexo IV; fase 7 (mantenimiento y publicación) y fase 6 (app móvil). Pendiente del propietario: recorrido con lector de pantalla y decisión sobre logotipos públicos.
 
 ## Siguiente paso (histórico)
 Hito 2: hero con «Continuar», rejilla Tiles responsive, estados y progreso por sección (con MUC).

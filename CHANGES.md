@@ -2,6 +2,22 @@
 
 Format based on [Keep a Changelog](https://keepachangelog.com/). Versions follow [Semantic Versioning](https://semver.org/).
 
+## [0.7.0] - 2026-11-18
+
+### Added
+- WebP copies (quality 75) of the responsive cover variants when GD supports WebP, served with `<picture>` and the
+  original format as fallback; an ad hoc task queued on upgrade converts the covers saved before.
+- The first row of the grid is not lazy-loaded; the section header cover (the LCP of the section page) has
+  `fetchpriority="high"`.
+- The default "Light" course skin follows the experimental dark colour mode of Boost 5.3.
+- Right-to-left languages: arrows and chevrons point the way the reading goes.
+- Query budget test (the reads to paint the course and a section do not grow with its size) and a development CLI
+  to generate a large course.
+- Colour maths of the live preview in a shared module, tested with `node:test` and PHPUnit against the same table.
+- CI: PHPUnit on PHP 8.4 with MariaDB 11.4 and MySQL 8.4.
+- `docs/rendimiento.md`: measurements, decisions and compatibility checks (reflow at 320 px, 200 % zoom, keyboard,
+  RTL, dark mode).
+
 ## [0.6.0] - 2026-11-17
 
 ### Added
