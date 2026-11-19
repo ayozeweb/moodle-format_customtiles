@@ -83,12 +83,19 @@ badge (code, icon and accessible name) and the course shows a legend.
 
 ![Assigning categories](screenshots/admin-assign-categories-1280.png)
 
-## 6. Backups and templates
+## 6. Moodle app
+
+In the official app the course shows its header, "Continue", the grid of sections with progress and state, and
+each section with the app's own activity list (completion, downloads, units). Covers, colours and icons are the
+same; the layout is always the grid, and backgrounds follow the app's light or dark theme. *Pending verification in
+the app: see [app_movil.md](app_movil.md) (in Spanish).*
+
+## 7. Backups and templates
 
 Backups and imports keep every format setting, the appearance of the sections (covers included) and the assigned
 categories (by code), so a model course can be prepared once and reused.
 
-## 7. Accessibility tips
+## 8. Accessibility tips
 
 - Do not put important text inside cover images: they are decorative and are not read aloud.
 - Keep section names short and descriptive; the subtitle is for detail.

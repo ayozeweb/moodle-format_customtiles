@@ -38,6 +38,12 @@ $observers = [
         'callback' => '\format_customtiles\observer::course_module_deleted',
     ],
     [
+        // Every "module viewed" event extends this class: it also covers the mobile app and web services,
+        // which never load the activity page that the before_http_headers hook watches.
+        'eventname' => '\core\event\course_module_viewed',
+        'callback' => '\format_customtiles\observer::course_module_viewed',
+    ],
+    [
         'eventname' => '\core\event\course_completed',
         'callback' => '\format_customtiles\observer::course_completed',
     ],

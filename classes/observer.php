@@ -44,6 +44,27 @@ class observer {
     }
 
     /**
+     * Remember the last activity a user opened ("continue where you left off"), also from the mobile app.
+     *
+     * @param \core\event\course_module_viewed $event
+     */
+    public static function course_module_viewed(\core\event\course_module_viewed $event): void {
+        global $USER;
+        // Only the user who views the activity, and only in courses of this format.
+        if (
+            empty($event->courseid) || empty($event->contextinstanceid) || (int)$event->userid !== (int)$USER->id
+                || !isloggedin() || isguestuser()
+        ) {
+            return;
+        }
+        $format = \core_courseformat\base::instance((int)$event->courseid);
+        if ($format->get_format() !== 'customtiles') {
+            return;
+        }
+        course_data::remember_last_activity((int)$event->courseid, (int)$event->contextinstanceid);
+    }
+
+    /**
      * A course was completed: drop the cached progress.
      *
      * @param \core\event\course_completed $event

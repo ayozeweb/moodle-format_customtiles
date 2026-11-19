@@ -2,6 +2,24 @@
 
 Format based on [Keep a Changelog](https://keepachangelog.com/). Versions follow [Semantic Versioning](https://semver.org/).
 
+## [0.8.0] - 2026-11-19
+
+### Added
+- Moodle app support (**implemented, pending verification in the app**, see `docs/app_movil.md`): course header
+  with progress and "Continue", grid of sections with covers, colours, states and progress, and each section through
+  the app's own `<core-course-section>`, with previous/next buttons that skip locked sections. Surfaces follow the
+  app's light or dark theme; the course skin gives the accent colour.
+- "Continue where you left off" also learns from activities viewed in the app or through web services
+  (observer of `\core\event\course_module_viewed`).
+
+### Security
+- Text written by teachers is escaped for Angular in the app template: braces become the constant expression
+  `{{ '{' }}`. HTML entities were checked with Angular's own compiler and do not protect (they are decoded before
+  expressions are looked for).
+
+### Changed
+- The course header data moved to `\format_customtiles\local\hero`, shared by the course page and the app.
+
 ## [0.7.1] - 2026-11-18
 
 ### Fixed

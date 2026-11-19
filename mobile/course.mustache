@@ -1,0 +1,153 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    Course page in the Moodle app (Angular/Ionic syntax, rendered by \format_customtiles\output\mobile).
+
+    Kept out of templates/ because the Mustache linter validates templates as HTML for browsers. All the
+    text is prepared in PHP: the only Angular expressions are the section that is open
+    (CONTENT_OTHERDATA.section), the app's own `sections` and `course`, and opening an activity.
+}}
+<div class="fct-app" style="{{accent}}">
+    <div class="fct-app__home" *ngIf="!CONTENT_OTHERDATA.section">
+        <div class="fct-app-hero">
+            {{#hero.hasimage}}
+            <div class="fct-app-hero__cover">
+                <img src="{{hero.image}}" alt="" core-external-content>
+            </div>
+            {{/hero.hasimage}}
+            <div class="fct-app-hero__body">
+                {{#hero.summary}}<p class="fct-app-hero__summary">{{hero.summary}}</p>{{/hero.summary}}
+                {{#hero.haspills}}
+                <ul class="fct-app-pills">
+                    {{#hero.pills}}
+                    <li class="fct-app-pill"><ion-icon name="{{appicon}}" aria-hidden="true"></ion-icon> {{text}}</li>
+                    {{/hero.pills}}
+                </ul>
+                {{/hero.haspills}}
+                {{#hero.hasprogress}}
+                <div class="fct-app-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100"
+                     aria-valuenow="{{hero.percent}}" aria-label="{{str.overallprogress}}">
+                    <div class="fct-app-progress__bar"><span style="width: {{hero.percent}}%"></span></div>
+                    <span class="fct-app-progress__text">{{hero.percent}} % · {{hero.progresslabel}}</span>
+                </div>
+                {{/hero.hasprogress}}
+                {{#continue}}
+                <ion-button expand="block" class="fct-app-continue"
+                    (click)="CoreCourseHelperProvider.navigateToModule({{cmid}}, {courseId: {{courseid}}})">
+                    <ion-icon name="fas-arrow-right" slot="end" aria-hidden="true"></ion-icon>
+                    <span class="fct-app-continue__text">
+                        <span class="fct-app-continue__label">{{hero.continuelabel}}</span>
+                        <span class="fct-app-continue__sub">{{name}}</span>
+                    </span>
+                </ion-button>
+                {{/continue}}
+            </div>
+        </div>
+
+        <ul class="fct-app-grid">
+            {{#sections}}
+            <li class="fct-app-tile fct-app-tile--{{state}}">
+                {{^locked}}
+                <button type="button" class="fct-app-tile__button" (click)="CONTENT_OTHERDATA.section = {{id}}"
+                        aria-label="{{name}}. {{statelabel}}{{#hasprogress}}. {{progresslabel}}{{/hasprogress}}">
+                {{/locked}}
+                {{#locked}}
+                <div class="fct-app-tile__button">
+                {{/locked}}
+                    <span class="fct-app-tile__cover{{#hascolor}} fct-app-tile__cover--color{{/hascolor}}" style="{{coverstyle}}" aria-hidden="true">
+                        {{#hascover}}<img src="{{coversrc}}" alt="" loading="lazy" style="object-position: {{focus}}" core-external-content>{{/hascover}}
+                        {{^hascover}}{{#hasicon}}<ion-icon name="fas-{{icon}}"></ion-icon>{{/hasicon}}{{/hascover}}
+                        <span class="fct-app-tile__num">{{displaynum}}</span>
+                    </span>
+                    <span class="fct-app-tile__body">
+                        <span class="fct-app-tile__name">{{name}}</span>
+                        {{#subtitle}}<span class="fct-app-tile__subtitle">{{subtitle}}</span>{{/subtitle}}
+                        <span class="fct-app-tile__meta">{{activitieslabel}}{{#timelabel}} · {{timelabel}}{{/timelabel}}{{#unitslabel}} · {{unitslabel}}{{/unitslabel}}</span>
+                        {{#hasprogress}}
+                        <span class="fct-app-progress__bar" aria-hidden="true"><span style="width: {{percent}}%"></span></span>
+                        {{/hasprogress}}
+                        <span class="fct-app-state">
+                            <ion-icon name="{{stateappicon}}" aria-hidden="true"></ion-icon> {{statelabel}}
+                            {{#hasprogress}}<span class="fct-app-state__count">{{progresslabel}}</span>{{/hasprogress}}
+                        </span>
+                        {{#reasontext}}<span class="fct-app-tile__reason">{{reasontext}}</span>{{/reasontext}}
+                    </span>
+                {{#locked}}
+                </div>
+                {{/locked}}
+                {{^locked}}
+                </button>
+                {{/locked}}
+            </li>
+            {{/sections}}
+        </ul>
+    </div>
+
+    {{#sections}}
+    {{^locked}}
+    <div class="fct-app__section" *ngIf="CONTENT_OTHERDATA.section == {{id}}">
+        <div class="fct-app-bar">
+            <ion-button fill="clear" class="fct-app-bar__back" (click)="CONTENT_OTHERDATA.section = ''">
+                <ion-icon name="fas-arrow-left" slot="start" aria-hidden="true"></ion-icon>
+                {{str.backtocourse}}
+            </ion-button>
+            <span class="fct-app-bar__pos">{{ofx}}</span>
+        </div>
+        <div class="fct-app-sechead">
+            <span class="fct-app-tile__cover fct-app-sechead__cover{{#hascolor}} fct-app-tile__cover--color{{/hascolor}}" style="{{coverstyle}}" aria-hidden="true">
+                {{#hascover}}<img src="{{coversrc}}" alt="" style="object-position: {{focus}}" core-external-content>{{/hascover}}
+                {{^hascover}}{{#hasicon}}<ion-icon name="fas-{{icon}}"></ion-icon>{{/hasicon}}{{/hascover}}
+                <span class="fct-app-tile__num">{{displaynum}}</span>
+            </span>
+            <div class="fct-app-sechead__body">
+                <h2 class="fct-app-sechead__name">{{name}}</h2>
+                {{#subtitle}}<p class="fct-app-tile__subtitle">{{subtitle}}</p>{{/subtitle}}
+                <p class="fct-app-tile__meta">{{activitieslabel}}{{#timelabel}} · {{timelabel}}{{/timelabel}}</p>
+                {{#hasprogress}}
+                <div class="fct-app-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100"
+                     aria-valuenow="{{percent}}" aria-label="{{progresslabel}}">
+                    <div class="fct-app-progress__bar"><span style="width: {{percent}}%"></span></div>
+                </div>
+                {{/hasprogress}}
+                <p class="fct-app-state"><ion-icon name="{{stateappicon}}" aria-hidden="true"></ion-icon> {{statelabel}}
+                    {{#hasprogress}}<span class="fct-app-state__count">{{progresslabel}}</span>{{/hasprogress}}</p>
+            </div>
+        </div>
+        <ng-container *ngFor="let section of sections">
+            <core-course-section *ngIf="section.id == {{id}}" [course]="course" [section]="section" [collapsible]="false">
+            </core-course-section>
+        </ng-container>
+        <nav class="fct-app-secnav" aria-label="{{str.sectionnavigation}}">
+            {{#prev}}
+            <ion-button fill="outline" class="fct-app-secnav__prev" (click)="CONTENT_OTHERDATA.section = {{id}}"
+                        aria-label="{{str.prevslide}}: {{name}}">
+                <ion-icon name="fas-chevron-left" slot="start" aria-hidden="true"></ion-icon>
+                <span class="fct-app-secnav__name">{{name}}</span>
+            </ion-button>
+            {{/prev}}
+            {{#next}}
+            <ion-button class="fct-app-secnav__next" (click)="CONTENT_OTHERDATA.section = {{id}}"
+                        aria-label="{{str.nextslide}}: {{name}}">
+                <span class="fct-app-secnav__name">{{name}}</span>
+                <ion-icon name="fas-chevron-right" slot="end" aria-hidden="true"></ion-icon>
+            </ion-button>
+            {{/next}}
+        </nav>
+    </div>
+    {{/locked}}
+    {{/sections}}
+</div>

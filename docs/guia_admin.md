@@ -64,13 +64,19 @@ los cursos con el tema visual «Claro» (el predeterminado) se ven en «Oscuro»
 demás temas del curso se respetan. El modo «automático» depende del dispositivo y el servidor no lo conoce, así
 que en ese caso el curso se ve en claro.
 
-## 6. Privacidad
+## 6. App de Moodle
+
+El formato tiene soporte para la app oficial (*pendiente de verificar en la app*, ver [app_movil.md](app_movil.md)).
+Requiere **Administración del sitio → Móvil → Configuración móvil → Activar servicios web para dispositivos
+móviles**. No hay ajustes propios.
+
+## 7. Privacidad
 
 El formato guarda dos preferencias por usuario y curso: la última actividad visitada (para «Continuar») y la fecha
 de la visita anterior (para el estado «Nueva»), además de si el docente prefiere la vista de diseño. Todas se
 exportan y borran con la API de privacidad de Moodle y se eliminan al borrar el curso.
 
-## 7. Rendimiento
+## 8. Rendimiento
 
 - El progreso de cada alumno se guarda en caché (MUC) y se invalida cuando cambia una finalización.
 - Pintar la portada de un curso cuesta un número fijo de consultas, sea cual sea su tamaño.
@@ -79,7 +85,7 @@ exportan y borran con la API de privacidad de Moodle y se eliminan al borrar el 
 Detalle y mediciones: [rendimiento.md](rendimiento.md). Seguridad: [`SECURITY.md`](../SECURITY.md) y
 [modelo de amenazas](modelo_amenazas.md).
 
-## 8. Desinstalación
+## 9. Desinstalación
 
 **Extensiones → Vista general de extensiones → Custom tiles → Desinstalar.** Antes, cambia el formato de los
 cursos que lo usen. Se borran las tablas de categorías, las preferencias y las portadas de las secciones.

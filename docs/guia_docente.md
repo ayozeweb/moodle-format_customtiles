@@ -85,12 +85,19 @@ muestra su insignia (código, icono y nombre accesible) y el curso incluye una l
 
 ![Asignar categorías](screenshots/admin-assign-categories-1280.png)
 
-## 6. Copias de seguridad y plantillas
+## 6. App de Moodle
+
+En la app oficial el curso se muestra con la portada, «Continuar», la rejilla de secciones con su progreso y
+estado, y cada sección con las actividades de la propia app (completar, descargar, unidades). El aspecto (portada,
+color, icono) es el mismo; el diseño es siempre la rejilla y los colores de fondo siguen el tema claro u oscuro de
+la app. *Pendiente de verificar en la app: ver [app_movil.md](app_movil.md).*
+
+## 7. Copias de seguridad y plantillas
 
 Las copias de seguridad y la importación conservan todos los ajustes del formato, el aspecto de las secciones
 (portadas incluidas) y las categorías asignadas (por su código). Así puedes preparar un curso modelo y reutilizarlo.
 
-## 7. Buenas prácticas de accesibilidad
+## 8. Buenas prácticas de accesibilidad
 
 - No pongas texto importante dentro de las imágenes de portada: son decorativas y no se leen en voz alta.
 - Usa nombres de sección cortos y descriptivos; el subtítulo es para el detalle.

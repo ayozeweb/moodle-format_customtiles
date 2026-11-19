@@ -60,13 +60,19 @@ Moodle 5.3 has an experimental dark mode in Boost (**Appearance → Boost → Ex
 with the "Light" visual theme (the default) are shown in "Dark" to whoever chooses dark mode. Other course themes are
 kept. "Automatic" depends on the device, which the server does not know, so the course is then shown light.
 
-## 6. Privacy
+## 6. Moodle app
+
+The format supports the official app (*pending verification in the app*, see [app_movil.md](app_movil.md), in
+Spanish). It needs **Site administration → Mobile app → Mobile settings → Enable web services for mobile devices**.
+There are no settings of its own.
+
+## 7. Privacy
 
 The format stores user preferences only: the last activity visited in each course (for "Continue"), the date of
 the previous visit (for the "New" state), and whether a teacher prefers the design view. They are exported and
 deleted through Moodle's Privacy API, removed with the course, and removed when the plugin is uninstalled.
 
-## 7. Performance
+## 8. Performance
 
 - Each student's progress is cached (MUC) and invalidated when a completion changes.
 - Painting a course page costs a fixed number of queries, whatever the size of the course.
@@ -75,7 +81,7 @@ deleted through Moodle's Privacy API, removed with the course, and removed when 
 Details and measurements (in Spanish): [rendimiento.md](rendimiento.md). Security: [`SECURITY.md`](../SECURITY.md)
 and the [threat model](modelo_amenazas.md).
 
-## 8. Uninstalling
+## 9. Uninstalling
 
 **Plugins → Plugins overview → Custom tiles → Uninstall.** Change the format of the courses that use it first. The
 category tables, the preferences and the section covers are deleted.

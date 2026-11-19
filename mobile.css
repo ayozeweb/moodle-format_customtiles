@@ -1,0 +1,361 @@
+/* This file is part of Moodle - http://moodle.org/
+ *
+ * Moodle is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Moodle is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * Styles of the course page in the Moodle app (see db/mobile.php). Hand-written, not compiled from scss/:
+ * the app has its own theme, so surfaces and text come from the Ionic variables (light and dark), and
+ * the course skin only gives the accent colour (--fct-primary, --fct-onprimary, set inline).
+ */
+
+/* The app's Ionic elements (ion-button, ion-icon) are not HTML elements stylelint knows about. */
+/* stylelint-disable selector-type-no-unknown */
+
+.fct-app {
+    --fct-app-surface: var(--ion-card-background, var(--ion-item-background, #fff));
+    --fct-app-muted: var(--ion-color-medium, #5f6b7a);
+    --fct-app-line: var(--ion-border-color, rgba(127, 127, 127, .25));
+    --fct-app-radius: 16px;
+    padding: 12px 16px calc(16px + env(safe-area-inset-bottom));
+    color: var(--ion-text-color, #111827);
+}
+
+/* Course header. */
+.fct-app-hero {
+    overflow: hidden;
+    margin-bottom: 16px;
+    border-radius: var(--fct-app-radius);
+    background: var(--fct-app-surface);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .12);
+}
+
+.fct-app-hero__cover {
+    aspect-ratio: 16 / 7;
+    overflow: hidden;
+}
+
+.fct-app-hero__cover img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.fct-app-hero__body {
+    padding: 16px;
+}
+
+.fct-app-hero__summary {
+    margin: 0 0 12px;
+    font-size: 1rem;
+    line-height: 1.45;
+}
+
+.fct-app-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 0 0 12px;
+    padding: 0;
+    list-style: none;
+}
+
+.fct-app-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border: 1px solid var(--fct-app-line);
+    border-radius: 999px;
+    font-size: .875rem;
+}
+
+.fct-app-progress {
+    margin: 0 0 12px;
+}
+
+.fct-app-progress__bar {
+    display: block;
+    height: 8px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: var(--fct-app-line);
+}
+
+.fct-app-progress__bar > span {
+    display: block;
+    height: 100%;
+    border-radius: inherit;
+    background: var(--fct-primary, var(--ion-color-primary));
+}
+
+.fct-app-progress__text {
+    display: block;
+    margin-top: 6px;
+    color: var(--fct-app-muted);
+    font-size: .875rem;
+}
+
+ion-button.fct-app-continue {
+    --background: var(--fct-primary, var(--ion-color-primary));
+    --color: var(--fct-onprimary, #fff);
+    --border-radius: 12px;
+    min-height: 56px;
+    margin: 4px 0 0;
+    text-transform: none;
+}
+
+.fct-app-continue__text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    min-width: 0;
+    padding: 6px 0;
+    text-align: start;
+    white-space: normal;
+}
+
+.fct-app-continue__label {
+    font-weight: 700;
+    font-size: 1rem;
+}
+
+.fct-app-continue__sub {
+    font-size: .875rem;
+    opacity: .9;
+}
+
+/* Grid of sections: one column on phones, two from 600px. */
+.fct-app-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+@media (min-width: 600px) {
+    .fct-app-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (min-width: 1024px) {
+    .fct-app-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+.fct-app-tile {
+    display: flex;
+}
+
+.fct-app-tile__button {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-height: 44px;
+    overflow: hidden;
+    padding: 0;
+    border: 0;
+    border-radius: var(--fct-app-radius);
+    background: var(--fct-app-surface);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .12);
+    color: inherit;
+    font: inherit;
+    text-align: start;
+}
+
+button.fct-app-tile__button:focus-visible {
+    outline: 3px solid var(--fct-primary, var(--ion-color-primary));
+    outline-offset: 2px;
+}
+
+.fct-app-tile--locked .fct-app-tile__button {
+    opacity: .85;
+}
+
+.fct-app-tile__cover {
+    position: relative;
+    display: grid;
+    place-items: center;
+    aspect-ratio: 16 / 7;
+    overflow: hidden;
+    background: linear-gradient(135deg, var(--fct-primary, var(--ion-color-primary)), #111827);
+    color: var(--fct-onprimary, #fff);
+    font-size: 2rem;
+}
+
+.fct-app-tile__cover--color {
+    background: linear-gradient(135deg, var(--fct-c1), var(--fct-c2));
+    color: var(--fct-fg);
+}
+
+.fct-app-tile__cover img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.fct-app-tile__num {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    display: grid;
+    place-items: center;
+    min-width: 28px;
+    height: 28px;
+    padding: 0 6px;
+    border-radius: 999px;
+    background: #fff;
+    color: #111827;
+    font-size: .875rem;
+    font-weight: 700;
+}
+
+[dir="rtl"] .fct-app-tile__num {
+    right: 8px;
+    left: auto;
+}
+
+.fct-app-tile__body {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 12px 14px 14px;
+}
+
+.fct-app-tile__name {
+    font-size: 1.0625rem;
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+.fct-app-tile__subtitle,
+.fct-app-tile__meta,
+.fct-app-tile__reason {
+    margin: 0;
+    color: var(--fct-app-muted);
+    font-size: .875rem;
+}
+
+.fct-app-state {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    margin: 0;
+    font-size: .875rem;
+    font-weight: 600;
+}
+
+.fct-app-state__count {
+    margin-inline-start: auto;
+    color: var(--fct-app-muted);
+    font-weight: 400;
+}
+
+.fct-app-tile--completed .fct-app-state ion-icon {
+    color: var(--ion-color-success, #15803d);
+}
+
+.fct-app-tile--locked .fct-app-state ion-icon {
+    color: var(--fct-app-muted);
+}
+
+/* Section view. */
+.fct-app-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin: 0 -8px 8px;
+}
+
+.fct-app-bar ion-button {
+    min-height: 44px;
+    text-transform: none;
+}
+
+.fct-app-bar__pos {
+    color: var(--fct-app-muted);
+    font-size: .875rem;
+}
+
+.fct-app-sechead {
+    overflow: hidden;
+    margin-bottom: 12px;
+    border-radius: var(--fct-app-radius);
+    background: var(--fct-app-surface);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .12);
+}
+
+.fct-app-sechead__body {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 14px;
+}
+
+.fct-app-sechead__name {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.fct-app-secnav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 16px;
+}
+
+.fct-app-secnav ion-button {
+    flex: 1 1 140px;
+    min-height: 48px;
+    margin: 0;
+    text-transform: none;
+}
+
+.fct-app-secnav__next {
+    --background: var(--fct-primary, var(--ion-color-primary));
+    --color: var(--fct-onprimary, #fff);
+}
+
+.fct-app-secnav__prev {
+    --color: var(--ion-text-color, #111827);
+    --border-color: var(--fct-app-line);
+}
+
+.fct-app-secnav__name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+[dir="rtl"] .fct-app ion-icon[name="fas-arrow-right"],
+[dir="rtl"] .fct-app ion-icon[name="fas-arrow-left"],
+[dir="rtl"] .fct-app ion-icon[name="fas-chevron-right"],
+[dir="rtl"] .fct-app ion-icon[name="fas-chevron-left"] {
+    transform: scaleX(-1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .fct-app * {
+        transition: none;
+        animation: none;
+    }
+}
