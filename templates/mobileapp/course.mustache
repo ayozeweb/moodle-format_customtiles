@@ -17,8 +17,8 @@
 {{!
     Course page in the Moodle app (Angular/Ionic syntax, rendered by \format_customtiles\output\mobile).
 
-    Kept out of templates/ because the Mustache linter validates templates as HTML for browsers. All the
-    text is prepared in PHP: the only Angular expressions are the section that is open
+    In templates/mobileapp/, which moodle-plugin-ci leaves out of the HTML linter, and rendered with its own
+    escaping (braces are Angular expressions in the app). All the text is prepared in PHP: the only Angular expressions are the section that is open
     (CONTENT_OTHERDATA.section), the app's own `sections` and `course`, and opening an activity.
 }}
 <div class="fct-app" style="{{accent}}">

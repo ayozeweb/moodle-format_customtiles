@@ -46,6 +46,10 @@ final class templates_test extends \advanced_testcase {
             if ($file->getExtension() !== 'mustache') {
                 continue;
             }
+            if (str_contains($file->getPathname(), '/templates/mobileapp/')) {
+                // App templates (Angular/Ionic) are rendered and checked in mobile_test.
+                continue;
+            }
             $source = file_get_contents($file->getPathname());
             $this->assertMatchesRegularExpression('/@template format_customtiles\/[a-z_\/]+/', $source, $file->getFilename());
             $this->assertSame(

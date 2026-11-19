@@ -113,7 +113,7 @@ class mobile {
     }
 
     /**
-     * Render a template of the mobile/ folder.
+     * Render a template of the templates/mobileapp/ folder (with the escaping the app needs, see below).
      *
      * The app compiles the result as an Angular template, where "{{" starts an expression (and a lone "{"
      * is a syntax error). HTML entities do not help: Angular decodes them before looking for expressions.
@@ -126,7 +126,7 @@ class mobile {
      */
     public static function render(string $name, array $data): string {
         $engine = new \Mustache\Engine([
-            'loader' => new \Mustache\Loader\FilesystemLoader(__DIR__ . '/../../mobile', ['extension' => '.mustache']),
+            'loader' => new \Mustache\Loader\FilesystemLoader(__DIR__ . '/../../templates/mobileapp', ['extension' => '.mustache']),
             'escape' => [self::class, 'escape'],
         ]);
         return $engine->render($name, $data);

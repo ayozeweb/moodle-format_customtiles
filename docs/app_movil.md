@@ -27,7 +27,7 @@ Sin este soporte, la app muestra los cursos de un formato desconocido con su for
 |---|---|
 | `db/mobile.php` | Declara el formato en `CoreCourseFormatDelegate`, con método y hoja de estilos. Desactiva el índice de la app (la rejilla hace de índice). |
 | `classes/output/mobile.php` | `mobile_course_view()`: comprueba el acceso, reúne los datos con las mismas clases que la web (`course_data`, `hero`, `section_style`) y renderiza la plantilla. |
-| `mobile/course.mustache` | Plantilla Angular/Ionic. Fuera de `templates/` porque el lint de Mustache la validaría como HTML de navegador. |
+| `templates/mobileapp/course.mustache` | Plantilla Angular/Ionic. moodle-plugin-ci excluye esa carpeta del lint HTML (la sintaxis de Ionic no es HTML de navegador); se renderiza con un escapado propio para Angular. |
 | `mobile.css` | Estilos de la app (CSS a mano, variables de Ionic). |
 
 La sección abierta se guarda en `CONTENT_OTHERDATA.section`; todo el texto llega preparado desde PHP, así que
