@@ -2,12 +2,14 @@
 
 Format based on [Keep a Changelog](https://keepachangelog.com/). Versions follow [Semantic Versioning](https://semver.org/).
 
-## [0.8.0] - 2026-11-19
+## [0.8.0] - 2026-11-22
 
 ### Added
-- Moodle app support (**implemented, pending verification in the app**, see `docs/app_movil.md`): course header
+- Moodle app support, checked with the official app 5.3 (browser build) on phone and tablet widths, light and dark
+  (see `docs/app_movil.md`): course header
   with progress and "Continue", grid of sections with covers, colours, states and progress, and each section through
-  the app's own `<core-course-section>`, with previous/next buttons that skip locked sections. Surfaces follow the
+  the app's own `<core-course-section>`, with previous/next buttons that skip locked sections. Opening a section
+  scrolls to its header; "Section x of y" counts as on the course page. Surfaces follow the
   app's light or dark theme; the course skin gives the accent colour.
 - "Continue where you left off" also learns from activities viewed in the app or through web services
   (observer of `\core\event\course_module_viewed`).

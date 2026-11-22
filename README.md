@@ -35,7 +35,7 @@ To rebuild the CSS: `npm install && npm run build:css` (the compiled `styles.css
 
 * **Hero**: cover, summary, context pills (sections, activities, duration, dates), overall progress ring and a *Continue where you left off* button (last visited activity, or the next pending one).
 * **Layouts** (per course, optionally a different one on mobile): Tiles, Large cards, Learning path, Carousel (scroll-snap, buttons, keyboard), Bento and Compact list.
-* **Moodle app** (*implemented, pending verification in the app*): grid of sections with progress and states, *Continue*, and each section through the app's own components. See [docs/app_movil.md](docs/app_movil.md).
+* **Moodle app** (checked with the official app 5.3 in a browser, light and dark, phone and tablet): grid of sections with progress and states, *Continue*, and each section through the app's own components. See [docs/app_movil.md](docs/app_movil.md).
 * **Visual themes**: Light, Dark, Corporate, Vibrant, Minimal, High contrast (AAA) + extra themes defined by the administrator; accent colour with automatic WCAG AA correction; local OFL fonts (Inter, Atkinson Hyperlegible).
 * **Sections**: cover image (responsive `srcset`), icon, colour/gradient, subtitle, estimated time, with live preview in the section form.
 * **Progress and states**: per section and overall (MUC-cached, invalidated by completion events); locked (with reason), hidden, pending, in progress, completed and new — always icon + text + colour.
@@ -82,7 +82,7 @@ Para recompilar el CSS: `npm install && npm run build:css` (el `styles.css` comp
 
 * **Hero**: portada, resumen, píldoras de contexto (secciones, actividades, duración, fechas), anillo de progreso global y botón *Continuar donde lo dejaste* (última actividad visitada o la siguiente pendiente).
 * **Layouts** (por curso, con opción distinta en móvil): Tiles, Tarjetas grandes, Itinerario, Carrusel (scroll-snap, botones y teclado), Bento y Lista compacta.
-* **App de Moodle** (*implementado, pendiente de verificar en la app*): rejilla de secciones con progreso y estados, «Continuar» y cada sección con los componentes de la propia app. Ver [docs/app_movil.md](docs/app_movil.md).
+* **App de Moodle** (probada con la app oficial 5.3 en el navegador, en claro y oscuro, móvil y tableta): rejilla de secciones con progreso y estados, «Continuar» y cada sección con los componentes de la propia app. Ver [docs/app_movil.md](docs/app_movil.md).
 * **Temas visuales**: Claro, Oscuro, Corporativo, Vibrante, Minimal y Alto contraste (AAA) + temas adicionales del administrador; color de acento con corrección automática a contraste WCAG AA; tipografías locales OFL (Inter, Atkinson Hyperlegible).
 * **Secciones**: portada (con `srcset`), icono, color/degradado, subtítulo y tiempo estimado, con vista previa en vivo.
 * **Progreso y estados**: por sección y global (caché MUC invalidada por eventos de finalización); bloqueada (con motivo), oculta, pendiente, en curso, completada y nueva — siempre icono + texto + color.

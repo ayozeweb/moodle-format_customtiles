@@ -96,7 +96,7 @@ final class format_customtiles_test extends \advanced_testcase {
         $this->assertTrue(xmldb_format_customtiles_upgrade(2026110400));
         $this->assertTrue($DB->get_manager()->table_exists('format_customtiles_cat'));
         $this->assertTrue($DB->get_manager()->table_exists('format_customtiles_cmcat'));
-        $this->assertEquals(2026111900, get_config('format_customtiles', 'version'));
+        $this->assertEquals(2026112200, get_config('format_customtiles', 'version'));
     }
 
     /**

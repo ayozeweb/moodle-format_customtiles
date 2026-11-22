@@ -62,7 +62,7 @@ kept. "Automatic" depends on the device, which the server does not know, so the 
 
 ## 6. Moodle app
 
-The format supports the official app (*pending verification in the app*, see [app_movil.md](app_movil.md), in
+The format supports the official app (checked with the app 5.3, see [app_movil.md](app_movil.md), in
 Spanish). It needs **Site administration → Mobile app → Mobile settings → Enable web services for mobile devices**.
 There are no settings of its own.
 

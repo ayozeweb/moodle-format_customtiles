@@ -32,7 +32,7 @@ $addons = [
                 'method' => 'mobile_course_view',
                 'styles' => [
                     'url' => $CFG->wwwroot . '/course/format/customtiles/mobile.css',
-                    'version' => 2026111900,
+                    'version' => 2026112200,
                 ],
                 // The grid of sections is the index: the app's own index would change a section the
                 // format component does not see.

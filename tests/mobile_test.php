@@ -81,6 +81,7 @@ final class mobile_test extends \advanced_testcase {
         $result = mobile::mobile_course_view(['courseid' => $course->id]);
         $this->assertSame('main', $result['templates'][0]['id']);
         $this->assertSame(['section' => ''], $result['otherdata']);
+        $this->assertStringContainsString('this.fctOpen = (id, event) =>', $result['javascript']);
         $html = $result['templates'][0]['html'];
         $this->assertSame(3, substr_count($html, 'class="fct-app-tile '));
         $this->assertSame(3, substr_count($html, 'class="fct-app__section"'));
@@ -90,6 +91,9 @@ final class mobile_test extends \advanced_testcase {
         );
         $this->assertStringContainsString(get_string('startcourse', 'format_customtiles'), $html);
         $this->assertStringContainsString('<core-course-section', $html);
+        // The "Section x of y" line counts as on the course page: the general section is not counted.
+        $this->assertStringContainsString('>' . get_string('sectionxofy', 'format_customtiles', ['x' => 2, 'y' => 2]) . '<', $html);
+        $this->assertStringNotContainsString(get_string('sectionxofy', 'format_customtiles', ['x' => 3, 'y' => 3]), $html);
     }
 
     /**

@@ -1,8 +1,12 @@
 # App móvil oficial de Moodle (fase 6)
 
-> **Estado: implementado y probado en el servidor, sin verificar todavía en la app.** El plan exige no
-> declarar soporte sin haberlo visto funcionar. En el entorno de desarrollo no se pudo ejecutar la app
-> (el sistema de permisos bloqueó arrancar su servidor de desarrollo), así que falta la prueba de la sección 4.
+> **Estado: verificado en la app oficial 5.3.0** (versión web de `moodlehq/moodleapp`, ejecutada en el navegador
+> contra un Moodle 5.3 local), a 360 px y 768 px y con la app en claro y en oscuro. Sin probar todavía: un
+> dispositivo físico (Android/iOS) y el modo sin conexión. Resultados en la sección 4.
+
+| Móvil | Sección | Oscuro | Tableta |
+|---|---|---|---|
+| ![Portada del curso en la app](screenshots/app-course-360.png) | ![Sección en la app](screenshots/app-section-360.png) | ![Rejilla en oscuro](screenshots/app-grid-dark-360.png) | ![Rejilla en tableta](screenshots/app-grid-768.png) |
 
 ## 1. Qué hace
 
@@ -46,20 +50,29 @@ documenta Angular (`{{ '{' }}`). Con nombres, subtítulos y resúmenes hostiles,
 encuentra ninguna expresión que no sea esa constante, y una llave suelta tampoco rompe la plantilla.
 `tests/mobile_test.php` fija este comportamiento.
 
-## 4. Verificación pendiente (propietario)
+## 4. Verificación
 
-1. En el sitio: **Administración del sitio → Móvil → Configuración móvil → Activar servicios web para
-   dispositivos móviles**.
-2. Con la app oficial (o la versión web de desarrollo de la app, `npm start` en `moodlehq/moodleapp`), entrar
-   como alumno en un curso con este formato.
-3. Comprobar, a ser posible en móvil y en tableta y con la app en claro y en oscuro:
-   - se ve la portada con progreso y «Continuar», y «Continuar» abre la actividad correcta;
-   - la rejilla muestra portadas, colores, estados y progreso; una sección bloqueada muestra el motivo;
-   - al tocar una sección se ven sus actividades (y unidades), se pueden completar y descargar, y el progreso
-     se actualiza al volver (tirar hacia abajo para refrescar);
-   - «Anterior» / «Siguiente» y «Volver al curso» funcionan;
-   - tras ver una actividad en la app, «Continuar» en la web apunta a ella.
-4. Anotar el resultado en `STATUS.md`. Hasta entonces el README describe el soporte como «pendiente de verificación».
+Hecha el 22-11-2026 con la app 5.3.0 (código de `moodlehq/moodleapp`, `ionic serve` con Node 24) en Chromium a
+360×780 y 768×780, como alumno, contra el Moodle 5.3 local con los servicios web para móviles activados. Script
+de Playwright que recorre la app y comprueba cada paso:
+
+| Comprobación | Resultado |
+|---|---|
+| El sitio anuncia el plugin y la app usa el formato (no el predeterminado) | Sí |
+| Portada: resumen, píldoras, progreso «30 % · 8 de 26» y «Continuar» | Sí |
+| «Continuar» abre la actividad en la app | Sí |
+| Rejilla: 7 secciones con portada, color, icono, progreso y estado (sin empezar, en curso, completada, bloqueada) | Sí |
+| Una columna a 360 px, dos a 768 px; sin scroll horizontal; botones de al menos 44 px | Sí |
+| Abrir una sección (también desde el final de la rejilla): empieza en su cabecera, «Sección 2 de 6» como en la web | Sí (corregido durante la prueba: contaba la sección General y se quedaba a media altura) |
+| Actividades de la sección con el componente de la app («Hecho» / «Marcar como hecho») | Sí |
+| Siguiente / Anterior y «Volver al curso» | Sí |
+| Abrir una actividad y volver: la sección sigue abierta | Sí |
+| Tras ver una actividad en la app, «Continuar» apunta a la siguiente pendiente | Sí (observador de `course_module_viewed`) |
+| Tema oscuro de la app (`html.dark`): superficies y texto oscuros, acento del curso | Sí |
+| Errores de consola propios | Ninguno. Aparece `onAriaChanged` de la propia app, también en su pantalla de conexión, antes de cargar el curso |
+
+Para repetirla en un dispositivo: **Administración del sitio → Móvil → Configuración móvil → Activar servicios web
+para dispositivos móviles**, entrar con la app oficial como alumno en un curso con este formato y repasar la tabla.
 
 ## 5. Límites conocidos
 

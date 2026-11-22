@@ -1,7 +1,7 @@
 # STATUS
 
 ## Hito actual
-Plan de mejora: fases 0, 1, 2, 4, 5 y 7 hechas y la 6 implementada (0.8.0, pendiente de verificar en la app), más la jerarquía módulo → unidad. Queda la 3 (Anexo IV).
+Plan de mejora: fases 0, 1, 2, 4, 5, 6 y 7 hechas (0.8.0; la app verificada en el navegador), más la jerarquía módulo → unidad. Queda la 3 (Anexo IV).
 
 ## Hecho
 - Plugin `format_customtiles` 0.1.0 ALPHA (Moodle 5.3, `requires 2026100200`), instala sin errores.
@@ -35,12 +35,12 @@ Plan de mejora: fases 0, 1, 2, 4, 5 y 7 hechas y la 6 implementada (0.8.0, pendi
 
 - **Plan de mejora, Fase 7 (0.7.1) — mantenimiento y publicación**: flujo semanal «Core watch» contra `MOODLE_503_STABLE` y `main` de Moodle (ambos en verde en su primera ejecución); formularios de incidencia, plantilla de pull request y código de conducta; guías de docente y de administración en español e inglés con capturas; `docs/publicacion.md` (versionado, ramas, lista de comprobación, nueva versión de Moodle, ficha para el directorio de plugins); `release.sh`. Comprobado con los zips: instalación limpia de la 0.7.0, actualización desde la 0.6.0 con datos (WebP creadas por la tarea, categorías conservadas, página sin errores) y desinstalación sin restos. Al revisar la privacidad para la guía apareció un hueco real: la preferencia de la vista de diseño no estaba declarada en la Privacy API ni se borraba al desinstalar; corregido con test.
 
-- **Plan de mejora, Fase 6 (0.8.0) — app de Moodle, pendiente de verificar en la app**: `db/mobile.php` (formato en `CoreCourseFormatDelegate`), `classes/output/mobile.php`, plantilla Angular/Ionic en `templates/mobileapp/` y `mobile.css`. Portada con progreso y «Continuar», rejilla de secciones con estados, vista de sección con `<core-course-section>` de la app y anterior/siguiente. Observador de `course_module_viewed` para que «Continuar» aprenda de la app. Cabecera extraída a `local\hero` (compartida web/app). Verificado: servicio `tool_mobile_get_plugins_supporting_mobile` y `tool_mobile_get_content` contra el sitio local, CSS servido, plantilla analizada con el compilador de Angular 20.3 de la app (sin errores y solo con los enlaces previstos). **Fallo de seguridad encontrado y corregido antes de publicar**: las llaves escapadas como entidades HTML se interpretaban igualmente como expresiones Angular (inyección de código en la app con el nombre de una sección); ahora se escapan con la expresión constante `{{ '{' }}`. 69 tests PHPUnit.
+- **Plan de mejora, Fase 6 (0.8.0) — app de Moodle**: `db/mobile.php` (formato en `CoreCourseFormatDelegate`), `classes/output/mobile.php`, plantilla Angular/Ionic en `templates/mobileapp/` y `mobile.css`. Portada con progreso y «Continuar», rejilla de secciones con estados, vista de sección con `<core-course-section>` de la app y anterior/siguiente. Observador de `course_module_viewed` para que «Continuar» aprenda de la app. Cabecera extraída a `local\hero` (compartida web/app). **Verificado en la app oficial 5.3.0** (versión web, `ionic serve`, con permiso del propietario) a 360 y 768 px, en claro y oscuro: portada, «Continuar», rejilla con estados, sección con actividades de la app, anterior/siguiente, volver, y «Continuar» aprendiendo de lo visto en la app. Durante la prueba se corrigieron «Sección x de y» (contaba la General) y la posición al abrir una sección (se quedaba a media altura). También verificado: servicio `tool_mobile_get_plugins_supporting_mobile` y `tool_mobile_get_content` contra el sitio local, CSS servido, plantilla analizada con el compilador de Angular 20.3 de la app (sin errores y solo con los enlaces previstos). **Fallo de seguridad encontrado y corregido antes de publicar**: las llaves escapadas como entidades HTML se interpretaban igualmente como expresiones Angular (inyección de código en la app con el nombre de una sección); ahora se escapan con la expresión constante `{{ '{' }}`. 69 tests PHPUnit.
 
 ## Decisiones
 - **App: plantillas en `templates/mobileapp/`** (la carpeta que moodle-plugin-ci excluye del lint HTML; la primera ubicación, `mobile/`, también la revisaba y falló en la CI), renderizadas con el motor Mustache del core y un escapado propio porque Angular necesita escapar las llaves.
 - **App: siempre la rejilla**, con superficies del tema de la app (claro/oscuro) y solo el acento del tema del curso; el índice de la app desactivado porque la rejilla hace de índice.
-- **App: no se declara soporte** hasta probarlo en la app real (el plan lo exige); README y guías dicen «pendiente de verificación».
+- **App: soporte declarado tras probarlo en la app real** (versión web de la app 5.3); queda pendiente un dispositivo físico y el modo sin conexión.
 - **Fase 7, sin etiquetas en el remoto**: las etiquetas `vX.Y.Z` y la «release» de GitHub las crea el propietario al fusionar en `main` (comandos en `docs/publicacion.md`); desde esta sesión solo se sube la rama de trabajo.
 - **Madurez**: sigue en ALPHA; se recomienda BETA tras un piloto real antes de enviarlo al directorio de plugins.
 - **«Core watch» contra `main` de Moodle** quita `$plugin->supported` solo en su copia para poder instalar; sus fallos no rompen la ejecución.
@@ -99,10 +99,9 @@ Plan de mejora: fases 0, 1, 2, 4, 5 y 7 hechas y la 6 implementada (0.8.0, pendi
 ## Bloqueos
 - Lector de pantalla (NVDA/VoiceOver) no disponible en el entorno: el recorrido lo tiene que hacer el propietario.
 - Fase 3 (Anexo IV): falta la sección de requisitos de la plataforma.
-- Fase 6: no se pudo ejecutar la app en la sesión (el sistema de permisos bloqueó su servidor de desarrollo). Falta la prueba en la app real (`docs/app_movil.md`, sección 4).
 
 ## Siguiente paso
-Fase 3 en cuanto llegue el Anexo IV. Pendiente del propietario: probar la app (`docs/app_movil.md`), recorrido con lector de pantalla, decisión sobre logotipos públicos, fusionar en `main` con la etiqueta v0.8.0 y, tras un piloto, pasar a BETA y enviarlo al directorio de plugins.
+Fase 3 en cuanto llegue el Anexo IV. Pendiente del propietario: probar la app en un dispositivo físico, recorrido con lector de pantalla, decisión sobre logotipos públicos, fusionar en `main` con la etiqueta v0.8.0 y, tras un piloto, pasar a BETA y enviarlo al directorio de plugins.
 
 ## Siguiente paso (histórico)
 Hito 2: hero con «Continuar», rejilla Tiles responsive, estados y progreso por sección (con MUC).

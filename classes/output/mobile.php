@@ -42,6 +42,20 @@ use format_customtiles\local\skin;
  */
 class mobile {
     /**
+     * Code run by the app with the template's component as `this`: opening or closing a section also
+     * scrolls the page to the top, so a section opened from the bottom of the grid starts at its header.
+     */
+    protected const JAVASCRIPT = <<<'JS'
+this.fctOpen = (id, event) => {
+    this.CONTENT_OTHERDATA.section = id;
+    const content = event && event.target && event.target.closest ? event.target.closest('ion-content') : null;
+    if (content && content.scrollToTop) {
+        content.scrollToTop(0);
+    }
+};
+JS;
+
+    /**
      * Template and data of the course page.
      *
      * @param array $args ['courseid' => int, plus the app's own arguments]
@@ -62,6 +76,7 @@ class mobile {
             ]],
             // The section open in the template; "" is the grid of sections.
             'otherdata' => ['section' => ''],
+            'javascript' => self::JAVASCRIPT,
         ];
     }
 
@@ -78,12 +93,16 @@ class mobile {
         $hero = hero::export($model, $format, true);
 
         $sections = array_values($model->get_sections());
-        $count = count($sections);
+        // The "Section x of y" line counts as the course page does: without the general section.
+        $count = count(array_filter($sections, fn($s) => $s['num'] > 0));
         foreach ($sections as $i => &$section) {
             $section['prev'] = self::neighbour($sections, $i, -1);
             $section['next'] = self::neighbour($sections, $i, 1);
             $section['reasontext'] = trim(html_to_text((string)$section['reason'], 0, false));
-            $section['ofx'] = get_string('sectionxofy', 'format_customtiles', ['x' => $i + 1, 'y' => $count]);
+            $x = $section['position'] - ($sections[0]['num'] === 0 ? 1 : 0);
+            $section['ofx'] = $section['num'] > 0
+                ? get_string('sectionxofy', 'format_customtiles', ['x' => $x, 'y' => $count])
+                : '';
             $section['stateappicon'] = self::app_icon($section['stateicon']);
         }
         unset($section);

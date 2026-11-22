@@ -90,7 +90,7 @@ muestra su insignia (código, icono y nombre accesible) y el curso incluye una l
 En la app oficial el curso se muestra con la portada, «Continuar», la rejilla de secciones con su progreso y
 estado, y cada sección con las actividades de la propia app (completar, descargar, unidades). El aspecto (portada,
 color, icono) es el mismo; el diseño es siempre la rejilla y los colores de fondo siguen el tema claro u oscuro de
-la app. *Pendiente de verificar en la app: ver [app_movil.md](app_movil.md).*
+la app. Más detalles y capturas en [app_movil.md](app_movil.md).
 
 ## 7. Copias de seguridad y plantillas
 

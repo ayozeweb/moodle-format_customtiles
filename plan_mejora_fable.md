@@ -242,7 +242,7 @@ Objetivo (D10): que el curso no se degrade al formato por defecto dentro de la a
 
 - [x] `db/mobile.php` y `classes/output/mobile.php` con el layout Tiles, la cabecera con progreso y el botón «Continuar».
 - [x] Plantillas en la sintaxis de la app (Ionic/Angular), con los mismos tokens de color.
-- [ ] Probar con la app en modo desarrollo (bloqueado en la sesión: el sistema de permisos impidió arrancar el servidor de desarrollo de la app; verificado el servidor, el servicio web y la plantilla con el compilador de Angular; prueba en la app pendiente del propietario, pasos en `docs/app_movil.md`) contra el sitio local. Si no es posible en el entorno de la sesión, dejarlo anotado y pedir la prueba al propietario: **no declarar soporte sin haberlo visto funcionar**.
+- [x] Probar con la app en modo desarrollo: app 5.3.0 en el navegador contra el sitio local, 360 y 768 px, claro y oscuro (`docs/app_movil.md`). Pendiente solo un dispositivo físico y el modo sin conexión.
 
 ---
 

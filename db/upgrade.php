@@ -86,9 +86,9 @@ function xmldb_format_customtiles_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2026111801, 'format', 'customtiles');
     }
 
-    if ($oldversion < 2026111900) {
+    if ($oldversion < 2026112200) {
         // 0.8.0: Moodle app support (db/mobile.php) and a new event observer; nothing to migrate.
-        upgrade_plugin_savepoint(true, 2026111900, 'format', 'customtiles');
+        upgrade_plugin_savepoint(true, 2026112200, 'format', 'customtiles');
     }
 
     return true;

@@ -62,7 +62,7 @@
             {{#sections}}
             <li class="fct-app-tile fct-app-tile--{{state}}">
                 {{^locked}}
-                <button type="button" class="fct-app-tile__button" (click)="CONTENT_OTHERDATA.section = {{id}}"
+                <button type="button" class="fct-app-tile__button" (click)="fctOpen({{id}}, $event)"
                         aria-label="{{name}}. {{statelabel}}{{#hasprogress}}. {{progresslabel}}{{/hasprogress}}">
                 {{/locked}}
                 {{#locked}}
@@ -101,7 +101,7 @@
     {{^locked}}
     <div class="fct-app__section" *ngIf="CONTENT_OTHERDATA.section == {{id}}">
         <div class="fct-app-bar">
-            <ion-button fill="clear" class="fct-app-bar__back" (click)="CONTENT_OTHERDATA.section = ''">
+            <ion-button fill="clear" class="fct-app-bar__back" (click)="fctOpen('', $event)">
                 <ion-icon name="fas-arrow-left" slot="start" aria-hidden="true"></ion-icon>
                 {{str.backtocourse}}
             </ion-button>
@@ -133,14 +133,14 @@
         </ng-container>
         <nav class="fct-app-secnav" aria-label="{{str.sectionnavigation}}">
             {{#prev}}
-            <ion-button fill="outline" class="fct-app-secnav__prev" (click)="CONTENT_OTHERDATA.section = {{id}}"
+            <ion-button fill="outline" class="fct-app-secnav__prev" (click)="fctOpen({{id}}, $event)"
                         aria-label="{{str.prevslide}}: {{name}}">
                 <ion-icon name="fas-chevron-left" slot="start" aria-hidden="true"></ion-icon>
                 <span class="fct-app-secnav__name">{{name}}</span>
             </ion-button>
             {{/prev}}
             {{#next}}
-            <ion-button class="fct-app-secnav__next" (click)="CONTENT_OTHERDATA.section = {{id}}"
+            <ion-button class="fct-app-secnav__next" (click)="fctOpen({{id}}, $event)"
                         aria-label="{{str.nextslide}}: {{name}}">
                 <span class="fct-app-secnav__name">{{name}}</span>
                 <ion-icon name="fas-chevron-right" slot="end" aria-hidden="true"></ion-icon>

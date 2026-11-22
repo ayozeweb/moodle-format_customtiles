@@ -66,7 +66,7 @@ que en ese caso el curso se ve en claro.
 
 ## 6. App de Moodle
 
-El formato tiene soporte para la app oficial (*pendiente de verificar en la app*, ver [app_movil.md](app_movil.md)).
+El formato tiene soporte para la app oficial (probado con la app 5.3, ver [app_movil.md](app_movil.md)).
 Requiere **Administración del sitio → Móvil → Configuración móvil → Activar servicios web para dispositivos
 móviles**. No hay ajustes propios.
 

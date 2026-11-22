@@ -87,8 +87,8 @@ badge (code, icon and accessible name) and the course shows a legend.
 
 In the official app the course shows its header, "Continue", the grid of sections with progress and state, and
 each section with the app's own activity list (completion, downloads, units). Covers, colours and icons are the
-same; the layout is always the grid, and backgrounds follow the app's light or dark theme. *Pending verification in
-the app: see [app_movil.md](app_movil.md) (in Spanish).*
+same; the layout is always the grid, and backgrounds follow the app's light or dark theme. Details and screenshots in
+[app_movil.md](app_movil.md) (in Spanish).
 
 ## 7. Backups and templates
 

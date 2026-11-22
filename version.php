@@ -25,7 +25,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'format_customtiles';
-$plugin->version = 2026111900;
+$plugin->version = 2026112200;
 $plugin->requires = 2026100200; // Moodle 5.3.
 $plugin->maturity = MATURITY_ALPHA;
 $plugin->supported = [503, 503];
